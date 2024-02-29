@@ -20,7 +20,7 @@ jobs:
 
       - run: yarn
 
-      - run: cd packages/api && yarn deploy
+      - run: yarn workspace @hc/api run deploy
 
   deploy-server:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
       - run: yarn
 
       - run: >
-          cd packages/game-server && yarn hathora deploy \
+          yarn workspace @hc/game-server run hathora deploy \
             --appId app-6b13c96a-2991-4e0a-bf42-3e66fa75a91c \
             --token ${{ secrets.HATHORA_TOKEN }} \
             --containerPort 8000 \
