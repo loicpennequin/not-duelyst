@@ -10,7 +10,6 @@ export const makeDummyState = async (mapName: string): Promise<SerializedGameSta
   return until(map)
     .not.toBe(undefined)
     .then(() => {
-      console.log('hello');
       return {
         turn: 0,
         entities: [],
@@ -26,15 +25,15 @@ export const makeDummyState = async (mapName: string): Promise<SerializedGameSta
             name: 'Player 1',
             loadout: {
               units: {
-                'chaos-melee': { cooldown: 0 },
-                'chaos-archer': { cooldown: 0 },
-                'chaos-tank': { cooldown: 0 },
-                'neutral-midas': { cooldown: 0 },
-                'chaos-executioner': { cooldown: 0 },
-                'neutral-willowisp': { cooldown: 0 }
+                'air-elemental': { cooldown: 0 },
+                'earth-elemental': { cooldown: 0 },
+                'fire-elemental': { cooldown: 0 },
+                'water-elemental': { cooldown: 0 },
+                'light-elemental': { cooldown: 0 },
+                'dark-elemental': { cooldown: 0 }
               }
             },
-            generalId: 'chaos-hero',
+            generalId: 'dark-general',
             gold: 2
           },
           {
@@ -42,15 +41,15 @@ export const makeDummyState = async (mapName: string): Promise<SerializedGameSta
             name: 'Player 2',
             loadout: {
               units: {
-                'haven-melee': { cooldown: 0 },
-                'haven-archer': { cooldown: 0 },
-                'neutral-tank': { cooldown: 0 },
-                'haven-paladin': { cooldown: 0 },
-                'neutral-titan': { cooldown: 0 },
-                'haven-tank': { cooldown: 0 }
+                'air-elemental': { cooldown: 0 },
+                'earth-elemental': { cooldown: 0 },
+                'fire-elemental': { cooldown: 0 },
+                'water-elemental': { cooldown: 0 },
+                'light-elemental': { cooldown: 0 },
+                'dark-elemental': { cooldown: 0 }
               }
             },
-            generalId: 'haven-hero',
+            generalId: 'earth-general',
 
             gold: 2
           }

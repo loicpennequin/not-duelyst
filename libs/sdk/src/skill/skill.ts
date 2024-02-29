@@ -2,6 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Cell } from '../map/cell';
 import { Point3D } from '../types';
+import { Keyword } from '../utils/keywords';
 
 export type SkillId = string;
 
@@ -17,6 +18,7 @@ export type SkillOptions = {
   minTargets?: number;
   maxTargets?: number;
   id: string;
+  keyords?: Keyword[];
 };
 
 export type SkillDescriptionContext = {
@@ -35,10 +37,12 @@ export abstract class Skill {
   readonly maxTargets: number;
   readonly shouldExhaustCaster: boolean;
   readonly shouldPreventMovement: boolean;
+  readonly keywords: Keyword[];
 
   constructor(options: SkillOptions) {
     this.id = options.id;
     this.name = options.name;
+    this.keywords = options.keyords ?? [];
     this.cooldown = options.cooldown;
     this.animationFX = options.animationFX ?? 'cast';
     this.soundFX = options.soundFX ?? 'cast-placeholder';

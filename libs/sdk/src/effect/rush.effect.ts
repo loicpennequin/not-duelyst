@@ -14,8 +14,12 @@ export class RushEffect extends Effect {
     super(ctx, source, meta);
   }
 
+  getKeywords() {
+    return [];
+  }
+
   getDescription(): string {
-    return `This units can move and cast skills on the turn it is summoned`;
+    return `This unit can move and cast skills on the turn it is summoned`;
   }
 
   onApplied() {

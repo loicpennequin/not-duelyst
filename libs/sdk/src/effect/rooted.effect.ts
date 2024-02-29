@@ -21,6 +21,10 @@ export class RootedEffect extends Effect {
     return `This units cannot move.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyRoot() {
     return false;
   }

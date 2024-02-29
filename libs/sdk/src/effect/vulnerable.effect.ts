@@ -21,6 +21,10 @@ export class VulnerableEffect extends Effect {
     return `This units takes 1 more damage from all sources.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyTough(amount: number) {
     return amount + 1;
   }

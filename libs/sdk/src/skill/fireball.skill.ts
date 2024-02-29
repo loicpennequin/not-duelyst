@@ -5,7 +5,7 @@ import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
 import { Point3D } from '../types';
-import { Skill, SkillDescriptionContext, SkillOptions } from './skill';
+import { SkillDescriptionContext, SkillOptions } from './skill';
 import { isWithinCells, isSelf, isAxisAligned } from './skill-utils';
 import { Attack } from './attack.skill';
 

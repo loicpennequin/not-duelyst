@@ -2,13 +2,13 @@ import { Faction } from '../faction/faction-lookup';
 import { keyBy } from 'lodash-es';
 import { Skill } from '../skill/skill';
 import { UnitKind } from './constants';
-import { HAVEN_UNITS } from './haven.units';
-import { CHAOS_UNITS } from './chaos.units';
 import { Point3D } from '../types';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { NEUTRAL_UNITS } from './neutral.units';
 import { Effect } from '../effect/effect';
+import { Rarity } from '../enums';
+import { coreSet } from './sets/core';
+import { Keyword } from '../utils/keywords';
 
 export type UnitId = string;
 
@@ -18,7 +18,8 @@ export type UnitBlueprint = {
   id: string;
   spriteId: string;
   kind: UnitKind;
-  faction: Faction;
+  factions: Faction[];
+  rarity: Rarity;
 
   summonCost: number;
   summonCooldown: number;
@@ -31,7 +32,8 @@ export type UnitBlueprint = {
   skills: Array<Skill>;
 
   effects?: {
-    getEffect(ctx: GameSession, entity: Entity): Effect;
+    execute(ctx: GameSession, entity: Entity): void;
+    keywords: Keyword[];
     description: string;
   }[];
   onSummoned?: {
@@ -44,6 +46,7 @@ export type UnitBlueprint = {
 };
 
 export const UNITS = keyBy(
-  [...NEUTRAL_UNITS, ...HAVEN_UNITS, ...CHAOS_UNITS],
+  // [...NEUTRAL_UNITS, ...HAVEN_UNITS, ...CHAOS_UNITS],
+  [...coreSet],
   'id'
 ) satisfies Record<UnitId, UnitBlueprint>;

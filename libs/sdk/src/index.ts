@@ -15,4 +15,4 @@ export { INTERACTABLES } from './interactable/interactable-lookup';
 export { Interactable } from './interactable/interactable';
 export { EFFECTS } from './effect/effect-lookup';
 export { UNITS } from './units/unit-lookup';
-export { FACTIONS } from './faction/faction-lookup';
+export { FACTIONS, type FactionName } from './faction/faction-lookup';

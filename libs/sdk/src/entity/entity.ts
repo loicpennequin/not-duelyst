@@ -8,8 +8,10 @@ import { Skill, SkillId } from '../skill/skill';
 import { Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
 import { Effect, EffectId } from '../effect/effect';
-import { makeInterceptor } from '../utils/interceptor';
+import { inferInterceptor, Interceptable } from '../utils/interceptor';
 import { SummonInteractableAction } from '../action/summon-interactable.action';
+import { DieAction } from '../action/die.action';
+import { ReactiveValue } from '../utils/helpers';
 
 export type EntityId = number;
 export const isEntityId = (x: unknown, ctx: GameSession): x is EntityId =>
@@ -36,7 +38,7 @@ export type EntityEvent = Values<typeof ENTITY_EVENTS>;
 export type EntityEventMap = {
   [ENTITY_EVENTS.MOVE]: Entity;
   [ENTITY_EVENTS.USE_SKILL]: Entity;
-  [ENTITY_EVENTS.DIE]: { entity: Entity; source: Nullable<Entity> };
+  [ENTITY_EVENTS.DIE]: { entity: Entity };
   [ENTITY_EVENTS.DEAL_DAMAGE]: {
     entity: Entity;
     amount: number;
@@ -55,6 +57,8 @@ export type EntityEventMap = {
   };
 };
 
+type EntityInterceptor = Entity['interceptors'];
+
 export class Entity implements Serializable {
   readonly id: EntityId;
 
@@ -65,19 +69,26 @@ export class Entity implements Serializable {
   private movementSpent = 0;
 
   private interceptors = {
-    attack: makeInterceptor<number, Entity>(),
-    speed: makeInterceptor<number, Entity>(),
-    maxHp: makeInterceptor<number, Entity>(),
-    apRegenRate: makeInterceptor<number, Entity>(),
-    initiative: makeInterceptor<number, Entity>(),
-    canUseSkill: makeInterceptor<boolean, { entity: Entity; skill: Skill }>(),
-    canUseSkillAt: makeInterceptor<
+    attack: new Interceptable<number, Entity>(),
+    speed: new Interceptable<number, Entity>(),
+    maxHp: new Interceptable<number, Entity>(),
+
+    canUseSkill: new Interceptable<boolean, { entity: Entity; skill: Skill }>(),
+    canUseSkillAt: new Interceptable<
       boolean,
       { entity: Entity; skill: Skill; targets: Point3D[] }
     >(),
-    canMove: makeInterceptor<boolean, Entity>(),
-    takeDamage: makeInterceptor<number, { entity: Entity; amount: number }>()
+    canMove: new Interceptable<boolean, Entity>(),
+    takeDamage: new Interceptable<number, { entity: Entity; amount: number }>()
   };
+
+  private currentHp = new ReactiveValue(0, hp => {
+    if (hp <= 0) {
+      this.ctx.actionQueue.push(new DieAction({ entityId: this.id }, this.ctx));
+    }
+  });
+
+  lastDamagesource: Nullable<Entity> = null;
 
   playerId: PlayerId;
 
@@ -85,7 +96,13 @@ export class Entity implements Serializable {
 
   off = this.emitter.off;
 
-  hp = 0;
+  get hp() {
+    return this.currentHp.value;
+  }
+
+  private set hp(val: number) {
+    this.currentHp.value = val;
+  }
 
   position: Vec3;
 
@@ -168,17 +185,18 @@ export class Entity implements Serializable {
     return this.speed - this.movementSpent;
   }
 
-  addInterceptor<T extends keyof Entity['interceptors']>(
+  addInterceptor<T extends keyof EntityInterceptor>(
     key: T,
-    interceptor: Parameters<Entity['interceptors'][T]['add']>[0]
+    interceptor: inferInterceptor<EntityInterceptor[T]>,
+    isFinal = false
   ) {
     // @ts-expect-error pepega typescript
-    this.interceptors[key].add(interceptor);
+    this.interceptors[key].add(interceptor, isFinal);
   }
 
-  removeInterceptor<T extends keyof Entity['interceptors']>(
+  removeInterceptor<T extends keyof EntityInterceptor>(
     key: T,
-    interceptor: Parameters<Entity['interceptors'][T]['remove']>[0]
+    interceptor: inferInterceptor<EntityInterceptor[T]>
   ) {
     // @ts-expect-error pepega typescript
     this.interceptors[key].remove(interceptor);
@@ -253,6 +271,7 @@ export class Entity implements Serializable {
 
   takeDamage(power: number, source: Nullable<Entity>) {
     const amount = this.getTakenDamage(power);
+    this.lastDamagesource = source;
     this.hp = Math.max(0, this.hp - amount);
     this.emitter.emit(ENTITY_EVENTS.RECEIVE_DAMAGE, {
       entity: this,
@@ -271,9 +290,9 @@ export class Entity implements Serializable {
     });
   }
 
-  die(source: Nullable<Entity>) {
+  die() {
     this.hp = 0;
-    this.emitter.emit('die', { entity: this, source });
+    this.emitter.emit('die', { entity: this });
     this.ctx.actionQueue.push(
       new SummonInteractableAction(
         {

@@ -46,16 +46,14 @@ export class ConvexClientWithSSR extends ConvexClient {
     const queryName = getFunctionName(query);
 
     if (!this.ssrQueriesCache.has(queryName)) {
-      console.log('create cache for', queryName);
       this.ssrQueriesCache.set(queryName, new Map());
     }
     const cache = this.ssrQueriesCache.get(queryName)!;
 
     const cacheKey = JSON.stringify(args);
     if (!cache.has(cacheKey)) {
-      console.log('create query cache for', cacheKey);
       const promise = async () => {
-        // if no third party auth provider is used, we dont need to bither wit auth
+        // if no third party auth provider is used, we dont need to bother wit auth
         const needToFetchToken = this.authTokenFetcher && this.ssrAuthToken === undefined;
         if (needToFetchToken) {
           this.ssrAuthToken = await this.fetchAuthTokenSSR();

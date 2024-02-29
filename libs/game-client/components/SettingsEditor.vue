@@ -8,9 +8,17 @@ const emit = defineEmits<{
 }>();
 
 const { data: settings } = useConvexAuthedQuery(api.users.settings, {});
-const { mutate: saveSettings } = useConvexAuthedMutation(api.users.saveSettings);
+const { mutate: saveSettings } = useConvexAuthedMutation(api.users.saveSettings, {
+  onSuccess() {
+    emit('close');
+  }
+});
 
 const formData = ref(defaultSettings);
+
+const onSubmit = () => {
+  saveSettings({ settings: formData.value });
+};
 
 until(settings)
   .not.toBeUndefined()
@@ -20,7 +28,7 @@ until(settings)
 </script>
 
 <template>
-  <section class="fancy-scrollbar">
+  <form class="fancy-scrollbar" @submit.prevent="onSubmit">
     <fieldset>
       <legend>Controls</legend>
       <template v-for="binding in formData.bindings" :key="binding.id">
@@ -45,6 +53,7 @@ until(settings)
           class="w-full"
         />
       </fieldset>
+
       <fieldset>
         <legend>Accessibility</legend>
         <label>Color coded units</label>
@@ -53,21 +62,11 @@ until(settings)
         <UiSwitch v-model="formData.a11y.simplifiedMapTextures" />
       </fieldset>
     </div>
-  </section>
+  </form>
 
   <footer>
-    <UiButton class="ghost-button" @click="emit('close')">Cancel</UiButton>
-    <UiButton
-      class="primary-button"
-      @click="
-        () => {
-          emit('close');
-          saveSettings({ settings: formData });
-        }
-      "
-    >
-      Apply
-    </UiButton>
+    <UiButton type="button" class="ghost-button" @click="emit('close')">Cancel</UiButton>
+    <UiButton class="primary-button">Apply</UiButton>
   </footer>
 </template>
 
@@ -91,7 +90,7 @@ fieldset {
   }
 }
 
-section {
+form {
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

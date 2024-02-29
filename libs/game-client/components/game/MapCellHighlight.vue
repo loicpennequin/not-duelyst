@@ -52,8 +52,8 @@ const getCellBitmask = () => {
 
 const tileset = computed(() =>
   targetMode.value === 'skill'
-    ? assets.getSprite('targetable_cell')
-    : assets.getSprite('movable_cell')
+    ? assets.getSpritesheet('targetable_cell')
+    : assets.getSpritesheet('movable_cell')
 );
 
 const texture = computed(() => {

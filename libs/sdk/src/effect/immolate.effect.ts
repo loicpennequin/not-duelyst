@@ -23,6 +23,10 @@ export class ImmolateEffect extends Effect {
     return `This units deals ${this.meta.power} damage to all nearby enemies at the beginning of your turn.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyDamage(player: Player) {
     if (!this.attachedTo) return;
     if (!player.equals(this.attachedTo.player)) return;

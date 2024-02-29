@@ -20,6 +20,7 @@
     "@assetpack/plugin-ffmpeg": "^0.8.0",
     "@assetpack/plugin-json": "^0.8.0",
     "@assetpack/plugin-manifest": "^0.8.0",
+    "@floating-ui/vue": "^1.0.6",
     "@hc/api": "*",
     "@hc/sdk": "*",
     "@hc/shared": "*",
@@ -57,9 +58,9 @@
     "zipson": "^0.2.12"
   },
   "devDependencies": {
+    "@hc/assetpack": "*",
     "@hc/stylelint-config": "*",
     "@hc/unocss-config": "*",
-    "@hc/assetpack": "*",
     "@iconify/json": "^2.2.86",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxtjs/color-mode": "^3.3.0",

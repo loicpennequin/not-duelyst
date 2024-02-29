@@ -29,6 +29,10 @@ export class StatModifierEffect extends Effect {
     return `This unis has ${sign}${Math.abs(this.meta.value)} ${this.meta.statKey}}.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyModifier(value: number) {
     return value + this.meta.value;
   }

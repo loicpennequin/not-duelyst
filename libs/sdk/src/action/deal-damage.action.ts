@@ -56,7 +56,7 @@ export class DealDamageAction extends GameAction<{
             ]
           }
         );
-        this.ctx.fxContext?.addChildSprite('blood_01', targetId, {
+        this.ctx.fxContext?.addChildAnimatedSprite('blood_01', targetId, {
           waitUntilAnimationDone: false,
           offset: { x: 0, y: 32 },
           scale: 0.5
@@ -79,12 +79,6 @@ export class DealDamageAction extends GameAction<{
         this.attacker.dealDamage(this.payload.amount, target);
       } else {
         target.takeDamage(this.payload.amount, null);
-      }
-
-      if (target.hp <= 0) {
-        this.ctx.actionQueue.push(
-          new DieAction({ entityId: targetId, sourceId: this.payload.sourceId }, this.ctx)
-        );
       }
     });
   }

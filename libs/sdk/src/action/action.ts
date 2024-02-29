@@ -4,6 +4,19 @@ import { GameSession } from '../game-session';
 import { EntityId } from '../entity/entity';
 import { Point3D } from '../types';
 
+type FxContextEnterAnimation =
+  | 'fade-in'
+  | 'slide-in-left'
+  | 'slide-in-right'
+  | 'slide-in-top'
+  | 'slide-in-bottom';
+type FxContextLeaveAnimation =
+  | 'fade-out'
+  | 'slide-out-left'
+  | 'slide-out-right'
+  | 'slide-out-top'
+  | 'slide-out-bottom';
+
 export type FXContext = {
   displayText(
     text: string,
@@ -14,7 +27,40 @@ export type FXContext = {
       duration: number;
     }
   ): Promise<void>;
-  addChildSprite(
+  addChildSpriteUntil(
+    spriteId: string,
+    entityId: EntityId,
+    options?: {
+      offset?: { x: number; y: number };
+      scale?: number;
+      onEnter?: {
+        animation: FxContextEnterAnimation[];
+        duration: number;
+      };
+      onLeave?: {
+        animation: FxContextLeaveAnimation[];
+        duration: number;
+      };
+    }
+  ): () => void;
+  addChildSpriteFor(
+    spriteId: string,
+    entityId: EntityId,
+    options?: {
+      duration?: number;
+      offset?: { x: number; y: number };
+      scale?: number;
+      onEnter?: {
+        readonly animation: FxContextEnterAnimation[];
+        duration: number;
+      };
+      onLeave?: {
+        readonly animation: FxContextLeaveAnimation[];
+        duration: number;
+      };
+    }
+  ): Promise<void>;
+  addChildAnimatedSprite(
     spriteId: string,
     entityId: EntityId,
     options?: {
@@ -22,6 +68,14 @@ export type FXContext = {
       offset?: { x: number; y: number };
       waitUntilAnimationDone?: boolean;
       scale?: number;
+      onEnter?: {
+        animation: FxContextEnterAnimation[];
+        duration: number;
+      };
+      onLeave?: {
+        animation: FxContextLeaveAnimation[];
+        duration: number;
+      };
     }
   ): Promise<void>;
   playSoundOnce(

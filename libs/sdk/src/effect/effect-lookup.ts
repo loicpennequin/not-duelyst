@@ -1,6 +1,6 @@
 import { DotEffect } from './dot.effect';
 import { Effect } from './effect';
-import { Constructor } from '@hc/shared';
+import { Constructor, objectKeys } from '@hc/shared';
 import { StatModifierEffect } from './stat-modifier.effect';
 import { ExhaustedEffect } from './exhausted.effect';
 import { TauntedEffect } from './taunted.effect';
@@ -42,3 +42,9 @@ export const EFFECTS = validateEffectMap({
   plunderOnKill: PlunderOnKillEffect,
   vulnerable: VulnerableEffect
 });
+
+export const EFFECT_NAMES = Object.fromEntries(
+  objectKeys(EFFECTS).map(k => [k.toUpperCase(), k])
+) as {
+  [key in Uppercase<keyof typeof EFFECTS>]: string;
+};

@@ -16,10 +16,6 @@ const player = computed(() => {
   return state.value.players.find(p => p.id === playerId)!;
 });
 
-const borders = computed(
-  () => factionUtils[player.value.general.unit.faction.id].borders
-);
-
 const targetsCount = computed(() => {
   if (targetMode.value === 'skill') return skillTargets.value.size;
   if (targetMode.value === 'summon-targets') return summonTargets.value.size;
@@ -28,7 +24,7 @@ const targetsCount = computed(() => {
 const maxTargetsCount = computed(() => {
   if (targetMode.value === 'skill') return selectedSkill.value?.maxTargets;
   if (targetMode.value === 'summon-targets') {
-    return selectedSummon.value?.onSummoned?.maxTargetCount;
+    // return selectedSummon.value?.onSummoned?.maxTargetCount;
   }
   return 0;
 });
@@ -39,7 +35,8 @@ const isValidateTargetsButtonDisplayed = computed(() => {
   }
 
   if (targetMode.value === 'summon-targets') {
-    return summonTargets.value.size >= selectedSummon.value!.onSummoned!.minTargetCount;
+    return false;
+    // return summonTargets.value.size >= selectedSummon.value!.onSummoned!.minTargetCount;
   }
 
   return false;
@@ -106,25 +103,22 @@ const onValidateTargets = () => {
             unavailable: !selectedEntity.canUseSkill(skill)
           }"
           :disabled="!selectedEntity.canUseSkill(skill)"
-          :data-cooldown="
+          :data-remaining-cooldown="
             selectedEntity.skillCooldowns[skill.id] > 0
               ? selectedEntity.skillCooldowns[skill.id]
               : ''
           "
+          :data-cooldown="skill.cooldown"
           :style="{
             '--cooldown-angle':
               360 - (360 * selectedEntity.skillCooldowns[skill.id]) / skill.cooldown,
-            '--bg': `url('/assets/skills/${skill.spriteId}.png')`,
-            '--border': `url(${borders.square})`
+            '--bg': `url('/assets/skills/${skill.spriteId}.png')`
           }"
           @click="selectedSkill = skill"
         />
       </template>
 
       <div class="fancy-surface skill-tooltip">
-        <div class="flex justify-between">
-          <span>cooldown: {{ skill.cooldown }}</span>
-        </div>
         <h4>{{ skill.name }}</h4>
         <p>{{ skill.getText(selectedEntity) }}</p>
       </div>
@@ -149,12 +143,11 @@ const onValidateTargets = () => {
                 unavailable: !state.activePlayer.canSummon(unit.unit.id)
               }"
               :data-cost="unit.unit.summonCost"
-              :data-cooldown="unit.cooldown > 0 ? unit.cooldown : ''"
+              :data-remaining-cooldown="unit.cooldown > 0 ? unit.cooldown : ''"
               :style="{
                 '--cooldown-angle':
                   360 - (360 * unit.cooldown) / unit.unit.summonCooldown,
-                '--bg': `url('/assets/units/${unit.unit.spriteId}-icon.png')`,
-                '--border': `url(${borders.rounded})`
+                '--bg': `url('/assets/units/${unit.unit.spriteId}-icon.png')`
               }"
               @mousedown="selectedSummon = unit.unit"
             />
@@ -182,9 +175,11 @@ const onValidateTargets = () => {
   gap: var(--size-4);
   align-items: center;
 
-  min-width: var(--size-sm);
+  width: 615px;
+  padding-left: 3px;
   padding-block: var(--size-5);
 
+  background: url('/assets/ui/action-bar.png');
   border-radius: var(--radius-3);
 
   @screen lt-lg {
@@ -192,29 +187,21 @@ const onValidateTargets = () => {
   }
 }
 
-.active-entity {
-  width: 96px;
-}
-
-:is(.skill, .summon, .active-entity, .move) {
-  aspect-ratio: 1;
-  background-image: var(--border), var(--bg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 :is(.skill, .summon) {
   position: relative;
+
+  aspect-ratio: 1;
   width: 64px;
-  box-shadow: inset 0 0 0 1px black;
+
+  background-image: var(--bg);
+  background-repeat: no-repeat;
+  background-size: cover;
 
   @screen lt-lg {
     width: 48px;
   }
 
   &::after {
-    content: attr(data-cost);
-
     position: absolute;
     right: -12px;
     bottom: -7px;
@@ -235,14 +222,17 @@ const onValidateTargets = () => {
   &:hover,
   &.active {
     filter: brightness(125%);
-    box-shadow: 0 0 8px 2px var(--primary);
+  }
+
+  &.active {
+    box-shadow: 0 0 1px 2px var(--primary);
   }
 
   &:disabled {
     cursor: not-allowed;
 
     &::before {
-      content: attr(data-cooldown);
+      content: attr(data-remaining-cooldown);
 
       position: absolute;
       top: 0;
@@ -263,6 +253,7 @@ const onValidateTargets = () => {
         hsl(var(--gray-11-hsl) / 0.5) calc(1deg * var(--cooldown-angle))
       );
       border: none;
+      border-radius: 50%;
     }
 
     &.unavailable {
@@ -273,7 +264,13 @@ const onValidateTargets = () => {
 
 .skill {
   width: 64px;
+  border: var(--fancy-border);
   border-radius: 4px;
+  box-shadow: inset 0 0 0 1px black;
+
+  &::after {
+    content: attr(data-cooldown);
+  }
 
   @screen lt-lg {
     width: 48px;
@@ -281,7 +278,12 @@ const onValidateTargets = () => {
 }
 
 .summon {
+  border: none;
   border-radius: var(--radius-round);
+  transition: transform 0.2s;
+  &::after {
+    content: attr(data-cost);
+  }
 }
 
 .move {

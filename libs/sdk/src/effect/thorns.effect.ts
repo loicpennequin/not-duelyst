@@ -35,6 +35,10 @@ export class ThornsEffect extends Effect {
     return `When this unit receives damage, it deals ${this.damage} back.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   private applyThorns({ source }: { source: Nullable<Entity> }) {
     if (!source) return;
     this.ctx.actionQueue.push(

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { gameSession, state } = useGame();
-const { selectedEntity, hoveredCell } = useGameUi();
+const { state } = useGame();
+const { selectedEntity } = useGameUi();
 
 const historyRef = ref<HTMLElement>();
 watch(
@@ -64,6 +64,7 @@ watch(
 <style scoped>
 .selected-entity {
   position: absolute;
+  z-index: 1;
   top: 14rem;
   &.left {
     left: var(--size-5);

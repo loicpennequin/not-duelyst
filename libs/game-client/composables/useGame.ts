@@ -200,14 +200,15 @@ export const useGameProvider = (
         const { targetMode, selectedSummon, summonSpawnPoint } = context.ui;
         if (targetMode.value !== 'summon-targets') return false;
         if (!selectedSummon.value) return false;
-        if (!selectedSummon.value.onSummoned) return false;
+        // if (!selectedSummon.value.onSummoned) return false;
         if (!summonSpawnPoint.value) return false;
 
-        return selectedSummon.value.onSummoned.isTargetable(
-          session,
-          point,
-          summonSpawnPoint.value
-        );
+        // return selectedSummon.value.onSummoned.isTargetable(
+        //   session,
+        //   point,
+        //   summonSpawnPoint.value
+        // );
+        return true;
       }
     },
     fx: {

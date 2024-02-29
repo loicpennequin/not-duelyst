@@ -3,7 +3,7 @@ import { useApplication } from 'vue3-pixi';
 import { type Viewport } from 'pixi-viewport';
 import { CELL_SIZE } from '../../utils/constants';
 
-const { state, gameSession, mapRotation, ui, sendInput, fx, isActivePlayer } = useGame();
+const { state, ui, fx } = useGame();
 const { ui: uiLayer, gameObjects: gameObjectsLayer } = ui.layers;
 const app = useApplication();
 

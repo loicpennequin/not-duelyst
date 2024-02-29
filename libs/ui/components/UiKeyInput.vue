@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { keyToString } from 'key-display-names';
 export type KeyBinding = { key: string; modifier: 'shift' | 'ctrl' | 'alt' | null };
-const control = defineModel<KeyBinding>({ required: true });
-
-const isEditing = ref(false);
 
 const MODIFIER_PREFIXES = ['Shift', 'Control', 'Alt'];
+
+const control = defineModel<KeyBinding>({ required: true });
+const isEditing = ref(false);
 
 const formattedKey = computed(() => {
   return keyToString(control.value.key);
@@ -49,7 +49,7 @@ const onKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <button @click="isEditing = true" @keydown="onKeydown" v-html="label" />
+  <button type="button" @click="isEditing = true" @keydown="onKeydown" v-html="label" />
 </template>
 
 <style scoped lang="postcss">

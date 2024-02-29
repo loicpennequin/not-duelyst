@@ -30,6 +30,10 @@ export class DotEffect extends Effect {
     return `This units loses ${this.meta.power} HP at the beginning of its turn.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyDot(player: Player) {
     if (!this.attachedTo) return;
 

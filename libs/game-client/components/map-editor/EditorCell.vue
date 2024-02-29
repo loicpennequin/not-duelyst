@@ -24,20 +24,20 @@ const TILE_TO_EDITOR_SPRITE = {
 const assets = useAssets();
 const spriteTextures = computed(() => {
   if (placeMode === 'tile') {
-    const sheet = assets.getSprite(
+    const sheet = assets.getSpritesheet(
       TILE_TO_EDITOR_SPRITE[cell.tile.id as keyof typeof TILE_TO_EDITOR_SPRITE]
     );
     return [sheet.animations[Math.abs(rotation)] ?? sheet.animations[0]];
   }
 
   return cell.spriteIds.map(spriteId => {
-    const sheet = assets.getSprite(spriteId);
+    const sheet = assets.getSpritesheet(spriteId);
     return sheet.animations[Math.abs(rotation)] ?? sheet.animations[0];
   });
 });
 
 const emptyTextures = computed(() => {
-  return assets.getSprite(
+  return assets.getSpritesheet(
     TILE_TO_EDITOR_SPRITE[cell.tile.id as keyof typeof TILE_TO_EDITOR_SPRITE]
   ).animations[0];
 });
@@ -52,7 +52,7 @@ const interactableTexture = computed(() => {
   const instance = new ctor({}, { position: cell.position });
   const id = instance.spriteId;
 
-  const sheet = assets.getSprite(id);
+  const sheet = assets.getSpritesheet(id);
   return createSpritesheetFrameObject('idle', sheet);
 });
 

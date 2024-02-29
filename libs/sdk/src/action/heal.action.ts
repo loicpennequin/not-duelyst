@@ -36,7 +36,7 @@ export class HealAction extends GameAction<{
             { x: 0, y: 0, alpha: 1, scale: 1 }
           ]
         });
-        return this.ctx.fxContext?.addChildSprite('heal_01', target.id, {
+        return this.ctx.fxContext?.addChildAnimatedSprite('heal_01', target.id, {
           waitUntilAnimationDone: false,
           offset: { x: 0, y: 24 },
           scale: 1

@@ -28,6 +28,10 @@ export class ExecuteEffect extends Effect {
     }5% hp, destroy it`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   onDamage({ entity }: { entity: Entity; amount: number }) {
     if (isGeneral(entity)) return;
     if (isAlly(this.ctx, entity.id, this.attachedTo!.playerId)) return;
@@ -40,8 +44,7 @@ export class ExecuteEffect extends Effect {
       this.ctx.actionQueue.push(
         new DieAction(
           {
-            entityId: entity.id,
-            sourceId: this.attachedTo!.id
+            entityId: entity.id
           },
           this.ctx
         )

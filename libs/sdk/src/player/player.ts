@@ -1,14 +1,16 @@
-import { clamp, isDefined } from '@hc/shared';
-import { UNITS, UnitBlueprint, UnitId } from '../units/unit-lookup';
-import { Serializable } from '../utils/interfaces';
-import { GameSession } from '../game-session';
-import { Entity } from '../entity/entity';
-import type { SerializedPlayer } from './player-manager';
+import { UnitId, UNITS, UnitBlueprint } from '../units/unit-lookup';
 export type PlayerId = string;
 
 export type Loadout = {
   units: Record<UnitId, { cooldown: number }>;
 };
+import { clamp, isDefined } from '@hc/shared';
+import { Serializable } from '../utils/interfaces';
+import { GameSession } from '../game-session';
+import { Entity } from '../entity/entity';
+import type { SerializedPlayer } from './player-manager';
+import { config } from '../config';
+import { DealDamageAction } from '../action/deal-damage.action';
 
 export class Player implements Serializable {
   public readonly id: PlayerId;
@@ -51,13 +53,46 @@ export class Player implements Serializable {
     const loadoutUnit = this.loadout.units[unitId];
     if (!isDefined(loadoutUnit)) return false;
 
+    const hpCost = this.getSumonHpCost(unit);
+    if (hpCost >= this.general.hp) return false;
+
     return loadoutUnit.cooldown === 0 && this.gold >= unit.summonCost;
+  }
+
+  getSumonHpCost(unit: UnitBlueprint) {
+    const available = [...this.general.unit.factions];
+    let hpCost = 0;
+    for (const faction of unit.factions) {
+      const index = available.findIndex(
+        value => value.id === faction.id || value === null
+      );
+      if (index === -1) {
+        hpCost++;
+      } else {
+        available.splice(index, 1);
+      }
+    }
+
+    return hpCost;
   }
 
   summonFromLoadout(unit: UnitBlueprint) {
     if (!this.canSummon(unit.id)) return;
 
     this.gold = clamp(this.gold - unit.summonCost, 0, Infinity);
+    const hpCost = this.getSumonHpCost(unit);
+    if (hpCost > 0) {
+      this.ctx.actionQueue.push(
+        new DealDamageAction(
+          {
+            amount: hpCost,
+            sourceId: this.general.id,
+            targets: [this.general.id]
+          },
+          this.ctx
+        )
+      );
+    }
 
     this.loadout.units[unit.id].cooldown = unit.summonCooldown;
   }
@@ -89,6 +124,6 @@ export class Player implements Serializable {
     Object.entries(this.loadout.units).forEach(([, unit]) => {
       unit.cooldown = clamp(unit.cooldown - 1, 0, Infinity);
     });
-    this.gold += 2;
+    this.gold += config.GOLD_PER_TURN;
   }
 }

@@ -3,32 +3,36 @@ import { AnyObject } from '@hc/shared';
 export type Interceptor<
   TValue extends string | number | boolean,
   TContext extends AnyObject
-> = (value: TValue, ctx: Readonly<TContext>) => TValue;
+> = (value: Readonly<TValue>, ctx: Readonly<TContext>) => TValue;
 
-export const makeInterceptor = <
+export type inferInterceptor<T> = T extends Interceptable<infer Value, infer Ctx>
+  ? Interceptor<Value, Ctx>
+  : never;
+
+export class Interceptable<
   TValue extends string | number | boolean,
   TContext extends AnyObject
->() => {
-  const listeners: Interceptor<TValue, TContext>[] = [];
+> {
+  private listeners: { interceptor: Interceptor<TValue, TContext>; isFinal: boolean }[] =
+    [];
 
-  return {
-    add(interceptor: Interceptor<TValue, TContext>) {
-      listeners.push(interceptor);
-    },
+  add(interceptor: Interceptor<TValue, TContext>, isFinal = false) {
+    this.listeners.push({ interceptor, isFinal });
+  }
 
-    remove(interceptor: Interceptor<TValue, TContext>) {
-      const idx = listeners.indexOf(interceptor);
-      if (idx < 0) return;
+  remove(interceptor: Interceptor<TValue, TContext>) {
+    const idx = this.listeners.findIndex(el => el.interceptor === interceptor);
+    if (idx < 0) return;
 
-      listeners.splice(listeners.indexOf(interceptor), 1);
-    },
+    this.listeners.splice(idx, 1);
+  }
 
-    getValue: (value: TValue, ctx: Readonly<TContext>) => {
-      for (const listener of listeners) {
-        value = listener(value, ctx);
-      }
-
-      return value;
+  getValue(value: TValue, ctx: Readonly<TContext>) {
+    for (const listener of this.listeners) {
+      value = listener.interceptor(value, ctx);
+      if (listener.isFinal) break;
     }
-  };
-};
+
+    return value;
+  }
+}

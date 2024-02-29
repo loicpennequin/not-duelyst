@@ -1,5 +1,6 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
+import { KEYWORDS } from '../utils/keywords';
 import { Effect } from './effect';
 
 export class ToughEffect extends Effect {
@@ -19,6 +20,10 @@ export class ToughEffect extends Effect {
 
   getDescription(): string {
     return `This units takes 1 less damage from all sources.`;
+  }
+
+  getKeywords() {
+    return [KEYWORDS.TOUGH];
   }
 
   applyTough(amount: number) {

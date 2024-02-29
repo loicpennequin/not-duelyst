@@ -1,7 +1,6 @@
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Player } from '../player/player';
 import { Interactable, SerializedInteractable } from './interactable';
 
 export class Firewall extends Interactable {

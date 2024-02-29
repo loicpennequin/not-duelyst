@@ -9,7 +9,7 @@ const { interactable } = defineProps<{
 const { mapRotation, state, gameSession, assets, fx } = useGame();
 const { targetMode } = useGameUi();
 
-const sheet = assets.getSprite(interactable.spriteId);
+const sheet = assets.getSpritesheet(interactable.spriteId);
 const textures = computed(() => {
   return createSpritesheetFrameObject('idle', sheet);
 });

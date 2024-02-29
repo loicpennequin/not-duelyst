@@ -10,7 +10,7 @@ const { entity } = defineProps<{
 const emit = defineEmits<{ done: [] }>();
 const { assets } = useGame();
 
-const sheet = assets.getSprite(`summon-${entity.unit.faction.id}`);
+const sheet = assets.getSpritesheet(`summon-neutral`);
 const textures = createSpritesheetFrameObject('idle', sheet);
 const spriteRef = ref<AnimatedSprite>();
 const filters = [

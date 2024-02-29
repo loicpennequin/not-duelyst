@@ -29,6 +29,10 @@ export class AoeOnDeathEffect extends Effect {
     return `This units deals ${this.damage} damage to nearby enemies when it dies.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   onDeath() {
     const enemies = this.ctx.entityManager.getNearbyEnemies(
       this.attachedTo!.position,

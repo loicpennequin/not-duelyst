@@ -35,11 +35,11 @@ export class SummonInput extends PlayerInput<typeof summonEventSchema> {
   get isTargetCountValid() {
     if (!this.unit) return false;
     if (!this.unit.onSummoned) return true;
-
-    return (
-      this.payload.targets.length >= this.unit.onSummoned.minTargetCount &&
-      this.payload.targets.length <= this.unit.onSummoned.maxTargetCount
-    );
+    return true;
+    // return (
+    //   this.payload.targets.length >= this.unit.onSummoned.minTargetCount &&
+    //   this.payload.targets.length <= this.unit.onSummoned.maxTargetCount
+    // );
   }
 
   private get canSummon() {

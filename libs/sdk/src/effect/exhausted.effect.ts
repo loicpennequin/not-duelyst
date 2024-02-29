@@ -21,6 +21,10 @@ export class ExhaustedEffect extends Effect {
     return `This unit has been summoned this turn and cannot move of use abilities.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   preventAction() {
     return false;
   }

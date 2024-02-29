@@ -13,6 +13,6 @@ export const toLoadoutDto = (loadout: Loadout): LoadoutDto => {
     _id: loadout._id,
     name: loadout.name,
     generalId: loadout.generalId,
-    unitIds: loadout.units
+    unitIds: loadout.unitIds
   };
 };

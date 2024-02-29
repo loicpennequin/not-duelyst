@@ -25,6 +25,10 @@ export class TauntedEffect extends Effect {
     return `This units cannot move and can only attack the unit that taunted them.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   private get isInTauntRange() {
     return isWithinCells(this.ctx, this.source.position, this.attachedTo!.position, {
       x: this.meta.radius,

@@ -19,10 +19,11 @@ const {
   selectedSkill,
   selectedEntity,
   targetMode,
-  summonTargets
+  summonTargets,
+  layers
 } = useGameUi();
 
-const spritesheet = assets.getSprite(entity.unit.spriteId, 'placeholder-unit');
+const spritesheet = assets.getSpritesheet(entity.unit.spriteId, 'placeholder-unit');
 const textures = createSpritesheetFrameObject('idle', spritesheet);
 
 const spriteRef = ref<AnimatedSprite>();
@@ -39,13 +40,15 @@ const scaleX = computed(() => {
   return entity.playerId === state.value.players[0].id ? 1 : -1;
 });
 
-const offset = computed(() => ({
-  x: 0,
-  z: 0,
-  y: gameSession.map.getCellAt(entity.position)?.isHalfTile
-    ? -CELL_SIZE * 0.75
-    : -CELL_SIZE
-}));
+const offset = computed(() => {
+  return {
+    x: 0,
+    z: 0,
+    y: gameSession.map.getCellAt(entity.position.clone().round())?.isHalfTile
+      ? -CELL_SIZE * 0.75
+      : -CELL_SIZE
+  };
+});
 
 const hitArea = computed(() => {
   const meta = spritesheet.data.meta as AsepriteMeta;
@@ -56,7 +59,7 @@ const hitArea = computed(() => {
     y: 0
   };
 
-  // default hit area is a square the size of once cell
+  // default hit area is a square the size of one cell
   const defaultHitArea = new Polygon(
     { x: -CELL_SIZE / 2, y: CELL_SIZE / 2 },
     { x: CELL_SIZE / 2, y: CELL_SIZE / 2 },
@@ -101,7 +104,7 @@ const a11yColorcodeFilter = computed(() => {
     return new OutlineFilter(2, entity.playerId === playerId ? 0x00ff00 : 0xff0000);
   } else {
     return new OutlineFilter(
-      2,
+      1.5,
       entity.playerId === state.value.activePlayer.id ? 0x00ff00 : 0xff0000
     );
   }
@@ -213,15 +216,11 @@ const zIndexOffset = computed(() => {
           />
         </Shadow>
 
-        <PTransition
-          appear
-          :duration="{ enter: 100, leave: 100 }"
-          :before-enter="{ alpha: 0 }"
-          :enter="{ alpha: 1 }"
-          :leave="{ alpha: 0 }"
-        >
-          <UnitStats v-if="isHovered" :entity="entity" />
-        </PTransition>
+        <UnitStats
+          v-if="layers.ui.value && layers.gameObjects.value"
+          :entity="entity"
+          :is-hovered="!!isHovered"
+        />
       </container>
     </PTransition>
 

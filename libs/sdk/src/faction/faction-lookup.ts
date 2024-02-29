@@ -5,22 +5,34 @@ export type Faction = {
 };
 
 export const FACTION_NAMES = {
-  HAVEN: 'haven',
-  CHAOS: 'chaos',
-  NEUTRAL: 'neutral'
+  FIRE: 'FIRE',
+  WATER: 'WATER',
+  AIR: 'AIR',
+  EARTH: 'EARTH',
+  LIGHT: 'LIGHT',
+  DARK: 'DARK'
 } as const;
 
 export type FactionName = Values<typeof FACTION_NAMES>;
 export type FactionId = keyof typeof FACTIONS;
 
 export const FACTIONS = {
-  haven: {
-    id: 'haven'
+  FIRE: {
+    id: FACTION_NAMES.FIRE
   },
-  chaos: {
-    id: 'chaos'
+  WATER: {
+    id: FACTION_NAMES.WATER
   },
-  neutral: {
-    id: 'neutral'
+  AIR: {
+    id: FACTION_NAMES.AIR
+  },
+  EARTH: {
+    id: FACTION_NAMES.EARTH
+  },
+  LIGHT: {
+    id: FACTION_NAMES.LIGHT
+  },
+  DARK: {
+    id: FACTION_NAMES.DARK
   }
 } as const satisfies Record<FactionName, Faction>;

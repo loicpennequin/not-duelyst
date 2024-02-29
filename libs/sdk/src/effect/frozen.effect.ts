@@ -21,6 +21,10 @@ export class FrozenEffect extends Effect {
     return `This units cannot move, cannot cast abilities.`;
   }
 
+  getKeywords() {
+    return [];
+  }
+
   applyRoot() {
     return false;
   }

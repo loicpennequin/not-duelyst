@@ -4,7 +4,7 @@ import { Entity, SerializedEntity, EntityEvent, EntityEventMap } from './entity/
 import { EntityManager } from './entity/entity-manager';
 import { ActionHistory } from './action/action-history';
 import { GameMap, GameMapOptions } from './map/map';
-import { Player, PlayerId } from './player/player';
+import { PlayerId, Player } from './player/player';
 import { PlayerManager, SerializedPlayer } from './player/player-manager';
 import { SerializedAction } from './action/action-deserializer';
 import { ActionQueue } from './action/action-queue';
@@ -54,6 +54,49 @@ export class GameSession {
     return new GameSession(state, false);
   }
 
+  // create empty session for test purposes or accessing the session context outside of a gaùe (in the collection for example)
+  static createEmptySession() {
+    return new GameSession(
+      {
+        history: [],
+        players: [
+          {
+            generalId: 'fire-general',
+            id: 'player1',
+            gold: 0,
+            name: 'player1',
+            loadout: { units: {} }
+          },
+          {
+            generalId: 'fire-general',
+            id: 'player2',
+            gold: 0,
+            name: 'player2',
+            loadout: { units: {} }
+          }
+        ],
+        activePlayerId: 'player1',
+        entities: [],
+        map: {
+          cells: [
+            { position: { x: 0, y: 0, z: 0 }, spriteIds: [], tileId: 'ground' },
+            { position: { x: 0, y: 1, z: 0 }, spriteIds: [], tileId: 'ground' },
+            { position: { x: 1, y: 0, z: 0 }, spriteIds: [], tileId: 'ground' },
+            { position: { x: 1, y: 1, z: 0 }, spriteIds: [], tileId: 'ground' }
+          ],
+          height: 2,
+          width: 2,
+          interactables: [],
+          startPositions: [
+            { x: 0, y: 0, z: 0 },
+            { x: 0, y: 0, z: 0 }
+          ]
+        },
+        turn: 1
+      },
+      false
+    );
+  }
   map = new GameMap(this);
 
   playerManager = new PlayerManager(this);

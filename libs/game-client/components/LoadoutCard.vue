@@ -19,9 +19,9 @@ const generalImage = computed(() => {
 
 <template>
   <article class="fancy-surface">
-    <span>{{ loadout.name }}</span>
-    <div>
-      <img :src="generalImage" />
+    <img :src="generalImage" />
+    <div class="grid grid-cols-6 gap-1">
+      <span>{{ loadout.name }}</span>
       <img v-for="unitId in loadout.unitIds" :key="unitId" :src="getImage(unitId)" />
     </div>
   </article>
@@ -32,37 +32,33 @@ article {
   display: flex;
   gap: var(--size-2);
   align-items: center;
-  justify-content: space-between;
 
   padding: 0;
   padding: var(--size-1) var(--size-2);
 
-  > div {
-    overflow-x: hidden;
-    display: flex;
-    gap: var(--size-1);
-    align-items: center;
+  border-top-right-radius: var(--radius-3);
+  border-bottom-left-radius: var(--radius-3);
+
+  > img {
+    align-self: start;
+    width: var(--size-9);
   }
 }
 
 span {
   display: block;
-  flex-grow: 1;
-  flex-shrink: 0;
-  width: max-content;
+  grid-column: 1 / -1;
 }
 
 img {
   overflow: hidden;
-  flex-shrink: 0;
 
   aspect-ratio: 1;
   width: var(--size-7);
 
   border: var(--fancy-border);
   border-radius: var(--radius-round);
-  &:first-of-type {
-    width: var(--size-8);
-  }
+
+  image-rendering: pixelated;
 }
 </style>

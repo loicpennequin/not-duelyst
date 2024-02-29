@@ -32,7 +32,7 @@ const settings = useUserSettings();
 
 const spriteTextures = computed(() => {
   const getTextures = (spriteId: string) => {
-    const sheet = assets.getSprite(spriteId);
+    const sheet = assets.getSpritesheet(spriteId);
     return sheet.animations[Math.abs(mapRotation.value)] ?? sheet.animations[0];
   };
 
@@ -79,9 +79,9 @@ const onPointerup = (event: FederatedPointerEvent) => {
     });
   } else if (canSummonAt.value) {
     summonSpawnPoint.value = cell.position;
-    if (selectedSummon.value!.onSummoned) {
-      targetMode.value = 'summon-targets';
-    }
+    // if (selectedSummon.value!.onSummoned) {
+    //   targetMode.value = 'summon-targets';
+    // }
   } else if (isValidSummonTarget.value) {
     summonTargets.value.add(cell.position);
   } else if (canCastSkillAt.value) {

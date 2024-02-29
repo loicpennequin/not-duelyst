@@ -74,9 +74,9 @@
  ],
  "meta": {
   "app": "https://www.aseprite.org/",
-  "version": "1.3.2-x64",
+  "version": "1.3.4-x64",
   "image": "haven-hero2.png",
-  "format": "I8",
+  "format": "RGBA8888",
   "size": { "w": 1280, "h": 160 },
   "scale": "1",
   "frameTags": [
@@ -92,7 +92,7 @@
   ],
   "slices": [
    { "name": "hitArea", "color": "#0000ffff", "keys": [{ "frame": 7, "bounds": {"x": 48, "y": 49, "w": 51, "h": 51 } }] },
-   { "name": "icon", "color": "#0000ffff", "keys": [{ "frame": 7, "bounds": {"x": 55, "y": 50, "w": 32, "h": 32 } }] }
+   { "name": "icon", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 58, "y": 48, "w": 32, "h": 32 } }, { "frame": 7, "bounds": {"x": 55, "y": 50, "w": 32, "h": 32 } }] }
   ]
  }
 }

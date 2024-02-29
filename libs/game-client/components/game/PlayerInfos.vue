@@ -4,49 +4,63 @@ import type { Entity } from '@hc/sdk';
 const { state } = useGame();
 
 const players = computed(() => state.value.players);
-
-const getBorder = (entity: Entity) => {
-  return factionUtils[entity.unit.faction.id].borders.rounded;
-};
 </script>
 
 <template>
   <div class="player player-1">
-    <div
-      class="img-wrapper"
-      :style="{ '--bg': `url(${getBorder(players[0].general)}` }"
-      :class="state.activePlayer.equals(players[0]) && 'active'"
-    >
+    <div class="img-wrapper" :class="state.activePlayer.equals(players[0]) && 'active'">
       <img :src="`/assets/units/${players[0].general.unit.spriteId}-icon.png`" />
+      <div class="runes">
+        <div
+          v-for="(_, i) in 3"
+          :key="i"
+          :style="{
+            '--bg': `url('/assets/ui/rune-${players[0].general.unit.factions[
+              i
+            ]?.id.toLowerCase()}.png')`
+          }"
+        />
+      </div>
     </div>
     <div>
       <div class="player-name">{{ players[0].name }}</div>
 
       <div class="indicators">
-        <div class="i-game-icons:health-normal color-green-4 hp" />
-        {{ players[0].general?.hp.toFixed() }}
-        <div class="i-game-icons:two-coins gold" />
-        {{ players[0].gold }}
+        <div class="hp">
+          {{ players[0].general?.hp.toFixed() }}
+        </div>
+        <div class="gold">
+          {{ players[0].gold }}
+        </div>
       </div>
     </div>
   </div>
 
   <div class="player player-2">
-    <div
-      class="img-wrapper"
-      :style="{ '--bg': `url(${getBorder(players[1].general)}` }"
-      :class="state.activePlayer.equals(players[1]) && 'active'"
-    >
+    <div class="img-wrapper" :class="state.activePlayer.equals(players[1]) && 'active'">
       <img :src="`/assets/units/${players[1].general.unit.spriteId}-icon.png`" />
+      <div class="runes">
+        <div
+          v-for="(_, i) in 3"
+          :key="i"
+          :style="{
+            '--bg': `url('/assets/ui/rune-${players[1].general.unit.factions[
+              i
+            ]?.id.toLowerCase()}.png')`
+          }"
+        />
+      </div>
     </div>
     <div>
       <div class="player-name">{{ players[1].name }}</div>
 
       <div class="indicators">
-        <div class="i-game-icons:health-normal hp" />
-        {{ players[1].general?.hp.toFixed() }}
-        <div class="i-game-icons:two-coins gold" />
-        {{ players[1].gold }}
+        <div class="hp">
+          {{ players[0].general?.hp.toFixed() }}
+        </div>
+        <div class="gold">
+          {{ players[0].gold }}
+        </div>
       </div>
     </div>
   </div>
@@ -72,13 +86,17 @@ const getBorder = (entity: Entity) => {
 }
 
 .img-wrapper {
-  overflow: hidden;
+  position: relative;
 
+  display: grid;
+  place-content: center;
+
+  aspect-ratio: 1;
+  width: 140px;
   padding: 4px;
 
-  background-image: var(--bg);
-  background-size: cover;
-  border-radius: var(--radius-round);
+  background-image: url('/assets/ui/hero-portrait-border.png');
+  /* border: var(--fancy-border); */
   box-shadow: inset 0 0 0 1px black;
 
   @screen lt-lg {
@@ -87,7 +105,7 @@ const getBorder = (entity: Entity) => {
 
   > img {
     aspect-ratio: 1;
-    width: var(--size-11);
+    width: 132px;
     margin-inline: auto;
     padding: var(--size-1);
 
@@ -102,7 +120,7 @@ const getBorder = (entity: Entity) => {
   }
 
   &.active {
-    border: solid var(--border-size-3) var(--primary);
+    /* border: solid var(--border-size-3) var(--primary); */
 
     @screen lt-lg {
       border: solid var(--border-size-1) var(--primary);
@@ -136,9 +154,6 @@ const getBorder = (entity: Entity) => {
   img {
     transform: rotateY(0.5turn);
   }
-  .indicators {
-    flex-direction: row-reverse;
-  }
 }
 
 .player-name {
@@ -151,14 +166,64 @@ const getBorder = (entity: Entity) => {
 }
 
 .indicators {
-  display: flex;
+  display: grid;
   gap: var(--size-2);
-  align-items: center;
   font-size: var(--font-size-2);
 
   @screen lt-lg {
     gap: var(--size-1);
     font-size: var(--font-size-0);
+  }
+
+  .player-2 & {
+    justify-items: end;
+  }
+}
+.hp {
+  background-image: url('/assets/ui/hero-portrait-hp.png');
+}
+
+.gold {
+  background-image: url('/assets/ui/hero-portrait-gold.png');
+}
+
+:is(.gold, .hp) {
+  display: grid;
+  place-content: center;
+
+  aspect-ratio: 1;
+  width: 48px;
+
+  background-size: cover;
+}
+.runes {
+  position: absolute;
+  z-index: 1;
+  bottom: calc(-1 * var(--size-2));
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+
+  width: fit-content;
+  padding: 6px 3px;
+
+  background-image: url('/assets/ui/runes-bg.png');
+  background-size: contain;
+  > div {
+    transform: translateY(-2px);
+
+    width: 20px;
+    height: 24px;
+
+    background-image: var(--bg);
+    background-size: contain;
+
+    &:nth-of-type(2) {
+      transform: translateY(2px);
+    }
   }
 }
 </style>

@@ -2,6 +2,10 @@
 import type { Id } from '@hc/api/convex/_generated/dataModel';
 import type { UnitBlueprint } from '@hc/sdk';
 
+defineOptions({
+  inheritAttrs: false
+});
+
 const { canAddToLoadout, isEditingLoadout, card, isInLoadout } = defineProps<{
   canAddToLoadout: boolean;
   isInLoadout: boolean;
@@ -9,7 +13,7 @@ const { canAddToLoadout, isEditingLoadout, card, isInLoadout } = defineProps<{
   card: { unit: UnitBlueprint; _id: Id<'collectionItems'>; unitId: string };
 }>();
 
-const emit = defineEmits<{ toggle: [] }>();
+const emit = defineEmits<{ click: [] }>();
 const rootEl = ref<HTMLElement>();
 
 const angle = ref({
@@ -37,25 +41,22 @@ const onMousemove = (e: MouseEvent) => {
       :tabindex="isEditingLoadout && !canAddToLoadout ? -1 : 0"
       class="card"
       :class="{
-        used: isEditingLoadout && isInLoadout
+        used: isEditingLoadout && isInLoadout,
+        disabled: isEditingLoadout && !canAddToLoadout
       }"
       :style="{
         '--rotate-y': angle.x.toFixed(2),
         '--rotate-x': angle.y.toFixed(2)
       }"
       @mousemove="onMousemove"
-      @click="emit('toggle')"
-      @keyup.enter="emit('toggle')"
+      @click="emit('click')"
+      @keyup.enter="emit('click')"
     >
       <UnitBlueprintCard :unit="card.unit" />
-      <Transition>
-        <Icon
-          v-if="isInLoadout && isEditingLoadout"
-          name="material-symbols-light:arrow-drop-down-circle-rounded"
-          size="2rem"
-          class="used-indicator"
-        />
-      </Transition>
+
+      <div v-if="isEditingLoadout && !canAddToLoadout" class="wrong-runes-warning">
+        Incompatible runes.
+      </div>
     </div>
   </div>
 </template>
@@ -72,6 +73,7 @@ const onMousemove = (e: MouseEvent) => {
 }
 .perspective-wrapper {
   transform-style: preserve-3d;
+  padding: var(--size-1);
   perspective: 40rem;
   animation: test 0.3s;
   > * {
@@ -80,12 +82,12 @@ const onMousemove = (e: MouseEvent) => {
 }
 .card {
   position: relative;
-  overflow-y: hidden;
   display: grid;
   transition: filter 0.3s;
 
   > * {
-    overflow-y: hidden;
+    grid-column: 1;
+    grid-row: 1;
   }
 
   &:focus-visible {
@@ -96,30 +98,29 @@ const onMousemove = (e: MouseEvent) => {
     outline: solid var(--border-size-2) var(--primary);
   }
 
+  &.disabled {
+    opacity: 0.8;
+    filter: grayscale(0.5);
+  }
+
   &:not(.disabled):hover {
-    /* transform: rotateY(calc(1deg * var(--rotate-y))); */
     transform: rotateY(calc(1deg * var(--rotate-y))) rotateX(calc(1deg * var(--rotate-x)));
+  }
+  &:not(:hover) {
+    transition: transform 0.3s;
   }
 }
 
-.used-indicator {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+.wrong-runes-warning {
+  z-index: 1;
 
-  margin: var(--size-2);
+  place-self: center;
 
-  color: var(--green-5);
+  width: 200px;
+  margin-top: -30px;
+  padding: var(--size-2) var(--size-3);
 
-  border: solid var(--border-size-2) var(--green-2);
-  border-radius: var(--radius-round);
-
-  &:is(.v-enter-active, .v-leave-active) {
-    transition: all 0.3s;
-  }
-  &:is(.v-enter-from, .v-leave-to) {
-    transform: scale(0);
-    opacity: 0;
-  }
+  background: hsl(0 0% 0% / 0.9);
+  border-radius: var(--radius-2);
 }
 </style>

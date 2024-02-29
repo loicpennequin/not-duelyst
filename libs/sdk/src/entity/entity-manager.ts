@@ -4,8 +4,6 @@ import { Entity, EntityId, SerializedEntity } from './entity';
 import { PlayerId } from '../player/player';
 import { isGeneral } from './entity-utils';
 import { GameSession } from '../game-session';
-import { Vec3 } from '../utils/vector';
-import { EFFECTS } from '../effect/effect-lookup';
 
 export type EntityManagerOptions = {
   entities: Entity[];
@@ -118,8 +116,8 @@ export class EntityManager {
     this.addListeners(entity);
 
     if (entity.unit.effects) {
-      entity.unit.effects.forEach(trigger => {
-        trigger.getEffect(this.ctx, entity).attach(entity);
+      entity.unit.effects.forEach(effect => {
+        effect.execute(this.ctx, entity);
       });
     }
 

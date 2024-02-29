@@ -1,4 +1,4 @@
-import { Text, AnimatedSprite, Container } from 'pixi.js';
+import { Text, AnimatedSprite, Container, Sprite } from 'pixi.js';
 import { sfxPaths } from '../assets/sfx{m}';
 import { Howl } from 'howler';
 
@@ -151,7 +151,7 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
           return resolve();
         }
 
-        const sheet = assets.getSprite(entity.unit.spriteId, 'placeholder-unit');
+        const sheet = assets.getSpritesheet(entity.unit.spriteId, 'placeholder-unit');
         const animation =
           sheet.animations[animationName] ?? sheet.animations[animationNameFallback];
         if (!animation) {
@@ -205,7 +205,7 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
         return () => void 0;
       }
 
-      const sheet = assets.getSprite(entity.unit.spriteId, 'placeholder-unit');
+      const sheet = assets.getSpritesheet(entity.unit.spriteId, 'placeholder-unit');
       sheet.animations;
       const hasAnimation = !!sheet.animations[animationName];
       if (!hasAnimation) {
@@ -335,7 +335,120 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
       });
     },
 
-    addChildSprite(
+    addChildSpriteFor(
+      spriteId,
+      entityId,
+      { onEnter, onLeave, duration = 2000, offset = { x: 0, y: 0 }, scale = 1 } = {}
+    ) {
+      return new Promise<void>(resolve => {
+        if (isHidden.value) return resolve();
+
+        const entity = gameSession.entityManager.getEntityById(entityId);
+        if (!entity) {
+          console.warn(`FXContext: entity not found for entityId ${entityId}`);
+          return resolve();
+        }
+
+        const entitySprite = toValue(fx.spriteMap.get(entityId));
+        if (!entitySprite) {
+          console.warn(`FXContext: sprite not found for entity ${entityId}`);
+          return resolve();
+        }
+
+        const texture = assets.getTexture(spriteId);
+
+        const container = new Container();
+        container.position.set(
+          entitySprite.parent.parent.position.x,
+          entitySprite.parent.parent.position.y
+        );
+        container.zIndex = entitySprite.parent.parent.zIndex + 1;
+        container.zOrder = entitySprite.parent.parent.zIndex + 1;
+        (fx.viewport?.children[0] as Container).addChild(container);
+
+        const fxSprite = new Sprite(texture);
+        fxSprite.position.set(offset.x, offset.y);
+        fxSprite.anchor.set(0.5);
+        fxSprite.scale = { x: scale, y: scale };
+
+        container.addChild(fxSprite);
+
+        if (onEnter) {
+          gsap.fromTo(
+            fxSprite,
+            {
+              pixi: {
+                alpha: onEnter.animation.includes('fade-in') ? 0 : 1,
+                x: onEnter.animation.includes('slide-in-left')
+                  ? offset.x - 15
+                  : onEnter.animation.includes('slide-in-right')
+                    ? offset.x + 15
+                    : offset.x,
+                y: onEnter.animation.includes('slide-in-top')
+                  ? offset.y - 15
+                  : onEnter.animation.includes('slide-in-bottom')
+                    ? offset.y + 15
+                    : offset.y
+              }
+            },
+            {
+              duration: onEnter.duration / 1000,
+              ease: Power2.easeOut,
+              pixi: {
+                x: offset.x,
+                y: offset.y,
+                alpha: 1
+              }
+            }
+          );
+        }
+
+        setTimeout(() => {
+          container.destroy();
+          resolve();
+        }, duration);
+      });
+    },
+
+    addChildSpriteUntil(spriteId, entityId, { offset = { x: 0, y: 0 }, scale = 1 } = {}) {
+      if (isHidden.value) return () => void 0;
+
+      const entity = gameSession.entityManager.getEntityById(entityId);
+      if (!entity) {
+        console.warn(`FXContext: entity not found for entityId ${entityId}`);
+        return () => void 0;
+      }
+
+      const sprite = toValue(fx.spriteMap.get(entityId));
+      if (!sprite) {
+        console.warn(`FXContext: sprite not found for entity ${entityId}`);
+        return () => void 0;
+      }
+
+      const texture = assets.getTexture(spriteId);
+
+      const container = new Container();
+      container.position.set(
+        sprite.parent.parent.position.x,
+        sprite.parent.parent.position.y
+      );
+      container.zIndex = sprite.parent.parent.zIndex + 1;
+      container.zOrder = sprite.parent.parent.zIndex + 1;
+      (fx.viewport?.children[0] as Container).addChild(container);
+
+      const fxSprite = new Sprite(texture);
+      fxSprite.position.set(offset.x, offset.y);
+      fxSprite.anchor.set(0.5);
+      fxSprite.scale = { x: scale, y: scale };
+
+      container.addChild(fxSprite);
+
+      return () => {
+        container.destroy();
+      };
+    },
+
+    addChildAnimatedSprite(
       spriteId,
       entityId,
       {
@@ -360,7 +473,7 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
           return resolve();
         }
 
-        const sheet = assets.getSprite(spriteId);
+        const sheet = assets.getSpritesheet(spriteId);
         const hasAnimation = !!sheet.animations[animationName];
         if (!hasAnimation) {
           console.warn(

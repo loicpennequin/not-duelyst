@@ -1,6 +1,3 @@
-import { api } from '@hc/api';
-import type { KeyBinding } from '@hc/ui/components/UiKeyInput.vue';
-import { merge } from 'lodash-es';
 import type { ControlId } from '../utils/key-bindings';
 
 type Angle = 0 | 90 | 180 | 270;
@@ -34,17 +31,17 @@ export const useGameControls = () => {
     };
 
     const selectEntity = (diff: number) => {
-      const selectedEntity = ui.selectedEntity.value;
+      let selectedEntity = ui.selectedEntity.value;
       const activePlayer = state.value.activePlayer;
 
       if (!selectedEntity) {
         ui.selectedEntity.value = activePlayer.general;
+        selectedEntity = activePlayer.general;
       } else {
         const player = selectedEntity.player;
         const entities = player.entities;
-        const index = entities.findIndex(e => e.equals(selectedEntity));
+        const index = entities.findIndex(e => e.equals(selectedEntity!));
         let newIndex = index + diff;
-        console.log(newIndex);
         if (newIndex >= entities.length) {
           ui.selectedEntity.value = player.general;
         } else {
@@ -52,7 +49,7 @@ export const useGameControls = () => {
           ui.selectedEntity.value = entities[newIndex];
         }
       }
-
+      console.log(selectedEntity);
       const spriteRef = fx.spriteMap.get(selectedEntity!.id);
       if (!spriteRef) return;
       const sprite = toValue(spriteRef);

@@ -45,8 +45,8 @@ until(screenViewport)
   });
 
 const playerSprites = [
-  assets.getSprite('player_1_start_position').animations.idle,
-  assets.getSprite('player_2_start_position').animations.idle
+  assets.getSpritesheet('player_1_start_position').animations.idle,
+  assets.getSpritesheet('player_2_start_position').animations.idle
 ];
 </script>
 

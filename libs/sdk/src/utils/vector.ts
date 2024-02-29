@@ -40,6 +40,14 @@ export class Vec3 implements Serializable {
     return this.x === vec.x && this.y === vec.y && this.z === vec.z;
   }
 
+  round() {
+    this.x = Math.round(this.x);
+    this.y = Math.round(this.y);
+    this.z = Math.round(this.z);
+
+    return this;
+  }
+
   add({ x, y, z }: Point3D) {
     this.x += x;
     this.y += y;

@@ -11,9 +11,9 @@ definePageMeta({
   }
 });
 
-const ITEMS_PER_PAGE = 10;
 const LOADOUT_MAX_SIZE = 6;
 
+const sidebarView = ref<'list' | 'form'>('list');
 const {
   values,
   general,
@@ -34,19 +34,11 @@ const {
 
 const {
   factionFilter,
-  page,
-  pageCount,
-  prevPage,
-  nextPage,
   displayedUnits,
-  sidebarView,
   loadouts,
   isLoadoutsLoading,
   isCollectionLoading
-} = useCollection({
-  itemsPerPage: ITEMS_PER_PAGE,
-  selectedGeneral: general
-});
+} = useCollection();
 
 const sortedLoadoutUnits = computed(() =>
   [...(values.value?.unitIds ?? [])]
@@ -84,13 +76,9 @@ const editLoadout = (loadout: LoadoutDto) => {
 
   <div v-else class="collection-page">
     <CollectionDeleteModal v-model:loadout="loadoutToDelete" />
-    <CollectionHeader
-      v-model:filter="factionFilter"
-      :sidebar-view="sidebarView"
-      :selected-general="general"
-    />
+    <CollectionHeader v-model:filter="factionFilter" />
 
-    <section name="card-list" class="card-list">
+    <section class="card-list fancy-scrollbar">
       <CollectionCard
         v-for="item in displayedUnits"
         :key="item._id"
@@ -98,35 +86,35 @@ const editLoadout = (loadout: LoadoutDto) => {
         :is-in-loadout="!!isInLoadout(item.unitId)"
         :is-editing-loadout="sidebarView === 'form'"
         :can-add-to-loadout="canAddToLoadout(item.unitId)"
-        @toggle="toggleLoadoutCard(item.unit)"
+        @click="toggleLoadoutCard(item.unit)"
       />
     </section>
-
-    <CollectionFooter
-      :page="page"
-      :page-count="pageCount"
-      @prev="prevPage"
-      @next="nextPage"
-    />
 
     <section class="sidebar">
       <template v-if="sidebarView === 'form'">
         <form @submit.prevent="save">
           <header>
             <input v-model="values!.name" class="py-3 flex-1" contenteditable />
-            {{ values?.unitIds.size }} / {{ LOADOUT_MAX_SIZE }} units
+            {{ values?.unitIds.size }} / {{ LOADOUT_MAX_SIZE }}
           </header>
-
-          <p v-if="!sortedLoadoutUnits.length" class="text-center p-4">
-            First, select a general.
-          </p>
 
           <ul v-if="values" v-auto-animate class="flex-1">
             <li v-for="unit in sortedLoadoutUnits" :key="unit.id">
               <div v-if="unit.kind === 'SOLDIER'" class="cost">
                 {{ unit.summonCost }}
               </div>
+
               <img :src="`/assets/units/${unit.spriteId}-icon.png`" />
+              <div class="flex gap-2">
+                <img
+                  v-for="(_, index) in 3"
+                  :key="index"
+                  :src="`/assets/ui/rune-${
+                    unit.factions[index]?.id.toLocaleLowerCase() ?? 'empty'
+                  }.png`"
+                  class="faction-rune"
+                />
+              </div>
               {{ unit.id }}
 
               <UiIconButton
@@ -236,19 +224,26 @@ const editLoadout = (loadout: LoadoutDto) => {
   place-content: center;
 }
 .card-list {
+  scroll-snap-type: y mandatory;
+
   overflow-x: hidden;
   overflow-y: auto;
   display: grid;
   grid-auto-rows: calc(50% - 2 * var(--size-2));
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  row-gap: var(--size-3);
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  row-gap: var(--size-6);
   column-gap: var(--size-4);
   justify-items: center;
 
-  padding-block-start: var(--size-2);
-  padding-inline: var(--size-2);
+  padding-block-start: var(--size-3);
+  padding-inline: var(--size-4);
 
   border-radius: var(--radius-2);
+
+  > * {
+    scroll-margin-block-start: var(--size-4);
+    scroll-snap-align: start;
+  }
 }
 
 .loadout {
@@ -367,5 +362,11 @@ form {
       transform: translateY(2px);
     }
   }
+}
+
+.faction-rune {
+  width: 18px;
+  height: 20px;
+  image-rendering: pixelated;
 }
 </style>
