@@ -27,17 +27,18 @@ jobs:
     env:
       HATHORA_TOKEN: ${{ secrets.HATHORA_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
 
-      - run: yarn add -g @hathora/cli
+      - run: yarn
 
       - run: >
-          hathora-cloud deploy \
+          cd packages/game-server && yarn hathora deploy \
             --appId app-6b13c96a-2991-4e0a-bf42-3e66fa75a91c \
             --token ${{ secrets.HATHORA_TOKEN }} \
             --containerPort 8000 \
