@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: "20"
 
-      - run: yarn i -g @hathora/cli
+      - run: yarn add -g @hathora/cli
 
       - run: >
           hathora-cloud deploy \
