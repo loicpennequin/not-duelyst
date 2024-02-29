@@ -1,5 +1,5 @@
-import PriorityQueue from 'ts-priority-queue';
 import { isDefined, isFunction } from '@hc/shared';
+import { PriorityQueue } from './priority-queue';
 
 export type NodeKey = string | number;
 
