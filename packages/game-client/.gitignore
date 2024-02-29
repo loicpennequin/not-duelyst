@@ -1,23 +1,26 @@
-node_modules
-*.log
-.nuxt
-nuxt.d.ts
+# Nuxt dev/build outputs
 .output
 .data
-.env
-package-lock.json
-framework
+.nuxt
+.nitro
+.cache
 dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
 .DS_Store
+.fleet
+.idea
 
-# Yarn
-.yarn/cache
-.yarn/*state*
+# Local env files
+.env
+.env.*
+!.env.example
 
-# Local History
-.history
-
-# VSCode
-.vscode/
-
-.playground/public/assets/*
+src/public/assets/*

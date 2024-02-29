@@ -1,3 +1,3 @@
 import makeConfig from '@hc/assetpack';
 
-export default makeConfig('./assets', './.playground/public/assets/');
+export default makeConfig('./src/assets', './src/public/assets');

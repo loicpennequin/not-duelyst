@@ -6,9 +6,14 @@ const customElements = ['viewport', 'layer'];
 const prefix = 'pixi-';
 
 export default defineNuxtConfig({
-  extends: ['@hc/ui'],
+  srcDir: './src',
   devtools: { enabled: true },
-  modules: ['@vee-validate/nuxt' /*'@pinia/nuxt'*/],
+  extends: ['@hc/ui'],
+  devServer: {
+    port: 3000
+  },
+
+  modules: ['@vee-validate/nuxt'],
   runtimeConfig: {
     public: {
       convexUrl: '',
@@ -56,8 +61,9 @@ export default defineNuxtConfig({
       FieldArray: 'VeeFieldArray',
       ErrorMessage: 'VeeErrorMessage'
     }
+  },
+  sourcemap: {
+    server: true,
+    client: true
   }
-  // pinia: {
-  //   storesDirs: [resolver.resolve('stores')]
-  // }
 });

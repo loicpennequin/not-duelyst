@@ -1,6 +1,4 @@
 {
-  "extends": "./.playground/.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "types": ["vite-plugin-glsl/ext"]
-  }
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json"
 }

@@ -56,10 +56,10 @@ const players = computed(() => state.value.players);
 
       <div class="indicators">
         <div class="hp">
-          {{ players[0].general?.hp.toFixed() }}
+          {{ players[1].general?.hp.toFixed() }}
         </div>
         <div class="gold">
-          {{ players[0].gold }}
+          {{ players[1].gold }}
         </div>
       </div>
     </div>
