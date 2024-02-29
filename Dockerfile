@@ -6,9 +6,9 @@ COPY package.json ./
 COPY yarn.lock ./
 
 COPY ./configs ./configs
-COPY ./libs/api ./libs/api
-COPY ./libs/sdk ./libs/sdk
-COPY ./libs/shared ./libs/shared
+COPY ./packages/api ./packages/api
+COPY ./packages/sdk ./packages/sdk
+COPY ./packages/shared ./packages/shared
 COPY ./apps/game-server ./apps/game-server
 
 RUN yarn install
@@ -19,9 +19,9 @@ FROM node:20-alpine
 WORKDIR /app/apps/game-server
 
 # COPY ./configs ./configs
-# COPY ./libs/api ./libs/api
-# COPY ./libs/sdk ./libs/sdk
-# COPY ./libs/shared ./libs/shared
+# COPY ./packages/api ./packages/api
+# COPY ./packages/sdk ./packages/sdk
+# COPY ./packages/shared ./packages/shared
 # COPY /apps/game-server ./apps/game-server
 
 # RUN yarn install --production --frozen-lockfile
