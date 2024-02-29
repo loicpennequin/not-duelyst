@@ -24,7 +24,7 @@ jobs:
 
   deploy-server:
     runs-on: ubuntu-latest
-     env:
+    env:
       HATHORA_TOKEN: ${{ secrets.HATHORA_TOKEN }}
     steps:
       - uses: actions/checkout@v2
