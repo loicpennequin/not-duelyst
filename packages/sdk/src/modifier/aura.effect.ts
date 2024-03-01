@@ -4,14 +4,14 @@ import { isWithinCells } from '../skill/skill-utils';
 import { Modifier } from './modifier';
 
 export type AuraMeta = { duration: number; range: number };
-export abstract class AuraEffect extends Modifier {
+export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
   abstract readonly id: string;
   duration: number;
 
   constructor(
     protected ctx: GameSession,
     public source: Entity,
-    readonly meta: AuraMeta
+    readonly meta: TMeta
   ) {
     super(ctx, source, meta);
     this.duration = this.meta.duration;

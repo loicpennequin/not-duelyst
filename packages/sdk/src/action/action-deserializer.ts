@@ -15,6 +15,7 @@ import { RemoveInteractableAction } from './removeInteractable.action';
 import { DisplaceAction } from './displace.action';
 import { SummonInteractableAction } from './summon-interactable.action';
 import { TeleportAction } from './teleport.action';
+import { RemoveEffectAction } from './remove-effect-action';
 
 type GenericActionMap = Record<string, Constructor<GameAction<JSONObject>>>;
 
@@ -43,7 +44,8 @@ export const actionMap = validateActionMap({
   REMOVE_INTERACTABLE: RemoveInteractableAction,
   DISPLACE: DisplaceAction,
   SUMMON_INTERACTABLE: SummonInteractableAction,
-  TELEPORT: TeleportAction
+  TELEPORT: TeleportAction,
+  REMOVE_EFFECT: RemoveEffectAction
 });
 
 export type ActionName = keyof typeof actionMap;

@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class RushEffect extends Modifier {
+export class RushModifier extends Modifier {
   readonly id = 'rush';
   duration = Infinity;
 

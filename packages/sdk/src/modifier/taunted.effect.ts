@@ -5,7 +5,7 @@ import { isWithinCells } from '../skill/skill-utils';
 import { Point3D } from '../types';
 import { Modifier } from './modifier';
 
-export class TauntedEffect extends Modifier {
+export class TauntedModifier extends Modifier {
   readonly id = 'taunted';
   duration: number;
 

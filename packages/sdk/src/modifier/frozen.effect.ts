@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class FrozenEffect extends Modifier {
+export class StunnedModifier extends Modifier {
   readonly id = 'frozen';
   duration: number;
 

@@ -1,7 +1,7 @@
 import { PartialBy } from '@hc/shared';
 import { Skill, SkillOptions } from './skill';
 import { Entity } from '../entity/entity';
-import { StatModifierEffect } from '../modifier/stat-modifier.effect';
+import { StatModifierModifier } from '../modifier/stat-modifier.effect';
 import { GameSession } from '../game-session';
 import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
@@ -12,7 +12,7 @@ export type StatModifierOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  StatModifierEffect['meta'] & { targetType: 'self' | 'ally' | 'enemy'; range: number };
+  StatModifierModifier['meta'] & { targetType: 'self' | 'ally' | 'enemy'; range: number };
 
 export class StatModifier extends Skill {
   public readonly value: StatModifierOptions['value'];

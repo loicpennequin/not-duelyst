@@ -5,17 +5,17 @@ import { GameSession } from '../game-session';
 import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
-import { TauntedEffect } from '../modifier/taunted.effect';
+import { TauntedModifier } from '../modifier/taunted.effect';
 import { isEnemy } from '../entity/entity-utils';
 
 export type TauntOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  TauntedEffect['meta'];
+  TauntedModifier['meta'];
 
 export class Taunt extends Skill {
-  public readonly meta: TauntedEffect['meta'];
+  public readonly meta: TauntedModifier['meta'];
   public readonly duration: number;
 
   constructor(options: TauntOptions) {

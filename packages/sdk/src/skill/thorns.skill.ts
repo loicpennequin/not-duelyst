@@ -6,16 +6,16 @@ import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isAlly } from '../entity/entity-utils';
-import { ThornsEffect } from '../modifier/thorns.effect';
+import { ThornsModifier } from '../modifier/thorns.effect';
 
 export type ThornsOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  ThornsEffect['meta'] & { range: number; targetType: 'self' | 'ally' };
+  ThornsModifier['meta'] & { range: number; targetType: 'self' | 'ally' };
 
 export class Thorns extends Skill {
-  public readonly meta: ThornsEffect['meta'];
+  public readonly meta: ThornsModifier['meta'];
   public readonly range: number;
   public readonly targetType: 'self' | 'ally';
 

@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class StatModifierEffect extends Modifier {
+export class StatModifierModifier extends Modifier {
   readonly id = 'statModifier';
   duration: number;
 

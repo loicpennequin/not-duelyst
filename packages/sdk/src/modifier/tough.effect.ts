@@ -3,7 +3,7 @@ import { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
 import { Modifier } from './modifier';
 
-export class ToughEffect extends Modifier {
+export class ToughModifier extends Modifier {
   readonly id = 'tough';
   duration: number;
 

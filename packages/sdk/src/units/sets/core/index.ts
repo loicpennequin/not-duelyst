@@ -1,7 +1,7 @@
-import { ImmolateEffect } from '../../../modifier/immolate.effect';
-import { PlunderOnKillEffect } from '../../../modifier/plunder-on-kill.effect';
-import { RushEffect } from '../../../modifier/rush.effect';
-import { ToughEffect } from '../../../modifier/tough.effect';
+import { ImmolateModifier } from '../../../modifier/immolate.effect';
+import { PlunderOnKillModifier } from '../../../modifier/plunder-on-kill.effect';
+import { RushModifier } from '../../../modifier/rush.effect';
+import { ToughModifier } from '../../../modifier/tough.effect';
 import { RARITY } from '../../../enums';
 import { FACTIONS } from '../../../faction/faction-lookup';
 import { MeleeAttack } from '../../../skill/melee-attack.skill';
@@ -106,7 +106,7 @@ export const coreSet: UnitBlueprint[] = [
         description: `Rush`,
         keywords: [KEYWORDS.RUSH],
         execute: (ctx, entity) => {
-          new RushEffect(ctx, entity, {}).attach(entity);
+          new RushModifier(ctx, entity, {}).attach(entity);
         }
       }
     ]
@@ -128,7 +128,7 @@ export const coreSet: UnitBlueprint[] = [
         description: `Slay: Plunder(1)`,
         keywords: [KEYWORDS.PLUNDER, KEYWORDS.SLAY],
         execute: (ctx, entity) => {
-          new PlunderOnKillEffect(ctx, entity, {
+          new PlunderOnKillModifier(ctx, entity, {
             duration: Infinity,
             amount: 2
           }).attach(entity);
@@ -169,7 +169,7 @@ export const coreSet: UnitBlueprint[] = [
         description: 'Burn(1) aura',
         keywords: [KEYWORDS.BURN, KEYWORDS.AURA],
         execute(ctx, entity) {
-          new ImmolateEffect(ctx, entity, { duration: Infinity, power: 1 }).attach(
+          new ImmolateModifier(ctx, entity, { duration: Infinity, power: 1 }).attach(
             entity
           );
         }
@@ -193,7 +193,7 @@ export const coreSet: UnitBlueprint[] = [
         description: 'Tough',
         keywords: [KEYWORDS.TOUGH],
         execute(ctx, entity) {
-          new ToughEffect(ctx, entity, {
+          new ToughModifier(ctx, entity, {
             duration: Infinity
           }).attach(entity);
         }

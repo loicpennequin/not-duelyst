@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class VulnerableEffect extends Modifier {
+export class VulnerableModifier extends Modifier {
   readonly id = 'vulnerable';
   duration: number;
 

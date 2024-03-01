@@ -4,7 +4,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class ThornsEffect extends Modifier {
+export class ThornsModifier extends Modifier {
   readonly id = 'thorns';
   duration: number;
 

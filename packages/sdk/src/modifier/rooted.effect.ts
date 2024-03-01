@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class RootedEffect extends Modifier {
+export class RootedModifier extends Modifier {
   readonly id = 'rooted';
   duration: number;
 

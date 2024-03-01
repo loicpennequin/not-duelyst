@@ -12,9 +12,9 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Point3D } from '../types';
 import { SummonInteractable } from '../skill/summon-interactable.skill';
-import { ImmolateEffect } from '../modifier/immolate.effect';
+import { ImmolateModifier } from '../modifier/immolate.effect';
 import { Teleport } from '../skill/teleport.skill';
-import { ExecuteEffect } from '../modifier/execute.effect';
+import { ExecuteModifier } from '../modifier/execute.effect';
 
 // export const CHAOS_UNITS: UnitBlueprint[] = [
 //   {

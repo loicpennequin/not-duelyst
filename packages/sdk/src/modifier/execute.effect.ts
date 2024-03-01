@@ -5,7 +5,7 @@ import { GameSession } from '../game-session';
 import { isWithinCells } from '../skill/skill-utils';
 import { Modifier } from './modifier';
 
-export class ExecuteEffect extends Modifier {
+export class ExecuteModifier extends Modifier {
   id = 'execute';
   duration: number;
 

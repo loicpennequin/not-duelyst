@@ -4,7 +4,7 @@ import { GameSession } from '../game-session';
 import { Player } from '../player/player';
 import { Modifier } from './modifier';
 
-export class DotEffect extends Modifier {
+export class BurnModifier extends Modifier {
   readonly id = 'dot';
   duration: number;
 

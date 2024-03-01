@@ -1,10 +1,9 @@
-import { Nullable } from '@hc/shared';
 import { ModifyGoldAction } from '../action/modify-gold.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class PlunderOnKillEffect extends Modifier {
+export class PlunderOnKillModifier extends Modifier {
   readonly id = 'plunderOnKill';
   duration: number;
 

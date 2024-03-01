@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class ExhaustedEffect extends Modifier {
+export class ExhaustedModifier extends Modifier {
   readonly id = 'exhausted';
   duration: number;
 

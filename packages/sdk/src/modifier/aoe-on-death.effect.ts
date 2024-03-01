@@ -3,7 +3,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export class AoeOnDeathEffect extends Modifier {
+export class AoeOnDeathModifier extends Modifier {
   readonly id = 'aoe-on-death';
   duration = Infinity;
 

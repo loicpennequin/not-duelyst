@@ -2,13 +2,12 @@ import { EFFECTS } from '../modifier/effect-lookup';
 import { EntityId } from '../entity/entity';
 import { GameAction } from './action';
 
-export class AddEffectAction<T extends keyof typeof EFFECTS> extends GameAction<{
+export class RemoveEffectAction<T extends keyof typeof EFFECTS> extends GameAction<{
   effectId: T;
   sourceId: EntityId;
   attachedTo: EntityId;
-  effectArg: InstanceType<(typeof EFFECTS)[T]>['meta'];
 }> {
-  readonly name = 'ADD_EFFECT';
+  readonly name = 'REMOVE_EFFECT';
 
   protected fxImpl() {
     return Promise.resolve();
@@ -27,13 +26,13 @@ export class AddEffectAction<T extends keyof typeof EFFECTS> extends GameAction<
   }
 
   get logMessage() {
-    return `${this.attachedTo.unitId} received ${this.payload.effectId} from ${this.source.unitId}.`;
+    return `${this.attachedTo.unitId} lostreceived ${this.payload.effectId} from ${this.source.unitId}.`;
   }
 
   protected impl() {
-    const effectClass = EFFECTS[this.payload.effectId];
-
-    const effect = new effectClass(this.ctx, this.source, this.payload.effectArg);
-    effect.attach(this.attachedTo);
+    const modifier = this.attachedTo.effects.find(
+      mod => mod.id === this.payload.effectId && mod.source.id === this.payload.sourceId
+    );
+    modifier?.detach();
   }
 }

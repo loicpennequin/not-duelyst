@@ -6,16 +6,16 @@ import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isEnemy } from '../entity/entity-utils';
-import { VulnerableEffect } from '../modifier/vulnerable.effect';
+import { VulnerableModifier } from '../modifier/vulnerable.effect';
 
 export type VulnerableOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  VulnerableEffect['meta'] & { range: number };
+  VulnerableModifier['meta'] & { range: number };
 
 export class Vulnerable extends Skill {
-  public readonly meta: VulnerableEffect['meta'];
+  public readonly meta: VulnerableModifier['meta'];
   public readonly duration: number;
   public readonly range: number;
 

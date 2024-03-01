@@ -18,7 +18,7 @@ import { GameSession } from '../game-session';
 import { Cell } from '../map/cell';
 import { Point3D } from '../types';
 import { HealAction } from '../action/heal.action';
-import { ToughEffect } from '../modifier/tough.effect';
+import { ToughModifier } from '../modifier/tough.effect';
 import { Vulnerable } from '../skill/vulnerable.skill';
 import { AddEffectAction } from '../action/add-effect.action';
 
