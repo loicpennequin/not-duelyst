@@ -5,7 +5,7 @@ import { Player } from '../player/player';
 import { Modifier } from './modifier';
 
 export class BurnModifier extends Modifier {
-  readonly id = 'dot';
+  readonly id = 'burn';
   duration: number;
 
   constructor(

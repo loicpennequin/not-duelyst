@@ -1,18 +1,18 @@
-import { DotEffect } from './dot.effect';
+import { BurnModifier } from './burn.modifier';
 import { Modifier } from './modifier';
 import { Constructor, objectKeys } from '@hc/shared';
-import { StatModifierModifier } from './stat-modifier.effect';
-import { ExhaustedModifier } from './exhausted.effect';
-import { TauntedModifier } from './taunted.effect';
-import { ThornsModifier } from './thorns.effect';
-import { RushModifier } from './rush.effect';
-import { RootedModifier } from './rooted.effect';
-import { ImmolateModifier } from './immolate.effect';
-import { ExecuteModifier } from './execute.effect';
-import { StunnedModifier } from './frozen.effect';
-import { ToughModifier } from './tough.effect';
-import { PlunderOnKillModifier } from './plunder-on-kill.effect';
-import { VulnerableModifier } from './vulnerable.effect';
+import { StatModifierModifier } from './stat-modifier.modifier';
+import { ExhaustedModifier } from './exhausted.modifier';
+import { TauntedModifier } from './taunted.modifier';
+import { ThornsModifier } from './thorns.modifier';
+import { RushModifier } from './rush.modifier';
+import { RootedModifier } from './rooted.modifier';
+import { ExecuteModifier } from './execute.modifier';
+import { StunnedModifier } from './frozen.modifier';
+import { ToughModifier } from './tough.modifier';
+import { PlunderOnKillModifier } from './plunder-on-kill.modifier';
+import { VulnerableModifier } from './vulnerable.modifier';
+import { AuraBurnModifier } from './aura-burn.modifier';
 
 type GenericEffectMap = Record<string, Constructor<Modifier>>;
 
@@ -28,14 +28,14 @@ const validateEffectMap = <T extends GenericEffectMap>(data: ValidatedEffectMap<
   data;
 
 export const EFFECTS = validateEffectMap({
-  dot: DotEffect,
+  burn: BurnModifier,
   statModifier: StatModifierModifier,
   exhausted: ExhaustedModifier,
   taunted: TauntedModifier,
   thorns: ThornsModifier,
   rush: RushModifier,
   rooted: RootedModifier,
-  immolate: ImmolateModifier,
+  auraBurn: AuraBurnModifier,
   execute: ExecuteModifier,
   frozen: StunnedModifier,
   tough: ToughModifier,

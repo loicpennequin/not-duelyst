@@ -6,7 +6,7 @@ import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isAlly } from '../entity/entity-utils';
-import { ThornsModifier } from '../modifier/thorns.effect';
+import { ThornsModifier } from '../modifier/thorns.modifier';
 
 export type ThornsOptions = PartialBy<
   SkillOptions,

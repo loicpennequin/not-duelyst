@@ -1,5 +1,5 @@
-import { EFFECTS, EFFECT_NAMES } from '../modifier/effect-lookup';
-import { Entity, SerializedEntity } from '../entity/entity';
+import { EFFECTS, EFFECT_NAMES } from '../modifier/modifier-lookup';
+import { SerializedEntity } from '../entity/entity';
 import { Point3D } from '../types';
 import { UNITS } from '../units/unit-lookup';
 import { GameAction } from './action';

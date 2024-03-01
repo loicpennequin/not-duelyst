@@ -6,7 +6,7 @@ import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isEnemy } from '../entity/entity-utils';
-import { VulnerableModifier } from '../modifier/vulnerable.effect';
+import { VulnerableModifier } from '../modifier/vulnerable.modifier';
 
 export type VulnerableOptions = PartialBy<
   SkillOptions,

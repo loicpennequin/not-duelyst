@@ -1,4 +1,4 @@
-import { EFFECTS } from '../modifier/effect-lookup';
+import { EFFECTS } from '../modifier/modifier-lookup';
 import { EntityId } from '../entity/entity';
 import { GameAction } from './action';
 
@@ -33,6 +33,7 @@ export class AddEffectAction<T extends keyof typeof EFFECTS> extends GameAction<
   protected impl() {
     const effectClass = EFFECTS[this.payload.effectId];
 
+    // @ts-expect-error
     const effect = new effectClass(this.ctx, this.source, this.payload.effectArg);
     effect.attach(this.attachedTo);
   }
