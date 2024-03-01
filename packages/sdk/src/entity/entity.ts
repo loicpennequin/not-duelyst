@@ -7,7 +7,7 @@ import { clamp, isNumber, Nullable, Values } from '@hc/shared';
 import { Skill, SkillId } from '../skill/skill';
 import { Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
-import { Modifier, EffectId } from '../effect/modifier';
+import { Modifier, EffectId } from '../modifier/modifier';
 import { inferInterceptor, Interceptable } from '../utils/interceptor';
 import { SummonInteractableAction } from '../action/summon-interactable.action';
 import { DieAction } from '../action/die.action';

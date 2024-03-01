@@ -5,7 +5,7 @@ import { UnitKind } from './constants';
 import { Point3D } from '../types';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Modifier } from '../effect/modifier';
+import { Modifier } from '../modifier/modifier';
 import { Rarity } from '../enums';
 import { coreSet } from './sets/core';
 import { Keyword } from '../utils/keywords';

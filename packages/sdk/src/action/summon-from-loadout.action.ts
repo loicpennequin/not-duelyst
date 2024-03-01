@@ -1,4 +1,4 @@
-import { EFFECTS, EFFECT_NAMES } from '../effect/effect-lookup';
+import { EFFECTS, EFFECT_NAMES } from '../modifier/effect-lookup';
 import { Entity, SerializedEntity } from '../entity/entity';
 import { Point3D } from '../types';
 import { UNITS } from '../units/unit-lookup';

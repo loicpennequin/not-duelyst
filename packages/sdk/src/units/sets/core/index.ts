@@ -1,7 +1,7 @@
-import { ImmolateEffect } from '../../../effect/immolate.effect';
-import { PlunderOnKillEffect } from '../../../effect/plunder-on-kill.effect';
-import { RushEffect } from '../../../effect/rush.effect';
-import { ToughEffect } from '../../../effect/tough.effect';
+import { ImmolateEffect } from '../../../modifier/immolate.effect';
+import { PlunderOnKillEffect } from '../../../modifier/plunder-on-kill.effect';
+import { RushEffect } from '../../../modifier/rush.effect';
+import { ToughEffect } from '../../../modifier/tough.effect';
 import { RARITY } from '../../../enums';
 import { FACTIONS } from '../../../faction/faction-lookup';
 import { MeleeAttack } from '../../../skill/melee-attack.skill';

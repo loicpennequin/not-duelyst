@@ -5,7 +5,7 @@ import { GameSession } from '../game-session';
 import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
-import { TauntedEffect } from '../effect/taunted.effect';
+import { TauntedEffect } from '../modifier/taunted.effect';
 import { isEnemy } from '../entity/entity-utils';
 
 export type TauntOptions = PartialBy<

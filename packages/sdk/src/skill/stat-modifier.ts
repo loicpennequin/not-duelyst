@@ -1,7 +1,7 @@
 import { PartialBy } from '@hc/shared';
 import { Skill, SkillOptions } from './skill';
 import { Entity } from '../entity/entity';
-import { StatModifierEffect } from '../effect/stat-modifier.effect';
+import { StatModifierEffect } from '../modifier/stat-modifier.effect';
 import { GameSession } from '../game-session';
 import { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';

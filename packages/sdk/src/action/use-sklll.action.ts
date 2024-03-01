@@ -1,4 +1,4 @@
-import { EFFECTS } from '../effect/effect-lookup';
+import { EFFECTS } from '../modifier/effect-lookup';
 import { EntityId } from '../entity/entity';
 import { SkillId } from '../skill/skill';
 import { Point3D } from '../types';
