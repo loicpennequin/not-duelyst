@@ -4,10 +4,15 @@ import { GameSession, type Player, type SerializedGameState } from '@hc/sdk';
 const { initialStateFactory } = defineProps<{
   initialStateFactory: () => Promise<SerializedGameState>;
 }>();
+
+const state = useSandboxState();
 const serverSession = GameSession.createServerSession(await initialStateFactory());
 const clientSession = GameSession.createClientSession(await initialStateFactory());
-serverSession.subscribe(action => {
-  clientSession.dispatchAction(action.serialize() as any); // @FIXME
+serverSession.onReady(() => {
+  serverSession.subscribe(action => {
+    clientSession.dispatchAction(action.serialize() as any); // @FIXME
+    state.value = serverSession.serialize();
+  });
 });
 
 const dispatch = (

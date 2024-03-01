@@ -23,7 +23,6 @@ export const useGameSocket = (
         if (!config.public.hathoraAppId) {
           return `ws://localhost:8000?spectator=${spectator}&gameId=${_gameId.value}`;
         }
-        console.log(roomId, _gameId.value, spectator);
 
         const response = await $hathora.roomV2.getConnectionInfo(roomId);
         if (response.connectionInfoV2?.status !== 'active') {
@@ -59,7 +58,7 @@ export const useGameSocket = (
       error.value =
         err instanceof Error
           ? err.message
-          : 'An error has occured while creatign the game room';
+          : 'An error has occured while creating the game room';
     }
   };
 

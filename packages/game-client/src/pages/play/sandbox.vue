@@ -32,8 +32,12 @@ const form = reactive<{
   player2Loadout: null
 });
 
-const isReady = ref(false);
+const state = useSandboxState();
+const isReady = ref(isDefined(state.value));
+
 const createGameState = (): Promise<SerializedGameState> => {
+  if (state.value) return Promise.resolve(state.value);
+
   return Promise.resolve({
     activePlayerId: 'Player1',
     history: [],
@@ -70,89 +74,107 @@ const createGameState = (): Promise<SerializedGameState> => {
     }
   });
 };
+
+onBeforeUnmount(() => {
+  localStorage.removeItem('sandbox-state');
+});
 </script>
 
 <template>
   <div class="overflow-hidden">
-    <section v-if="!isReady" class="container mt-10">
-      <header>
-        <BackButton class="inline-flex" :to="{ name: 'SelectGameMode' }" />
-        <h1 class="text-5">Create sandbox game</h1>
-      </header>
+    <ClientOnly>
+      <section v-if="!isReady" class="container mt-10">
+        <header>
+          <BackButton class="inline-flex" :to="{ name: 'SelectGameMode' }" />
+          <h1 class="text-5">Create sandbox game</h1>
+        </header>
 
-      <div v-if="isLoading">Loading...</div>
-      <form v-else @submit.prevent="isReady = true">
-        <fieldset class="fancy-surface">
-          <legend>Map</legend>
+        <div v-if="isLoading">Loading...</div>
+        <form v-else @submit.prevent="isReady = true">
+          <fieldset class="fancy-surface">
+            <legend>Map</legend>
 
-          <label
-            v-for="map in maps"
-            :key="map.id"
-            class="cursor-pointer"
-            :style="{ '--bg': `url('/assets/maps/${map.name}.png')` }"
+            <label
+              v-for="map in maps"
+              :key="map.id"
+              class="cursor-pointer"
+              :style="{ '--bg': `url('/assets/maps/${map.name}.png')` }"
+            >
+              <input
+                v-model="form.map"
+                type="radio"
+                :value="map"
+                class="sr-only"
+                name="map"
+              />
+              {{ map.name }}
+            </label>
+          </fieldset>
+          <div class="grid grid-cols-2 gap-2">
+            <fieldset class="fancy-surface player-loadout">
+              <legend>Player 1 loadout</legend>
+              <div>
+                <label
+                  v-for="loadout in loadouts"
+                  :key="loadout._id"
+                  class="cursor-pointer"
+                >
+                  <LoadoutCard :loadout="loadout" />
+                  <input
+                    v-model="form.player1Loadout"
+                    name="playr-1-loadout"
+                    type="radio"
+                    :value="loadout"
+                    class="sr-only"
+                  />
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="fancy-surface player-loadout">
+              <legend>Player 2 loadout</legend>
+              <div>
+                <label v-for="loadout in loadouts" :key="loadout._id">
+                  <LoadoutCard :loadout="loadout" />
+                  <input
+                    v-model="form.player2Loadout"
+                    name="playr-2-loadout"
+                    type="radio"
+                    :value="loadout"
+                    class="sr-only"
+                  />
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <Transition>
+            <UiFancyButton
+              v-if="form.map && form.player1Loadout && form.player2Loadout"
+              class="primary-button start-button"
+            >
+              Start
+            </UiFancyButton>
+          </Transition>
+        </form>
+      </section>
+
+      <template v-else>
+        <SandboxGame :initial-state-factory="createGameState" />
+        <div class="flex absolute bottom-4 right-11">
+          <UiButton
+            @click="
+              () => {
+                state = null;
+                isReady = false;
+              }
+            "
           >
-            <input
-              v-model="form.map"
-              type="radio"
-              :value="map"
-              class="sr-only"
-              name="map"
-            />
-            {{ map.name }}
-          </label>
-        </fieldset>
-        <div class="grid grid-cols-2 gap-2">
-          <fieldset class="fancy-surface player-loadout">
-            <legend>Player 1 loadout</legend>
-            <div>
-              <label
-                v-for="loadout in loadouts"
-                :key="loadout._id"
-                class="cursor-pointer"
-              >
-                <LoadoutCard :loadout="loadout" />
-                <input
-                  v-model="form.player1Loadout"
-                  name="playr-1-loadout"
-                  type="radio"
-                  :value="loadout"
-                  class="sr-only"
-                />
-              </label>
-            </div>
-          </fieldset>
-          <fieldset class="fancy-surface player-loadout">
-            <legend>Player 2 loadout</legend>
-            <div>
-              <label v-for="loadout in loadouts" :key="loadout._id">
-                <LoadoutCard :loadout="loadout" />
-                <input
-                  v-model="form.player2Loadout"
-                  name="playr-2-loadout"
-                  type="radio"
-                  :value="loadout"
-                  class="sr-only"
-                />
-              </label>
-            </div>
-          </fieldset>
+            Reset sandbox
+          </UiButton>
         </div>
-
-        <Transition>
-          <UiFancyButton
-            v-if="form.map && form.player1Loadout && form.player2Loadout"
-            class="primary-button start-button"
-          >
-            Start
-          </UiFancyButton>
-        </Transition>
-      </form>
-    </section>
-
-    <ClientOnly v-else>
-      <SandboxGame :initial-state-factory="createGameState" />
+      </template>
       <template #fallback>
-        <div />
+        <div>Loading sandbox environment...</div>
       </template>
     </ClientOnly>
   </div>

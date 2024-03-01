@@ -56,11 +56,11 @@ export class ActionDeserializer {
   constructor(private ctx: GameSession) {}
 
   deserialize({ type, payload }: SerializedAction) {
-    if (this.ctx.isAuthoritative) {
-      throw new Error(
-        'authoritative game session cannot receive actions. Use dispatchPlayerInput instead'
-      );
-    }
+    // if (this.ctx.isAuthoritative) {
+    //   throw new Error(
+    //     'authoritative game session cannot receive actions. Use dispatchPlayerInput instead'
+    //   );
+    // }
 
     const event = actionMap[type];
 

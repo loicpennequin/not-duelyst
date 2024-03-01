@@ -320,8 +320,8 @@ const keywords = computed(() => {
 
   .skill-img {
     aspect-ratio: 1;
-    width: 48px;
-    background: url('/assets/ui/skill-border.png'), var(--bg);
+    width: 38px;
+    background: var(--bg);
     background-size: contain;
     &.selected {
       filter: contrast(130%) brightness(110%);

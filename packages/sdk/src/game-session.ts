@@ -42,7 +42,7 @@ type GlobalGameEvents = GlobalEntityEvents & {
   'game:action': GameAction<any>;
   'game:turn-end': Player;
   'game:turn-start': Player;
-  'game:client-ready': void;
+  'game:ready': void;
 };
 
 export class GameSession {
@@ -119,7 +119,7 @@ export class GameSession {
 
   turn: number;
 
-  clientReady = false;
+  isReady = false;
 
   private constructor(
     private initialState: SerializedGameState,
@@ -144,10 +144,8 @@ export class GameSession {
       });
     }
     await this.history.setup(this.initialState.history);
-    if (!this.isAuthoritative) {
-      this.clientReady = true;
-      this.emitter.emit('game:client-ready');
-    }
+    this.isReady = true;
+    this.emitter.emit('game:ready');
   }
 
   getState(): Readonly<GameState> {
@@ -176,9 +174,8 @@ export class GameSession {
   }
 
   onReady(cb: () => void) {
-    if (this.isAuthoritative) return;
-    if (this.clientReady) return cb();
-    this.emitter.on('game:client-ready', cb);
+    if (this.isReady) return cb();
+    this.emitter.on('game:ready', cb);
   }
 
   subscribe(cb: (e: GameAction<any>) => void) {

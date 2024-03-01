@@ -263,9 +263,7 @@ const onValidateTargets = () => {
 }
 
 .skill {
-  width: 64px;
-  border: var(--fancy-border);
-  border-radius: 4px;
+  width: 76px;
   box-shadow: inset 0 0 0 1px black;
 
   &::after {

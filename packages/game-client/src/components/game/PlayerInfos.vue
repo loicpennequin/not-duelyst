@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Entity } from '@hc/sdk';
-
 const { state } = useGame();
 
 const players = computed(() => state.value.players);
@@ -27,10 +25,18 @@ const players = computed(() => state.value.players);
 
       <div class="indicators">
         <div class="hp">
-          {{ players[0].general?.hp.toFixed() }}
+          <Transition mode="out-in">
+            <span :key="players[0].general?.hp.toFixed()">
+              {{ players[0].general?.hp.toFixed() }}
+            </span>
+          </Transition>
         </div>
         <div class="gold">
-          {{ players[0].gold }}
+          <Transition mode="out-in">
+            <span :key="players[0].gold">
+              {{ players[0].gold }}
+            </span>
+          </Transition>
         </div>
       </div>
     </div>
@@ -56,10 +62,18 @@ const players = computed(() => state.value.players);
 
       <div class="indicators">
         <div class="hp">
-          {{ players[1].general?.hp.toFixed() }}
+          <Transition mode="out-in">
+            <span :key="players[1].general?.hp.toFixed()">
+              {{ players[1].general?.hp.toFixed() }}
+            </span>
+          </Transition>
         </div>
         <div class="gold">
-          {{ players[1].gold }}
+          <Transition mode="out-in">
+            <span :key="players[1].gold">
+              {{ players[1].gold }}
+            </span>
+          </Transition>
         </div>
       </div>
     </div>
@@ -68,9 +82,14 @@ const players = computed(() => state.value.players);
 
 <style scoped lang="postcss">
 .player {
+  isolation: isolate;
+  position: relative;
+
   display: flex;
   gap: var(--size-3);
+
   padding: var(--size-3);
+
   text-shadow: black 1px 0 5px;
 
   [class^='i-'] {
@@ -104,6 +123,9 @@ const players = computed(() => state.value.players);
   }
 
   > img {
+    position: relative;
+    z-index: -1;
+
     aspect-ratio: 1;
     width: 132px;
     margin-inline: auto;
@@ -113,10 +135,6 @@ const players = computed(() => state.value.players);
     border-radius: var(--radius-round);
 
     image-rendering: pixelated;
-
-    @screen lt-lg {
-      width: var(--size-7);
-    }
   }
 
   &.active {
@@ -181,10 +199,40 @@ const players = computed(() => state.value.players);
 }
 .hp {
   background-image: url('/assets/ui/hero-portrait-hp.png');
+  :is(.v-enter-active, .v-leave-active) {
+    transition:
+      opacity 0.4s,
+      transform 0.4s,
+      color 0.2s;
+  }
+  :is(.v-enter-from, .v-leave-to) {
+    opacity: 0;
+  }
+  :is(.v-leave-to) {
+    transform: scale(2) translateY(var(--size-2));
+    color: red;
+  }
+  :is(.v-enter-from) {
+    transform: translateY(calc(-1 * var(--size-2)));
+  }
 }
 
 .gold {
   background-image: url('/assets/ui/hero-portrait-gold.png');
+  :is(.v-enter-active, .v-leave-active) {
+    transition:
+      opacity 0.4s,
+      transform 0.4s;
+  }
+  :is(.v-enter-from, .v-leave-to) {
+    opacity: 0;
+  }
+  :is(.v-leave-to) {
+    transform: scale(2) translateY(var(--size-2));
+  }
+  :is(.v-enter-from) {
+    transform: translateY(calc(-1 * var(--size-2)));
+  }
 }
 
 :is(.gold, .hp) {
