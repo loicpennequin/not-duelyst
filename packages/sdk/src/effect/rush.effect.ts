@@ -1,8 +1,8 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class RushEffect extends Effect {
+export class RushEffect extends Modifier {
   readonly id = 'rush';
   duration = Infinity;
 

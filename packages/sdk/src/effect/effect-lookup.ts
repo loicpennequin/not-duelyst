@@ -1,5 +1,5 @@
 import { DotEffect } from './dot.effect';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 import { Constructor, objectKeys } from '@hc/shared';
 import { StatModifierEffect } from './stat-modifier.effect';
 import { ExhaustedEffect } from './exhausted.effect';
@@ -14,10 +14,10 @@ import { ToughEffect } from './tough.effect';
 import { PlunderOnKillEffect } from './plunder-on-kill.effect';
 import { VulnerableEffect } from './vulnerable.effect';
 
-type GenericEffectMap = Record<string, Constructor<Effect>>;
+type GenericEffectMap = Record<string, Constructor<Modifier>>;
 
 type ValidatedEffectMap<T extends GenericEffectMap> = {
-  [Name in keyof T]: T[Name] extends Constructor<Effect>
+  [Name in keyof T]: T[Name] extends Constructor<Modifier>
     ? Name extends InstanceType<T[Name]>['id']
       ? T[Name]
       : never

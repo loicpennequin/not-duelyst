@@ -3,9 +3,9 @@ import { GameSession } from '../game-session';
 import { Skill } from '../skill/skill';
 import { isWithinCells } from '../skill/skill-utils';
 import { Point3D } from '../types';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class TauntedEffect extends Effect {
+export class TauntedEffect extends Modifier {
   readonly id = 'taunted';
   duration: number;
 

@@ -1,10 +1,10 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { isWithinCells } from '../skill/skill-utils';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
 export type AuraMeta = { duration: number; range: number };
-export abstract class AuraEffect extends Effect {
+export abstract class AuraEffect extends Modifier {
   abstract readonly id: string;
   duration: number;
 

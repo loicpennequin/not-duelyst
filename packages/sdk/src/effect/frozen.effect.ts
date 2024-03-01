@@ -1,8 +1,8 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class FrozenEffect extends Effect {
+export class FrozenEffect extends Modifier {
   readonly id = 'frozen';
   duration: number;
 

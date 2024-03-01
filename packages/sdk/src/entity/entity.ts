@@ -7,7 +7,7 @@ import { clamp, isNumber, Nullable, Values } from '@hc/shared';
 import { Skill, SkillId } from '../skill/skill';
 import { Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
-import { Effect, EffectId } from '../effect/effect';
+import { Modifier, EffectId } from '../effect/modifier';
 import { inferInterceptor, Interceptable } from '../utils/interceptor';
 import { SummonInteractableAction } from '../action/summon-interactable.action';
 import { DieAction } from '../action/die.action';
@@ -108,7 +108,7 @@ export class Entity implements Serializable {
 
   skillCooldowns: Record<SkillId, number> = {};
 
-  effects: Effect[] = [];
+  effects: Modifier[] = [];
 
   constructor(
     private ctx: GameSession,

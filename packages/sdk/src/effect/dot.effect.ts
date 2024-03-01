@@ -2,9 +2,9 @@ import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Player } from '../player/player';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class DotEffect extends Effect {
+export class DotEffect extends Modifier {
   readonly id = 'dot';
   duration: number;
 

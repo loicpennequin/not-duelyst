@@ -3,9 +3,9 @@ import { Entity } from '../entity/entity';
 import { isAlly, isGeneral } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
 import { isWithinCells } from '../skill/skill-utils';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class ExecuteEffect extends Effect {
+export class ExecuteEffect extends Modifier {
   id = 'execute';
   duration: number;
 

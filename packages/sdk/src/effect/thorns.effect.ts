@@ -2,9 +2,9 @@ import { Nullable } from '@hc/shared';
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class ThornsEffect extends Effect {
+export class ThornsEffect extends Modifier {
   readonly id = 'thorns';
   duration: number;
 

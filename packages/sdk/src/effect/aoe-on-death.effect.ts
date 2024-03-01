@@ -1,9 +1,9 @@
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class AoeOnDeathEffect extends Effect {
+export class AoeOnDeathEffect extends Modifier {
   readonly id = 'aoe-on-death';
   duration = Infinity;
 

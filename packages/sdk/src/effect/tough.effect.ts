@@ -1,9 +1,9 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
-import { Effect } from './effect';
+import { Modifier } from './modifier';
 
-export class ToughEffect extends Effect {
+export class ToughEffect extends Modifier {
   readonly id = 'tough';
   duration: number;
 

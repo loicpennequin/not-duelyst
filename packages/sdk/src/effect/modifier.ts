@@ -6,7 +6,7 @@ import { Keyword } from '../utils/keywords';
 
 export type EffectId = string;
 
-export abstract class Effect {
+export abstract class Modifier {
   abstract readonly id: EffectId;
   abstract duration: number;
   attachedTo?: Entity;
