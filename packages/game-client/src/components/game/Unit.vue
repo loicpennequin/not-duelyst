@@ -167,7 +167,7 @@ const nameRef = (_container: any) => {
 
 const nameStyle = new TextStyle({
   fill: 'white',
-  fontSize: 36,
+  fontSize: 26,
   fontFamily: 'monospace',
   dropShadow: true,
   dropShadowColor: 'black',
@@ -186,6 +186,13 @@ const isNameDisplayed = computed(() => {
       return isHovered.value;
   }
 });
+
+const namePositionY = computed(() => {
+  console.log(entity.unit.id, hitArea.value);
+  return Math.min(
+    ...hitArea.value.points.map((point, index) => (index % 2 === 0 ? Infinity : point))
+  );
+});
 </script>
 
 <template>
@@ -203,8 +210,9 @@ const isNameDisplayed = computed(() => {
       :ref="nameRef"
       :style="nameStyle"
       :anchor="0.5"
-      :y="CELL_SIZE / 2 - 10"
+      :y="namePositionY - 25"
       :scale="0.25"
+      event-mode="none"
     >
       {{ entity.unit.id.toLocaleUpperCase() }}
     </pixi-text>

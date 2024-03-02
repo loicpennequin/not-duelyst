@@ -43,7 +43,7 @@ export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
         return this.removeAura(entity);
       }
 
-      if (!this.hasAura(entity)) {
+      if (isInRange && !this.hasAura(entity)) {
         this.applyAura(entity);
       }
     });
