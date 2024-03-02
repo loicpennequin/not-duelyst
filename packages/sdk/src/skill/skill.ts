@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Cell } from '../map/cell';
 import type { Point3D } from '../types';
-import type { Keyword } from '../utils/keywords';
+import { KEYWORDS, type Keyword } from '../utils/keywords';
 
 export type SkillId = string;
 
@@ -57,8 +57,8 @@ export abstract class Skill {
 
   getText(caster: SkillDescriptionContext) {
     return `${this.getDescription(caster)}${
-      this.shouldExhaustCaster ? '' : '\nDoes not exhaust.'
-    }${this.shouldPreventMovement ? '' : '\nDoes not prevent movement.'}`;
+      this.shouldExhaustCaster ? '' : `\n${KEYWORDS.SECOND_WIND.name}.`
+    }${this.shouldPreventMovement ? '' : `\n${KEYWORDS.SWIFT.name}.`}`;
   }
 
   abstract isTargetable(

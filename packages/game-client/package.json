@@ -5,7 +5,7 @@
   "scripts": {
     "build:assets": "assetpack -c .assetpack.js",
     "typecheck": "npx nuxi typecheck",
-    "prebuild": "npm-run-all build:asets typecheck",
+    "prebuild": "npm-run-all build:assets typecheck",
     "build": "nuxt build",
     "dev:server": "nuxt dev  --port=3000",
     "dev:assets": "assetpack -c .assetpack.js -w",

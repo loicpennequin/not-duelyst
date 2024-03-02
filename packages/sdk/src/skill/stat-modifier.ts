@@ -1,9 +1,9 @@
-import { PartialBy } from '@hc/shared';
-import { Skill, SkillOptions } from './skill';
+import type { PartialBy } from '@hc/shared';
+import { Skill, type SkillOptions } from './skill';
 import { Entity } from '../entity/entity';
 import { StatModifierModifier } from '../modifier/stat-modifier.modifier';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
+import type { Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isAlly, isEnemy } from '../entity/entity-utils';

@@ -17,7 +17,7 @@ export const KEYWORDS = {
     description: "This skill doesn't prevent movement"
   },
   SECOND_WIND: {
-    name: 'Swift',
+    name: 'Second wind',
     description: "This skill doesn't exhaust its caster."
   },
   BURN: {

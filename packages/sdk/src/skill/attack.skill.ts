@@ -13,7 +13,6 @@ export type AttackOptions = PartialBy<SkillOptions, 'shouldExhaustCaster' | 'id'
 
 export abstract class Attack extends Skill {
   public readonly power: number;
-  public readonly attackRatio: number;
 
   constructor(options: AttackOptions) {
     super({
@@ -24,11 +23,10 @@ export abstract class Attack extends Skill {
       ...options
     });
     this.power = options.power;
-    this.attackRatio = options.attackRatio ?? 1;
   }
 
   getDamageAmount(attack: number) {
-    return this.power + Math.ceil(attack * this.attackRatio);
+    return attack + this.power;
   }
 
   getDescription(caster: SkillDescriptionContext) {
