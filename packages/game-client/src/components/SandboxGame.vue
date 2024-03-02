@@ -15,6 +15,10 @@ serverSession.onReady(() => {
   });
 });
 
+const ready = ref(false);
+clientSession.onReady(() => {
+  ready.value = true;
+});
 const dispatch = (
   type: Parameters<(typeof serverSession)['dispatchPlayerInput']>[0]['type'],
   payload: any
@@ -35,6 +39,7 @@ const onEnd = ({ winner }: { winner: Player }) => {
 
 <template>
   <GameView
+    v-if="ready"
     :player-id="null"
     :game-session="clientSession"
     @move="dispatch('MOVE', $event)"
