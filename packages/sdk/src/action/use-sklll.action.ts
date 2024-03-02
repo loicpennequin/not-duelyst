@@ -46,7 +46,7 @@ export class UseSkillAction extends GameAction<{
       scale: 0.5,
       offset: {
         x: 0,
-        y: 5
+        y: 6
       },
       onEnter: {
         animation: ['fade-in', 'slide-in-bottom'] as const,

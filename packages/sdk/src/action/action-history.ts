@@ -18,11 +18,12 @@ export class ActionHistory implements Serializable {
 
       if (!rawHistory.length) return done();
 
-      rawHistory.forEach(action => this.ctx.actionQueue.push(action));
+      this.ctx.actionQueue.setup(rawHistory);
     });
   }
 
   add(action: GameAction<any>) {
+    if (this.ctx.isAuthoritative && !this.ctx.isReady) return;
     this.history.push(action);
   }
 

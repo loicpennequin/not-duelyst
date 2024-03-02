@@ -24,7 +24,7 @@ export class ActionQueue {
     this.emitter.emit('processed', null);
   }
 
-  push(action: GameAction<any> | SerializedAction) {
+  private commit(action: GameAction<any> | SerializedAction) {
     this.queue.push(
       action instanceof GameAction ? action : this.deserializer.deserialize(action)
     );
@@ -32,5 +32,14 @@ export class ActionQueue {
     if (!this.isRunning) {
       this.process();
     }
+  }
+
+  push(action: GameAction<any> | SerializedAction) {
+    if (!this.ctx.isReady) return;
+    this.commit(action);
+  }
+
+  async setup(rawHistory: SerializedAction[]) {
+    rawHistory.forEach(action => this.commit(action));
   }
 }

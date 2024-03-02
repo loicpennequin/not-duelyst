@@ -6,6 +6,7 @@ import { Entity } from '../entity/entity';
 import type { SerializedPlayer } from './player-manager';
 import { config } from '../config';
 import { DealDamageAction } from '../action/deal-damage.action';
+import { cloneDeep } from 'lodash-es';
 
 export type PlayerId = string;
 
@@ -26,7 +27,7 @@ export class Player implements Serializable {
   ) {
     this.id = options.id;
     this.name = options.name;
-    this.loadout = options.loadout;
+    this.loadout = cloneDeep(options.loadout);
     this.generalId = options.generalId;
     this.gold = options.gold;
   }

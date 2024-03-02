@@ -1,6 +1,6 @@
-import { GameSession, Player, SerializedGameState } from '@hc/sdk';
-import { GameServer, GameSocket } from './types';
-import { Defined } from '@hc/shared';
+import { GameSession, type Player, type SerializedGameState } from '@hc/sdk';
+import type { GameServer, GameSocket } from './types';
+import type { Defined } from '@hc/shared';
 import { type FunctionReturnType } from 'convex/server';
 import { api } from '@hc/api';
 import { parse, stringify } from 'zipson';
@@ -92,7 +92,7 @@ export class Game {
           name: players[0].name,
           loadout: {
             units: Object.fromEntries(
-              players[0].loadout!.units.map(unit => [unit, { cooldown: 0 }])
+              players[0].loadout!.unitIds.map(unit => [unit, { cooldown: 0 }])
             )
           },
           generalId: players[0].loadout!.generalId
@@ -103,7 +103,7 @@ export class Game {
           name: players[1].name,
           loadout: {
             units: Object.fromEntries(
-              players[1].loadout!.units.map(unit => [unit, { cooldown: 0 }])
+              players[1].loadout!.unitIds.map(unit => [unit, { cooldown: 0 }])
             )
           },
           generalId: players[1].loadout!.generalId

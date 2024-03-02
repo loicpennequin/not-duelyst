@@ -53,6 +53,10 @@ export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
     this.ctx.entityManager.getList().forEach(entity => {
       this.removeAura(entity);
     });
+
+    this.ctx.emitter.off('entity:move', this.checkAura);
+    this.ctx.emitter.off('entity:destroyed', this.checkAura);
+    this.ctx.emitter.off('entity:created', this.checkAura);
   }
 
   onApplied() {
@@ -63,8 +67,10 @@ export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
   }
 
   onExpired() {
-    this.ctx.emitter.off('entity:move', this.checkAura);
-    this.ctx.emitter.off('entity:destroyed', this.checkAura);
-    this.ctx.emitter.off('entity:created', this.checkAura);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }
