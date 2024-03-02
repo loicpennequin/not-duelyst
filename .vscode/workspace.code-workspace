@@ -1,6 +1,6 @@
 {
   "folders": [],
   "settings": {
-    "unocss.root": ["packages/ui", "packages/game-client"]
+    "unocss.root": ["packages/game-client"]
   }
 }

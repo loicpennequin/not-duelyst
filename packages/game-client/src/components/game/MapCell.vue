@@ -12,7 +12,6 @@ const { assets, state, sendInput, gameSession, mapRotation, utils, fx } = useGam
 const {
   hoveredCell,
   targetMode,
-  selectedSummon,
   selectedEntity,
   summonSpawnPoint,
   summonTargets,

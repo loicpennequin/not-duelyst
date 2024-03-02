@@ -4,6 +4,7 @@ import type { Container } from 'pixi.js';
 
 const { entity, isHovered } = defineProps<{ entity: Entity; isHovered: boolean }>();
 
+const settings = useUserSettings();
 const { assets } = useGame();
 const spritesheet = assets.getSpritesheet('unit-stats');
 
@@ -26,14 +27,28 @@ const containerRef = (_container: any) => {
 
 const { layers } = useGameUi();
 watchEffect(() => {
-  if (root.value) {
+  if (!root.value) return;
+  if (settings.value.ui.displayUnitsStats === 'always') {
+    root.value.parentLayer = layers.ui.value;
+  } else {
     root.value.parentLayer = isHovered ? layers.ui.value : undefined;
   }
+});
+
+const isDisplayed = computed(() => {
+  if (settings.value.ui.displayUnitsStats === 'hover-only') return isHovered;
+
+  return true;
 });
 </script>
 
 <template>
-  <container :ref="containerRef" :z-index="isHovered ? 99 : 2" event-mode="none">
+  <container
+    v-if="isDisplayed"
+    :ref="containerRef"
+    :z-index="isHovered ? 99 : 2"
+    event-mode="none"
+  >
     <animated-sprite :textures="textures" :anchor="0.5" :y="CELL_SIZE * 1.125">
       <text
         :anchor="0.5"
