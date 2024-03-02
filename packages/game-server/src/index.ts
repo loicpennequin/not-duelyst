@@ -6,9 +6,9 @@ import { ConvexHttpClient } from 'convex/browser';
 import { handlePlayerSocket } from './player';
 import { handleSpectatorSocket } from './spectator';
 // eslint-disable-next-line import/no-unresolved
-import { Id } from '@hc/api/convex/_generated/dataModel';
+import type { Id } from '@hc/api/convex/_generated/dataModel';
 import { Game } from './game';
-import { GameServer } from './types';
+import type { GameServer } from './types';
 
 const PORT = process.env.PORT || 8000;
 

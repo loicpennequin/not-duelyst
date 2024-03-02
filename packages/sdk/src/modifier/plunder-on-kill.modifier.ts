@@ -45,12 +45,20 @@ export class PlunderOnKillModifier extends Modifier {
     );
   }
 
+  cleanup() {
+    this.ctx.emitter.off('entity:die', this.listener);
+  }
+
   onApplied() {
     this.ctx.emitter.on('entity:die', this.listener);
     this.attachedTo?.on('die', this.onExpired.bind(this));
   }
 
   onExpired() {
-    this.ctx.emitter.off('entity:die', this.listener);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

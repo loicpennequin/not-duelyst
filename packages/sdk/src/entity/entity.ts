@@ -7,7 +7,7 @@ import { clamp, isNumber, type Nullable, type Values } from '@hc/shared';
 import { Skill, type SkillId } from '../skill/skill';
 import { type Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
-import { Modifier, type EffectId } from '../modifier/modifier';
+import { Modifier, type ModifierId } from '../modifier/modifier';
 import { type inferInterceptor, Interceptable } from '../utils/interceptor';
 import { SummonInteractableAction } from '../action/summon-interactable.action';
 import { DieAction } from '../action/die.action';
@@ -202,7 +202,7 @@ export class Entity implements Serializable {
     this.interceptors[key].remove(interceptor);
   }
 
-  hasModifier(modifierId: EffectId) {
+  hasModifier(modifierId: ModifierId) {
     return this.modifiers.some(e => e.id === modifierId);
   }
 

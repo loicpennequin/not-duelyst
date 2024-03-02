@@ -20,7 +20,7 @@ export class ThornsModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyThorns = this.applyThorns.bind(this);
+    this.listener = this.listener.bind(this);
   }
 
   get attackRatio() {
@@ -39,7 +39,7 @@ export class ThornsModifier extends Modifier {
     return [];
   }
 
-  private applyThorns({ source }: { source: Nullable<Entity> }) {
+  private listener({ source }: { source: Nullable<Entity> }) {
     if (!source) return;
     this.ctx.actionQueue.push(
       new DealDamageAction(
@@ -53,11 +53,19 @@ export class ThornsModifier extends Modifier {
     );
   }
 
+  cleanup() {
+    this.attachedTo?.off('receive-damage', this.listener);
+  }
+
   onApplied() {
-    this.attachedTo?.on('receive-damage', this.applyThorns);
+    this.attachedTo?.on('receive-damage', this.listener);
   }
 
   onExpired() {
-    this.attachedTo?.off('receive-damage', this.applyThorns);
+    this.attachedTo?.off('receive-damage', this.listener);
+  }
+
+  onDetached() {
+    this.attachedTo?.off('receive-damage', this.listener);
   }
 }

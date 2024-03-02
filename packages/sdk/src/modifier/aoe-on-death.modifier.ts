@@ -14,7 +14,7 @@ export class AoeOnDeathModifier extends Modifier {
   ) {
     super(ctx, source, meta);
 
-    this.onDeath = this.onDeath.bind(this);
+    this.listener = this.listener.bind(this);
   }
 
   get attackRatio() {
@@ -33,7 +33,7 @@ export class AoeOnDeathModifier extends Modifier {
     return [];
   }
 
-  onDeath() {
+  listener() {
     const enemies = this.ctx.entityManager.getNearbyEnemies(
       this.attachedTo!.position,
       this.attachedTo!.playerId
@@ -51,11 +51,15 @@ export class AoeOnDeathModifier extends Modifier {
     );
   }
 
+  cleanup() {
+    this.attachedTo?.off('die', this.listener.bind(this));
+  }
+
   onApplied() {
-    this.attachedTo?.on('die', this.onDeath.bind(this));
+    this.attachedTo?.on('die', this.listener.bind(this));
   }
 
   onExpired() {
-    this.attachedTo?.off('die', this.onDeath.bind(this));
+    this.cleanup();
   }
 }

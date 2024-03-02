@@ -1,5 +1,5 @@
 import { api } from '@hc/api';
-import { GameServer, GameSocket } from './types';
+import type { GameServer, GameSocket } from './types';
 import { Game } from './game';
 
 export const handlePlayerSocket = async (

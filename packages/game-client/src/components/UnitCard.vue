@@ -132,7 +132,7 @@ const keywords = computed(() => {
       </ul>
     </Teleport>
   </article>
-  <ul class="mt-4 pointer-none">
+  <ul class="modifiers">
     <li
       v-for="effect in entity.modifiers"
       :key="effect.id"
@@ -449,5 +449,11 @@ const keywords = computed(() => {
   &:is(.v-enter-from, .v-leave-to) {
     opacity: 0;
   }
+}
+
+.modifiers {
+  pointer-events: none;
+  width: calc(2 * 134px);
+  margin-top: var(--size-4);
 }
 </style>

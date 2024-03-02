@@ -19,7 +19,7 @@ export class BurnModifier extends Modifier {
   ) {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
-    this.applyDot = this.applyDot.bind(this);
+    this.listener = this.listener.bind(this);
   }
 
   get attackRatio() {
@@ -34,29 +34,37 @@ export class BurnModifier extends Modifier {
     return [];
   }
 
-  applyDot(player: Player) {
+  listener(player: Player) {
     if (!this.attachedTo) return;
 
-    if (player.equals(this.attachedTo.player)) {
-      this.ctx.actionQueue.push(
-        new DealDamageAction(
-          {
-            amount: this.meta.power,
-            sourceId: this.source.id,
-            targets: [this.attachedTo.id]
-          },
-          this.ctx
-        )
-      );
-    }
+    if (!player.equals(this.attachedTo.player)) return;
+
+    this.ctx.actionQueue.push(
+      new DealDamageAction(
+        {
+          amount: this.meta.power,
+          sourceId: this.source.id,
+          targets: [this.attachedTo.id]
+        },
+        this.ctx
+      )
+    );
+  }
+
+  cleanup() {
+    this.ctx.emitter.off('game:turn-start', this.listener);
   }
 
   onApplied() {
-    this.ctx.emitter.on('game:turn-start', this.applyDot);
+    this.ctx.emitter.on('game:turn-start', this.listener);
     this.attachedTo?.on('die', this.onExpired.bind(this));
   }
 
   onExpired() {
-    this.ctx.emitter.off('game:turn-start', this.applyDot);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

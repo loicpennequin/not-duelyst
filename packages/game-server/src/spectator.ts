@@ -1,7 +1,7 @@
 import { api } from '@hc/api';
 // eslint-disable-next-line import/no-unresolved
-import { Id } from '@hc/api/convex/_generated/dataModel';
-import { GameServer, GameSocket } from './types';
+import type { Id } from '@hc/api/convex/_generated/dataModel';
+import type { GameServer, GameSocket } from './types';
 import { Game } from './game';
 
 export const handleSpectatorSocket = async (

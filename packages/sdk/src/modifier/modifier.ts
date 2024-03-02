@@ -4,10 +4,10 @@ import { GameSession } from '../game-session';
 import { Player } from '../player/player';
 import type { Keyword } from '../utils/keywords';
 
-export type EffectId = string;
+export type ModifierId = string;
 
 export abstract class Modifier {
-  abstract readonly id: EffectId;
+  abstract readonly id: ModifierId;
   abstract duration: number;
   attachedTo?: Entity;
 
@@ -39,6 +39,7 @@ export abstract class Modifier {
   detach() {
     if (!this.attachedTo) return;
 
+    this.onDetached();
     const idx = this.attachedTo.modifiers.indexOf(this);
     this.attachedTo.modifiers.splice(idx);
 
@@ -62,6 +63,10 @@ export abstract class Modifier {
   }
 
   onExpired() {
+    return;
+  }
+
+  onDetached() {
     return;
   }
 }

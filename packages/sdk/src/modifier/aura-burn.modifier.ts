@@ -2,7 +2,7 @@ import { AddEffectAction } from '../action/add-effect.action';
 import { RemoveEffectAction } from '../action/remove-effect-action';
 import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
-import { GameSession } from '../game-session';
+import type { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
 import { type AuraMeta, AuraModifier } from './aura.modifier';
 
@@ -30,6 +30,10 @@ export class AuraBurnModifier extends AuraModifier<AuraBurnMeta> {
     return isEnemy(this.ctx, entity.id, this.source.playerId);
   }
 
+  hasAura(entity: Entity) {
+    return entity.modifiers.some(mod => mod.id === 'burn' && mod.source === this.source);
+  }
+
   applyAura(entity: Entity) {
     this.ctx.actionQueue.push(
       new AddEffectAction(
@@ -53,7 +57,7 @@ export class AuraBurnModifier extends AuraModifier<AuraBurnMeta> {
         {
           attachedTo: entity.id,
           sourceId: this.source.id,
-          effectId: this.id
+          effectId: 'burn'
         },
         this.ctx
       )

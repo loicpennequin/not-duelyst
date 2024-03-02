@@ -1,5 +1,6 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
+import { KEYWORDS } from '../utils/keywords';
 import { Modifier } from './modifier';
 
 export class VulnerableModifier extends Modifier {
@@ -14,7 +15,7 @@ export class VulnerableModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyTough = this.applyTough.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -22,18 +23,26 @@ export class VulnerableModifier extends Modifier {
   }
 
   getKeywords() {
-    return [];
+    return [KEYWORDS.VULNERABLE];
   }
 
-  applyTough(amount: number) {
+  interceptor(amount: number) {
     return amount + 1;
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor('takeDamage', this.interceptor);
+  }
+
   onApplied() {
-    this.attachedTo?.addInterceptor('takeDamage', this.applyTough);
+    this.attachedTo?.addInterceptor('takeDamage', this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor('takeDamage', this.applyTough);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

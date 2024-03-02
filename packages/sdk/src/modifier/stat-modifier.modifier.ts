@@ -21,7 +21,7 @@ export class StatModifierModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyModifier = this.applyModifier.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -33,15 +33,22 @@ export class StatModifierModifier extends Modifier {
     return [];
   }
 
-  applyModifier(value: number) {
+  interceptor(value: number) {
     return value + this.meta.value;
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor(this.meta.statKey, this.interceptor);
+  }
   onApplied() {
-    this.attachedTo?.addInterceptor(this.meta.statKey, this.applyModifier);
+    this.attachedTo?.addInterceptor(this.meta.statKey, this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor(this.meta.statKey, this.applyModifier);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

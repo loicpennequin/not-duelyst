@@ -43,7 +43,6 @@ export default defineNuxtConfig({
     join(currentDir, './src/styles/global.css')
   ],
   typescript: {
-    typeCheck: true,
     strict: true
   },
   sourcemap: {

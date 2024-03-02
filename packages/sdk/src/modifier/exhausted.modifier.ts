@@ -14,7 +14,7 @@ export class ExhaustedModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = 1;
 
-    this.preventAction = this.preventAction.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -25,17 +25,25 @@ export class ExhaustedModifier extends Modifier {
     return [];
   }
 
-  preventAction() {
+  interceptor() {
     return false;
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor('canMove', this.interceptor);
+    this.attachedTo?.removeInterceptor('canUseSkill', this.interceptor);
+  }
+
   onApplied() {
-    this.attachedTo?.addInterceptor('canMove', this.preventAction);
-    this.attachedTo?.addInterceptor('canUseSkill', this.preventAction);
+    this.attachedTo?.addInterceptor('canMove', this.interceptor);
+    this.attachedTo?.addInterceptor('canUseSkill', this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor('canMove', this.preventAction);
-    this.attachedTo?.removeInterceptor('canUseSkill', this.preventAction);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

@@ -10,6 +10,7 @@ const serverSession = GameSession.createServerSession(await initialStateFactory(
 const clientSession = GameSession.createClientSession(await initialStateFactory());
 serverSession.onReady(() => {
   serverSession.subscribe(action => {
+    console.log(action);
     clientSession.dispatchAction(action.serialize() as any); // @FIXME
     state.value = serverSession.serialize();
   });

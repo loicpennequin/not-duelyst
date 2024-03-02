@@ -26,11 +26,11 @@ export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
 
   abstract removeAura(entity: Entity): void;
 
+  abstract hasAura(entity: Entity): boolean;
+
   private checkAura() {
     this.ctx.entityManager.getList().forEach(entity => {
-      if (!this.isElligible(entity)) {
-        return this.removeAura(entity);
-      }
+      if (!this.isElligible(entity)) return;
 
       const isInRange = isWithinCells(
         this.ctx,
@@ -38,9 +38,14 @@ export abstract class AuraModifier<TMeta extends AuraMeta> extends Modifier {
         entity.position,
         this.meta.range
       );
-      if (!isInRange) return this.removeAura(entity);
 
-      this.applyAura(entity);
+      if (!isInRange && this.hasAura(entity)) {
+        return this.removeAura(entity);
+      }
+
+      if (!this.hasAura(entity)) {
+        this.applyAura(entity);
+      }
     });
   }
 

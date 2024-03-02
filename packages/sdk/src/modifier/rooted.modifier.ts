@@ -14,7 +14,7 @@ export class RootedModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyRoot = this.applyRoot.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -25,15 +25,23 @@ export class RootedModifier extends Modifier {
     return [];
   }
 
-  applyRoot() {
+  interceptor() {
     return false;
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor('canMove', this.interceptor);
+  }
+
   onApplied() {
-    this.attachedTo?.addInterceptor('canMove', this.applyRoot);
+    this.attachedTo?.addInterceptor('canMove', this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor('canMove', this.applyRoot);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

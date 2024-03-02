@@ -15,7 +15,7 @@ export class ToughModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyTough = this.applyTough.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -26,15 +26,22 @@ export class ToughModifier extends Modifier {
     return [KEYWORDS.TOUGH];
   }
 
-  applyTough(amount: number) {
+  interceptor(amount: number) {
     return Math.max(amount - 1, 1);
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor('takeDamage', this.interceptor);
+  }
   onApplied() {
-    this.attachedTo?.addInterceptor('takeDamage', this.applyTough);
+    this.attachedTo?.addInterceptor('takeDamage', this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor('takeDamage', this.applyTough);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

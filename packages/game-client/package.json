@@ -3,7 +3,9 @@
   "version": "0.0.01",
   "type": "module",
   "scripts": {
-    "prebuild": "assetpack -c .assetpack.js",
+    "build:assets": "assetpack -c .assetpack.js",
+    "typecheck": "npx nuxi typecheck",
+    "prebuild": "npm-run-all build:asets typecheck",
     "build": "nuxt build",
     "dev:server": "nuxt dev  --port=3000",
     "dev:assets": "assetpack -c .assetpack.js -w",
@@ -56,6 +58,8 @@
     "postcss": "^8.4.32",
     "postcss-scrollbar": "^0.5.1",
     "radix-vue": "^1.3.2",
+    "typescript": "^5.3.3",
+    "vue-tsc": "^2.0.1",
     "vue3-pixi": "^0.8.5",
     "zipson": "^0.2.12"
   },

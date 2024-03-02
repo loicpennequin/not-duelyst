@@ -26,7 +26,7 @@ export class RemoveEffectAction<T extends keyof typeof MODIFIERS> extends GameAc
   }
 
   get logMessage() {
-    return `${this.attachedTo.unitId} lostreceived ${this.payload.effectId} from ${this.source.unitId}.`;
+    return `${this.attachedTo.unitId} lost ${this.payload.effectId} from ${this.source.unitId}.`;
   }
 
   protected impl() {

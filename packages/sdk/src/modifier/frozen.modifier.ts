@@ -14,7 +14,7 @@ export class StunnedModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyRoot = this.applyRoot.bind(this);
+    this.interceptor = this.interceptor.bind(this);
   }
 
   getDescription(): string {
@@ -25,17 +25,25 @@ export class StunnedModifier extends Modifier {
     return [];
   }
 
-  applyRoot() {
+  interceptor() {
     return false;
   }
 
+  cleanup() {
+    this.attachedTo?.removeInterceptor('canMove', this.interceptor);
+    this.attachedTo?.removeInterceptor('canUseSkill', this.interceptor);
+  }
+
   onApplied() {
-    this.attachedTo?.addInterceptor('canMove', this.applyRoot);
-    this.attachedTo?.addInterceptor('canUseSkill', this.applyRoot);
+    this.attachedTo?.addInterceptor('canMove', this.interceptor);
+    this.attachedTo?.addInterceptor('canUseSkill', this.interceptor);
   }
 
   onExpired() {
-    this.attachedTo?.removeInterceptor('canMove', this.applyRoot);
-    this.attachedTo?.removeInterceptor('canUseSkill', this.applyRoot);
+    this.cleanup();
+  }
+
+  onDetached() {
+    this.cleanup();
   }
 }

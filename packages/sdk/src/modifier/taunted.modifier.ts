@@ -17,8 +17,8 @@ export class TauntedModifier extends Modifier {
     super(ctx, source, meta);
     this.duration = this.meta.duration;
 
-    this.applyMoveTaunt = this.applyMoveTaunt.bind(this);
-    this.applySkillTaunt = this.applySkillTaunt.bind(this);
+    this.moveInterceptor = this.moveInterceptor.bind(this);
+    this.skillInterceptor = this.skillInterceptor.bind(this);
   }
 
   getDescription(): string {
@@ -37,7 +37,7 @@ export class TauntedModifier extends Modifier {
     });
   }
 
-  private applyMoveTaunt(value: boolean) {
+  private moveInterceptor(value: boolean) {
     if (!this.isInTauntRange) {
       return value;
     }
@@ -45,7 +45,7 @@ export class TauntedModifier extends Modifier {
     return false;
   }
 
-  private applySkillTaunt(
+  private skillInterceptor(
     value: boolean,
     {
       targets
@@ -69,21 +69,24 @@ export class TauntedModifier extends Modifier {
   }
 
   private cleanup() {
-    this.attachedTo?.removeInterceptor('canUseSkillAt', this.applySkillTaunt);
-    this.attachedTo?.removeInterceptor('canMove', this.applyMoveTaunt);
+    this.attachedTo?.removeInterceptor('canUseSkillAt', this.skillInterceptor);
+    this.attachedTo?.removeInterceptor('canMove', this.moveInterceptor);
   }
 
   onApplied() {
-    this.attachedTo?.addInterceptor('canUseSkillAt', this.applySkillTaunt);
-    this.attachedTo?.addInterceptor('canMove', this.applyMoveTaunt);
+    this.attachedTo?.addInterceptor('canUseSkillAt', this.skillInterceptor);
+    this.attachedTo?.addInterceptor('canMove', this.moveInterceptor);
 
     this.source.on('die', () => {
-      this.cleanup();
       this.detach();
     });
   }
 
   onExpired() {
+    this.cleanup();
+  }
+
+  onDetached() {
     this.cleanup();
   }
 }

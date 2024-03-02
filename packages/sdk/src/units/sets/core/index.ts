@@ -9,6 +9,7 @@ import { KEYWORDS } from '../../../utils/keywords';
 import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
 import { AuraBurnModifier } from '../../../modifier/aura-burn.modifier';
+import { MODIFIERS } from '../../../modifier/modifier-lookup';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -169,7 +170,7 @@ export const coreSet: UnitBlueprint[] = [
         description: 'Burn(1) aura',
         keywords: [KEYWORDS.BURN, KEYWORDS.AURA],
         execute(ctx, entity) {
-          new AuraBurnModifier(ctx, entity, {
+          new MODIFIERS.auraBurn(ctx, entity, {
             duration: Infinity,
             power: 1,
             range: 1
