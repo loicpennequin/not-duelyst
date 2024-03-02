@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Entity } from '@hc/sdk';
 import { PTransition, useApplication } from 'vue3-pixi';
-import { Polygon, Container } from 'pixi.js';
+import { Polygon, Container, TextStyle } from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
 import { GlowFilter } from '@pixi/filter-glow';
 import { type AnimatedSprite, type Cursor, FederatedMouseEvent } from 'pixi.js';
@@ -12,7 +12,7 @@ const { entity } = defineProps<{
 
 const app = useApplication();
 const settings = useUserSettings();
-const { gameSession, assets, state, mapRotation, fx, utils, playerId } = useGame();
+const { gameSession, assets, state, mapRotation, fx, utils, playerId, ui } = useGame();
 const {
   hoveredCell,
   skillTargets,
@@ -156,6 +156,36 @@ const zIndexOffset = computed(() => {
   }
   return SPRITE_OFFSETS.ENTITY;
 });
+
+// ts in unhappy if we type the parameter, because vue expects fucntion refs to take a VNode as argument
+// However, in vue3-pixi, the behavior is different
+const nameRef = (_container: any) => {
+  if (!_container) return;
+
+  _container.parentLayer = ui.layers.ui.value;
+};
+
+const nameStyle = new TextStyle({
+  fill: 'white',
+  fontSize: 36,
+  fontFamily: 'monospace',
+  dropShadow: true,
+  dropShadowColor: 'black',
+  dropShadowDistance: 2,
+  stroke: 'black',
+  strokeThickness: 4
+});
+
+const isNameDisplayed = computed(() => {
+  switch (settings.value.ui.displayUnitsNames) {
+    case 'never':
+      return false;
+    case 'always':
+      return true;
+    case 'hover-only':
+      return isHovered.value;
+  }
+});
 </script>
 
 <template>
@@ -168,6 +198,16 @@ const zIndexOffset = computed(() => {
     :offset="offset"
     :map="{ width: state.map.width, height: state.map.height, rotation: mapRotation }"
   >
+    <pixi-text
+      v-if="isNameDisplayed"
+      :ref="nameRef"
+      :style="nameStyle"
+      :anchor="0.5"
+      :y="CELL_SIZE / 2 - 10"
+      :scale="0.25"
+    >
+      {{ entity.unit.id.toLocaleUpperCase() }}
+    </pixi-text>
     <PTransition
       v-if="isSummoned"
       appear

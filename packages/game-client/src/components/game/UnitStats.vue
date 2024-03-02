@@ -28,7 +28,7 @@ const containerRef = (_container: any) => {
 const { layers } = useGameUi();
 watchEffect(() => {
   if (!root.value) return;
-  if (settings.value.ui.displayUnitsStats === 'always') {
+  if (settings.value.ui.displayUnitsStats === DISPLAY_UNITS_STATS.ALWAYS) {
     root.value.parentLayer = layers.ui.value;
   } else {
     root.value.parentLayer = isHovered ? layers.ui.value : undefined;
@@ -36,7 +36,9 @@ watchEffect(() => {
 });
 
 const isDisplayed = computed(() => {
-  if (settings.value.ui.displayUnitsStats === 'hover-only') return isHovered;
+  if (settings.value.ui.displayUnitsStats === DISPLAY_UNITS_STATS.HOVER_ONLY) {
+    return isHovered;
+  }
 
   return true;
 });

@@ -2,7 +2,6 @@
 import { api } from '@hc/api';
 import { merge } from 'lodash-es';
 import { defaultSettings } from '../utils/settings';
-import UiCheckbox from './ui/UiCheckbox.vue';
 
 const emit = defineEmits<{
   close: [];
@@ -65,17 +64,49 @@ until(settings)
         </fieldset>
         <fieldset>
           <legend>Interface</legend>
+
           <label>Show unit stats</label>
           <UiRadioGroup
             v-model="formData.ui.displayUnitsStats"
+            class="mb-3"
             :options="[
-              { id: 'hover-only', label: 'hidden, show on hover', value: 'hover-only' },
               {
-                id: 'hover-on-top',
-                label: 'visible, on front on hover',
-                value: 'hover-on-top'
+                id: 'units-stats-hover-only',
+                label: 'hidden, show on hover',
+                value: DISPLAY_UNITS_STATS.HOVER_ONLY
               },
-              { id: 'always', label: 'visible, always on top', value: 'always' }
+              {
+                id: 'units-stats-hover-on-top',
+                label: 'visible, on front on hover',
+                value: DISPLAY_UNITS_STATS.HOVER_ON_TOP
+              },
+              {
+                id: 'units-stats-always',
+                label: 'visible, always on top',
+                value: DISPLAY_UNITS_STATS.ALWAYS
+              }
+            ]"
+          />
+
+          <label>Show unit names</label>
+          <UiRadioGroup
+            v-model="formData.ui.displayUnitsNames"
+            :options="[
+              {
+                id: 'units-names-never',
+                label: 'never',
+                value: DISPLAY_UNITS_NAMES.NEVER
+              },
+              {
+                id: 'units-names-hover-only',
+                label: 'on hover only',
+                value: DISPLAY_UNITS_NAMES.HOVER_ONLY
+              },
+              {
+                id: 'units-names-always',
+                label: 'always',
+                value: DISPLAY_UNITS_NAMES.ALWAYS
+              }
             ]"
           />
         </fieldset>
