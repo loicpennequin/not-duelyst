@@ -21,6 +21,7 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "import/no-cycle": "warn",
+    "import/no-unresolved": "off",
   },
   settings: {
     "import/resolver": {

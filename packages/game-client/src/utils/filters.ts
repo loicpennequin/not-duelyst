@@ -1,11 +1,31 @@
-import type { EFFECTS } from '@hc/sdk';
-import type { PartialRecord } from '@hc/shared';
+import { MODIFIERS } from '@hc/sdk';
+import type { AnyObject, PartialRecord } from '@hc/shared';
 import { AdjustmentFilter } from '@pixi/filter-adjustment';
 import { ColorOverlayFilter } from '@pixi/filter-color-overlay';
-import type { Filter } from 'pixi.js';
+import { Filter, Ticker, BLEND_MODES } from 'pixi.js';
+import testFrag from '@/shaders/fire.frag.glsl';
 
-export const EFFECT_FILTERS = {
-  exhausted: [new AdjustmentFilter({ saturation: 0.3 })],
-  frozen: [new ColorOverlayFilter(0x66aadd, 0.4)],
-  taunted: [new ColorOverlayFilter(0x770000, 0.25)]
-} as const satisfies PartialRecord<keyof typeof EFFECTS, Filter[]>;
+const makeBurnFilter = () => {
+  const uniforms: AnyObject = {};
+  uniforms.alpha = 1.0;
+  uniforms.shift = 1.6;
+  uniforms.time = 0.0;
+  uniforms.speed = { x: 0.7, y: 0.4 };
+
+  let count = 0;
+
+  const filter = new Filter(undefined, testFrag, uniforms);
+  Ticker.shared.add(() => {
+    count = count + 0.02;
+    uniforms.time = count;
+  });
+
+  return filter;
+};
+
+export const MODIFIER_FILTERS = {
+  exhausted: () => [new AdjustmentFilter({ saturation: 0.3 })],
+  frozen: () => [new ColorOverlayFilter(0x66aadd, 0.4)],
+  taunted: () => [new ColorOverlayFilter(0x770000, 0.25)],
+  burn: () => [makeBurnFilter()]
+} as const satisfies PartialRecord<keyof typeof MODIFIERS, () => Filter[]>;

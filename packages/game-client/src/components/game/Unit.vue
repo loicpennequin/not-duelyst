@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Entity } from '@hc/sdk';
+import { isDefined } from '@hc/shared';
 import { PTransition, useApplication } from 'vue3-pixi';
 import { Polygon, Container, TextStyle } from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
@@ -109,8 +110,21 @@ const a11yColorcodeFilter = computed(() => {
     );
   }
 });
+const modifierFilters = computed(() =>
+  entity.modifiers
+    .map(modifier => {
+      if (modifier.id in MODIFIER_FILTERS) {
+        return MODIFIER_FILTERS[modifier.id as keyof typeof MODIFIER_FILTERS]();
+      } else {
+        return null;
+      }
+    })
+    .flat()
+    .filter(isDefined)
+);
+
 const filters = computed(() => {
-  const result = [];
+  const result = [...modifierFilters.value];
 
   if (settings.value.a11y.colorCodeUnits) {
     result.push(a11yColorcodeFilter.value);
@@ -133,11 +147,6 @@ const filters = computed(() => {
     result.push(inSkillAreaFilter);
   }
 
-  entity.modifiers.forEach(modifier => {
-    if (modifier.id in EFFECT_FILTERS) {
-      result.push(...EFFECT_FILTERS[modifier.id as keyof typeof EFFECT_FILTERS]);
-    }
-  });
   return result;
 });
 
@@ -188,7 +197,6 @@ const isNameDisplayed = computed(() => {
 });
 
 const namePositionY = computed(() => {
-  console.log(entity.unit.id, hitArea.value);
   return Math.min(
     ...hitArea.value.points.map((point, index) => (index % 2 === 0 ? Infinity : point))
   );

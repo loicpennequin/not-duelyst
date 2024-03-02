@@ -13,6 +13,6 @@ export type { PlayerId, Player } from './player/player';
 export { Vec3 } from './utils/vector';
 export { INTERACTABLES } from './interactable/interactable-lookup';
 export { Interactable } from './interactable/interactable';
-export { MODIFIERS as EFFECTS } from './modifier/modifier-lookup';
+export { MODIFIERS } from './modifier/modifier-lookup';
 export { UNITS } from './units/unit-lookup';
 export { FACTIONS, type FactionName } from './faction/faction-lookup';

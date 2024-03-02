@@ -61,9 +61,9 @@ definePageMeta({
       var(--surface-2)
     ),
     radial-gradient(circle at center, transparent, var(--surface-2)),
-    linear-gradient(130deg, hsl(var(--pink-6-hsl) / 0.5), hsl(var(--blue-6-hsl) / 0.5)),
     url('/home-hero.png');
   background-size: cover;
+  image-rendering: pixelated;
 
   > div {
     display: grid;

@@ -43,7 +43,12 @@ export default defineNuxtConfig({
     join(currentDir, './src/styles/global.css')
   ],
   typescript: {
-    strict: true
+    strict: true,
+    tsConfig: {
+      compilerOptions: {
+        types: ['vite-plugin-glsl/ext']
+      }
+    }
   },
   sourcemap: {
     server: true,

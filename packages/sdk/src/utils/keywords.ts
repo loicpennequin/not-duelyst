@@ -72,8 +72,8 @@ export const KEYWORDS = {
     name: 'Shell',
     description: 'Prevents the next source of damage dealt to this unit.'
   },
-  ISOLATED: {
-    name: 'Isolated',
+  LONE_WOLF: {
+    name: 'Lone wolf',
     description: 'Triggers when this unit has no nearby allies.'
   },
   FERVOR: {
@@ -86,6 +86,6 @@ export const KEYWORDS = {
   },
   SLAY: {
     name: 'Slay',
-    description: 'Triggers when this unit destroys another.'
+    description: 'Triggers when this unit destroys another one.'
   }
 } satisfies Record<string, Keyword>;
