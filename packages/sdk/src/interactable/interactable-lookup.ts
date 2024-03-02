@@ -1,5 +1,5 @@
-import { Constructor } from '@hc/shared';
-import { Interactable, InteractableId } from './interactable';
+import type { Constructor } from '@hc/shared';
+import { Interactable, type InteractableId } from './interactable';
 import { GoldCoin } from './gold-coin';
 import { Firewall } from './firewall';
 

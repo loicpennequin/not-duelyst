@@ -1,4 +1,4 @@
-import { Values } from '@hc/shared';
+import type { Values } from '@hc/shared';
 
 export const RARITY = {
   COMMON: 'common',

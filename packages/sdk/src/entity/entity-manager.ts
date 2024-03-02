@@ -1,7 +1,7 @@
 import { isDefined } from '@hc/shared';
-import { Point3D } from '../types';
-import { Entity, EntityId, SerializedEntity } from './entity';
-import { PlayerId } from '../player/player';
+import type { Point3D } from '../types';
+import { Entity, type EntityId, type SerializedEntity } from './entity';
+import type { PlayerId } from '../player/player';
 import { isGeneral } from './entity-utils';
 import { GameSession } from '../game-session';
 

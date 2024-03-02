@@ -1,4 +1,4 @@
-import { Nullable } from '@hc/shared';
+import type { Nullable } from '@hc/shared';
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';

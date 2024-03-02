@@ -2,7 +2,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Skill } from '../skill/skill';
 import { isWithinCells } from '../skill/skill-utils';
-import { Point3D } from '../types';
+import type { Point3D } from '../types';
 import { Modifier } from './modifier';
 
 export class TauntedModifier extends Modifier {

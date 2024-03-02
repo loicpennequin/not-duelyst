@@ -1,5 +1,5 @@
-import { Point3D } from '../types';
-import { Serializable } from './interfaces';
+import type { Point3D } from '../types';
+import type { Serializable } from './interfaces';
 
 export class Vec3 implements Serializable {
   static fromPoint3D(pt: Point3D) {

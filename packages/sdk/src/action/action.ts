@@ -1,8 +1,8 @@
-import { JSONObject } from '@hc/shared';
-import { Serializable } from '../utils/interfaces';
+import type { JSONObject } from '@hc/shared';
+import type { Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
-import { EntityId } from '../entity/entity';
-import { Point3D } from '../types';
+import type { EntityId } from '../entity/entity';
+import type { Point3D } from '../types';
 
 type FxContextEnterAnimation =
   | 'fade-in'

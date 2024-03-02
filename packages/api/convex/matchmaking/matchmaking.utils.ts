@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import { internal } from '../_generated/api';
-import { Doc, Id } from '../_generated/dataModel';
+import type { Doc, Id } from '../_generated/dataModel';
 import type { ActionCtx, DatabaseWriter, MutationCtx } from '../_generated/server';
 import { MATCHMAKING_SCHEDULER_INTERVAL_MS } from './matchmaking.constants';
 

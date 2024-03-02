@@ -1,4 +1,4 @@
-import { Constructor, JSONObject, Values } from '@hc/shared';
+import type { Constructor, JSONObject, Values } from '@hc/shared';
 import { GameAction } from './action';
 import { DealDamageAction } from './deal-damage.action';
 import { EndTurnAction } from './end-turn.action';

@@ -1,6 +1,6 @@
 import type { Id } from '../_generated/dataModel';
 import type { GameMap } from './gameMap.entity';
-import { Point3D } from '@hc/sdk';
+import type { Point3D } from '@hc/sdk';
 
 export type GameMapDto = {
   id: Id<'gameMaps'>;

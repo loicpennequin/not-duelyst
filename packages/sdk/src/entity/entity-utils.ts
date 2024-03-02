@@ -1,8 +1,8 @@
-import { Nullable, isDefined } from '@hc/shared';
+import { type Nullable, isDefined } from '@hc/shared';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { UnitKind, UNIT_KIND } from '../units/constants';
-import { Entity, EntityId } from './entity';
+import { type Point3D } from '../types';
+import { type UnitKind, UNIT_KIND } from '../units/constants';
+import { Entity, type EntityId } from './entity';
 
 export const getEntityIfOwnerMatches = (
   ctx: GameSession,

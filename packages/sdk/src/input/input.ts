@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { InputName, SerializedInput } from './input-reducer';
-import { Serializable } from '../utils/interfaces';
-import { JSONValue } from '@hc/shared';
+import type { InputName, SerializedInput } from './input-reducer';
+import type { Serializable } from '../utils/interfaces';
+import type { JSONValue } from '@hc/shared';
 import { GameSession } from '../game-session';
 
 export const defaultInputSchema = z.object({

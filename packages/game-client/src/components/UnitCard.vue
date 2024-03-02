@@ -26,7 +26,7 @@ const keywords = computed(() => {
     [
       ...(entity.unit.effects?.map(effect => effect.keywords) ?? []),
       ...entity.unit.skills.map(skill => skill.keywords),
-      ...entity.effects.map(effect => effect.getKeywords())
+      ...entity.modifiers.map(effect => effect.getKeywords())
     ].flat(),
     'name'
   );
@@ -133,7 +133,11 @@ const keywords = computed(() => {
     </Teleport>
   </article>
   <ul class="mt-4 pointer-none">
-    <li v-for="effect in entity.effects" :key="effect.id" class="w-14 mb-2 p-2 bg-black">
+    <li
+      v-for="effect in entity.modifiers"
+      :key="effect.id"
+      class="w-14 mb-2 p-2 bg-black"
+    >
       <div class="capitalize">{{ effect.id }}</div>
       <p class="text-0">{{ effect.getDescription() }}</p>
     </li>

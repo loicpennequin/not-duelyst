@@ -1,12 +1,12 @@
-import { EFFECTS } from '../modifier/modifier-lookup';
-import { EntityId } from '../entity/entity';
+import { MODIFIERS } from '../modifier/modifier-lookup';
+import type { EntityId } from '../entity/entity';
 import { GameAction } from './action';
 
-export class AddEffectAction<T extends keyof typeof EFFECTS> extends GameAction<{
+export class AddEffectAction<T extends keyof typeof MODIFIERS> extends GameAction<{
   effectId: T;
   sourceId: EntityId;
   attachedTo: EntityId;
-  effectArg: InstanceType<(typeof EFFECTS)[T]>['meta'];
+  effectArg: InstanceType<(typeof MODIFIERS)[T]>['meta'];
 }> {
   readonly name = 'ADD_EFFECT';
 
@@ -31,7 +31,7 @@ export class AddEffectAction<T extends keyof typeof EFFECTS> extends GameAction<
   }
 
   protected impl() {
-    const effectClass = EFFECTS[this.payload.effectId];
+    const effectClass = MODIFIERS[this.payload.effectId];
 
     // @ts-expect-error
     const effect = new effectClass(this.ctx, this.source, this.payload.effectArg);

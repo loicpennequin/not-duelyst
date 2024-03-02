@@ -1,5 +1,5 @@
-import { EntityId } from '../entity/entity';
-import { Point3D } from '../types';
+import type { EntityId } from '../entity/entity';
+import type { Point3D } from '../types';
 import { Vec3 } from '../utils/vector';
 import { GameAction } from './action';
 

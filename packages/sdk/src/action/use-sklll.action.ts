@@ -1,7 +1,7 @@
-import { EFFECTS } from '../modifier/modifier-lookup';
-import { EntityId } from '../entity/entity';
-import { SkillId } from '../skill/skill';
-import { Point3D } from '../types';
+import { MODIFIERS } from '../modifier/modifier-lookup';
+import type { EntityId } from '../entity/entity';
+import type { SkillId } from '../skill/skill';
+import type { Point3D } from '../types';
 import { GameAction } from './action';
 
 export class UseSkillAction extends GameAction<{
@@ -75,7 +75,7 @@ export class UseSkillAction extends GameAction<{
     this.skill.execute(this.ctx, this.caster, this.payload.targets, this.affectedCells);
 
     if (this.skill.shouldExhaustCaster) {
-      new EFFECTS.exhausted(this.ctx, entity, {}).attach(entity);
+      new MODIFIERS.exhausted(this.ctx, entity, {}).attach(entity);
     }
   }
 }

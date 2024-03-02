@@ -133,9 +133,9 @@ const filters = computed(() => {
     result.push(inSkillAreaFilter);
   }
 
-  entity.effects.forEach(effect => {
-    if (effect.id in EFFECT_FILTERS) {
-      result.push(...EFFECT_FILTERS[effect.id as keyof typeof EFFECT_FILTERS]);
+  entity.modifiers.forEach(modifier => {
+    if (modifier.id in EFFECT_FILTERS) {
+      result.push(...EFFECT_FILTERS[modifier.id as keyof typeof EFFECT_FILTERS]);
     }
   });
   return result;

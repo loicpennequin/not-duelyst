@@ -1,4 +1,4 @@
-import { Values } from '@hc/shared';
+import type { Values } from '@hc/shared';
 
 export const GAME_STATUS = {
   WAITING_FOR_PLAYERS: 'WAITING_FOR_PLAYERS',

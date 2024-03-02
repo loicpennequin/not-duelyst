@@ -1,9 +1,9 @@
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { Skill, SkillDescriptionContext, SkillOptions } from './skill';
-import { PartialBy } from '@hc/shared';
+import type { Point3D } from '../types';
+import { Skill, type SkillDescriptionContext, type SkillOptions } from './skill';
+import type { PartialBy } from '@hc/shared';
 import { Cell } from '../map/cell';
 
 export type AttackOptions = PartialBy<SkillOptions, 'shouldExhaustCaster' | 'id'> & {

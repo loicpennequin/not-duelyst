@@ -1,7 +1,7 @@
 import { RemoveInteractableAction } from '../action/removeInteractable.action';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { Serializable } from '../utils/interfaces';
+import type { Point3D } from '../types';
+import type { Serializable } from '../utils/interfaces';
 import { Vec3 } from '../utils/vector';
 
 export type InteractableId = string;

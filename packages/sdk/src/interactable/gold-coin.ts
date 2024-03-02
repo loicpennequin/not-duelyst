@@ -1,6 +1,6 @@
 import { ModifyGoldAction } from '../action/modify-gold.action';
 import { GameSession } from '../game-session';
-import { Interactable, SerializedInteractable } from './interactable';
+import { Interactable, type SerializedInteractable } from './interactable';
 
 export class GoldCoin extends Interactable {
   id = 'GOLD_COIN';

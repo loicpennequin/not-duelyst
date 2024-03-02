@@ -1,9 +1,8 @@
-import { clamp } from '@hc/shared';
-import { EntityId } from '../entity/entity';
+import type { EntityId } from '../entity/entity';
 import { isAxisAligned } from '../skill/skill-utils';
-import { Point3D } from '../types';
+import type { Point3D } from '../types';
 import { GameAction } from './action';
-import { Direction } from '../map/tile';
+import type { Direction } from '../map/tile';
 import { Vec3 } from '../utils/vector';
 
 export class DisplaceAction extends GameAction<{

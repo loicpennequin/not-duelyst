@@ -1,5 +1,5 @@
 import type { Id } from '../_generated/dataModel';
-import { CollectionItem } from './collection.entity';
+import type { CollectionItem } from './collection.entity';
 
 export type CollectionItemDto = {
   _id: Id<'collectionItems'>;

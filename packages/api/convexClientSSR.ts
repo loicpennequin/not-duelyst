@@ -1,11 +1,11 @@
 import {
-  FunctionReference,
-  FunctionReturnType,
-  OptionalRestArgs,
+  type FunctionReference,
+  type FunctionReturnType,
+  type OptionalRestArgs,
   getFunctionName
 } from 'convex/server';
 import { ConvexClient, type ConvexClientOptions, ConvexHttpClient } from 'convex/browser';
-import { Nullable, isString } from '@hc/shared';
+import { type Nullable, isString } from '@hc/shared';
 
 type AuthTokenFetcher = (args: {
   forceRefreshToken: boolean;

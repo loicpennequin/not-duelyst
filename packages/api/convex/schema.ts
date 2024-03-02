@@ -1,7 +1,6 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { Validator, v } from 'convex/values';
-import { GameStatus } from './game/game.constants';
-import { FactionName } from '@hc/sdk';
+import type { GameStatus } from './game/game.constants';
 
 export default defineSchema({
   users: defineTable({

@@ -8,7 +8,7 @@ import { toUserDto } from './users/user.mapper';
 import { getFeatureFlag } from './featureFlags/featureFlags.utils';
 import { FEATURE_FLAGS } from './featureFlags/featureFlags.constants';
 import { internal } from './_generated/api';
-import { AnyObject } from '@hc/shared';
+import type { AnyObject } from '@hc/shared';
 
 export const completeSignUp = mutationWithAuth({
   args: {

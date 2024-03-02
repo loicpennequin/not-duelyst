@@ -1,4 +1,4 @@
-import { SerializedInteractable } from '../interactable/interactable';
+import type { SerializedInteractable } from '../interactable/interactable';
 import { INTERACTABLES } from '../interactable/interactable-lookup';
 import { GameAction } from './action';
 

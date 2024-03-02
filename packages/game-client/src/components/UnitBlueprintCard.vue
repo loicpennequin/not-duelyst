@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GameSession, type Skill, type UnitBlueprint } from '@hc/sdk';
+import { type Skill, type UnitBlueprint } from '@hc/sdk';
 import type { Nullable } from '@hc/shared';
 import { useFloating } from '@floating-ui/vue';
 import { offset, flip, autoUpdate } from '@floating-ui/dom';

@@ -1,7 +1,12 @@
 import { isDefined } from '@hc/shared';
-import { CellId } from './cell';
-import { Edge, GraphAdapter, dijkstra, findShortestPath } from '../utils/dijakstra';
-import { Point3D } from '../types';
+import { type CellId } from './cell';
+import {
+  type Edge,
+  type GraphAdapter,
+  dijkstra,
+  findShortestPath
+} from '../utils/dijakstra';
+import type { Point3D } from '../types';
 import { pointToCellId } from '../utils/helpers';
 import { isEmpty } from '../entity/entity-utils';
 import { Vec3 } from '../utils/vector';

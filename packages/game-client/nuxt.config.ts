@@ -42,6 +42,10 @@ export default defineNuxtConfig({
     'open-props/colors-hsl',
     join(currentDir, './src/styles/global.css')
   ],
+  typescript: {
+    typeCheck: true,
+    strict: true
+  },
   sourcemap: {
     server: true,
     client: true

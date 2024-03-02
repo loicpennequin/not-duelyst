@@ -1,5 +1,5 @@
-import { InteractableId } from '../interactable/interactable';
-import { Point3D } from '../types';
+import type { InteractableId } from '../interactable/interactable';
+import type { Point3D } from '../types';
 import { GameAction } from './action';
 
 export class RemoveInteractableAction extends GameAction<{

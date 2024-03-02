@@ -4,7 +4,7 @@ import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
-import { AuraMeta, AuraModifier } from './aura.modifier';
+import { type AuraMeta, AuraModifier } from './aura.modifier';
 
 export type AuraBurnMeta = AuraMeta & { power: number };
 

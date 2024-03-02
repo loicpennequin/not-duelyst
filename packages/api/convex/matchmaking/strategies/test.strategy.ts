@@ -1,6 +1,6 @@
-import { MatchmakingStrategy } from '../matchmaking';
-import { User } from '../../users/user.entity';
-import { MatchmakingUser } from '../matchmaking.entity';
+import type { MatchmakingStrategy } from '../matchmaking';
+import type { User } from '../../users/user.entity';
+import type { MatchmakingUser } from '../matchmaking.entity';
 
 type TestStrategyParticipant = {
   user: User;

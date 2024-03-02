@@ -1,8 +1,8 @@
-import { Values, Constructor, JSONValue } from '@hc/shared';
+import type { Values, Constructor, JSONValue } from '@hc/shared';
 import { MoveInput } from './move.input';
 import { EndTurnInput } from './end-turn.input';
 import { SummonInput } from './summon.input';
-import { DefaultSchema, PlayerInput } from './input';
+import { type DefaultSchema, PlayerInput } from './input';
 import { UseSkillInput } from './use-skill.input';
 import { GameSession } from '../game-session';
 import { SurrenderInput } from './surrender.input';

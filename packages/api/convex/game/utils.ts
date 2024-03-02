@@ -1,5 +1,5 @@
 import { randomInt } from '@hc/shared';
-import { Id } from '../_generated/dataModel';
+import type { Id } from '../_generated/dataModel';
 import type { QueryCtx } from '../_generated/server';
 import { GAME_STATUS } from './game.constants';
 import { toUserDto } from '../users/user.mapper';

@@ -9,8 +9,8 @@ import {
   mutation,
   query
 } from '../_generated/server';
-import { Auth, getAuth } from '../lucia';
-import { Nullable } from '@hc/shared';
+import { type Auth, getAuth } from '../lucia';
+import { type Nullable } from '@hc/shared';
 
 export type QueryWithAuthCtx = QueryCtx & { session: Nullable<Session> };
 

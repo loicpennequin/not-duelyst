@@ -1,14 +1,14 @@
 import mitt from 'mitt';
-import { PlayerId } from '../player/player';
-import { Point3D } from '../types';
-import { UnitId, UNITS } from '../units/unit-lookup';
+import type { PlayerId } from '../player/player';
+import type { Point3D } from '../types';
+import { type UnitId, UNITS } from '../units/unit-lookup';
 import { Vec3 } from '../utils/vector';
-import { clamp, isNumber, Nullable, Values } from '@hc/shared';
-import { Skill, SkillId } from '../skill/skill';
-import { Serializable } from '../utils/interfaces';
+import { clamp, isNumber, type Nullable, type Values } from '@hc/shared';
+import { Skill, type SkillId } from '../skill/skill';
+import { type Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
-import { Modifier, EffectId } from '../modifier/modifier';
-import { inferInterceptor, Interceptable } from '../utils/interceptor';
+import { Modifier, type EffectId } from '../modifier/modifier';
+import { type inferInterceptor, Interceptable } from '../utils/interceptor';
 import { SummonInteractableAction } from '../action/summon-interactable.action';
 import { DieAction } from '../action/die.action';
 import { ReactiveValue } from '../utils/helpers';
@@ -108,7 +108,7 @@ export class Entity implements Serializable {
 
   skillCooldowns: Record<SkillId, number> = {};
 
-  effects: Modifier[] = [];
+  modifiers: Modifier[] = [];
 
   constructor(
     private ctx: GameSession,
@@ -202,8 +202,8 @@ export class Entity implements Serializable {
     this.interceptors[key].remove(interceptor);
   }
 
-  hasEffect(effectId: EffectId) {
-    return this.effects.some(e => e.id === effectId);
+  hasModifier(modifierId: EffectId) {
+    return this.modifiers.some(e => e.id === modifierId);
   }
 
   canMove(distance: number) {

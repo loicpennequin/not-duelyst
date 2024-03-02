@@ -1,7 +1,7 @@
 import { GameAction } from './action';
 import { GameSession } from '../game-session';
-import { Serializable } from '../utils/interfaces';
-import { SerializedAction } from './action-deserializer';
+import type { Serializable } from '../utils/interfaces';
+import type { SerializedAction } from './action-deserializer';
 
 export class ActionHistory implements Serializable {
   private history: GameAction<any>[] = [];

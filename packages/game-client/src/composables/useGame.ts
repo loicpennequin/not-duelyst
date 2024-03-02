@@ -195,7 +195,7 @@ export const useGameProvider = (
           ...skillTargets.value
         ]);
       },
-      isValidSummonTarget(point) {
+      isValidSummonTarget() {
         if (!toValue(isActivePlayer)) return false;
         const { targetMode, selectedSummon, summonSpawnPoint } = context.ui;
         if (targetMode.value !== 'summon-targets') return false;

@@ -1,6 +1,6 @@
-import { Values } from '@hc/shared';
-import { TileId, TILES } from './tile-lookup';
-import { Point3D } from '../types';
+import type { Values } from '@hc/shared';
+import { type TileId, TILES } from './tile-lookup';
+import type { Point3D } from '../types';
 
 export const TERRAIN = {
   GROUND: 'GROUND',

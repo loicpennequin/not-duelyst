@@ -1,6 +1,6 @@
 import { GameSession } from '../game-session';
-import { UnitId } from '../units/unit-lookup';
-import { Loadout, PlayerId, Player } from './player';
+import type { UnitId } from '../units/unit-lookup';
+import { type Loadout, type PlayerId, Player } from './player';
 
 export type SerializedPlayer = {
   id: PlayerId;

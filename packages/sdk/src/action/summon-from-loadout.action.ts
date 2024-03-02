@@ -1,6 +1,6 @@
-import { EFFECTS, EFFECT_NAMES } from '../modifier/modifier-lookup';
-import { SerializedEntity } from '../entity/entity';
-import { Point3D } from '../types';
+import { MODIFIERS, MODIFIER_NAMES } from '../modifier/modifier-lookup';
+import type { SerializedEntity } from '../entity/entity';
+import type { Point3D } from '../types';
 import { UNITS } from '../units/unit-lookup';
 import { GameAction } from './action';
 
@@ -30,9 +30,9 @@ export class SummonFromLoadoutAction extends GameAction<
 
     const entity = this.ctx.entityManager.addEntity(this.payload);
 
-    const hasRush = entity.effects.some(e => e.id === EFFECT_NAMES.RUSH);
+    const hasRush = entity.modifiers.some(e => e.id === MODIFIER_NAMES.RUSH);
     if (!hasRush) {
-      new EFFECTS.exhausted(this.ctx, entity, {}).attach(entity);
+      new MODIFIERS.exhausted(this.ctx, entity, {}).attach(entity);
     }
 
     // if (unit.onSummoned) {

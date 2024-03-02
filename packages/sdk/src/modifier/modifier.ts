@@ -1,8 +1,8 @@
-import { AnyObject } from '@hc/shared';
+import type { AnyObject } from '@hc/shared';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Player } from '../player/player';
-import { Keyword } from '../utils/keywords';
+import type { Keyword } from '../utils/keywords';
 
 export type EffectId = string;
 
@@ -28,7 +28,7 @@ export abstract class Modifier {
 
   attach(entity: Entity) {
     this.attachedTo = entity;
-    this.attachedTo.effects.push(this);
+    this.attachedTo.modifiers.push(this);
 
     this.ctx.emitter.on('game:turn-end', this.tick);
     this.attachedTo.on('die', this.detach);
@@ -39,8 +39,8 @@ export abstract class Modifier {
   detach() {
     if (!this.attachedTo) return;
 
-    const idx = this.attachedTo.effects.indexOf(this);
-    this.attachedTo.effects.splice(idx);
+    const idx = this.attachedTo.modifiers.indexOf(this);
+    this.attachedTo.modifiers.splice(idx);
 
     this.ctx.emitter.off('game:turn-end', this.tick);
     this.attachedTo.off('die', this.detach);

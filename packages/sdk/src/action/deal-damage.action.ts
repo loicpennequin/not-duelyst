@@ -1,7 +1,6 @@
-import { EntityId, isEntityId } from '../entity/entity';
-import { InteractableId } from '../interactable/interactable';
+import { type EntityId, isEntityId } from '../entity/entity';
+import type { InteractableId } from '../interactable/interactable';
 import { GameAction } from './action';
-import { DieAction } from './die.action';
 
 export class DealDamageAction extends GameAction<{
   amount: number;

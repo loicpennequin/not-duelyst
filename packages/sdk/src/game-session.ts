@@ -1,14 +1,19 @@
 import mitt from 'mitt';
-import { InputReducer, SerializedInput } from './input/input-reducer';
-import { Entity, SerializedEntity, EntityEvent, EntityEventMap } from './entity/entity';
+import { InputReducer, type SerializedInput } from './input/input-reducer';
+import {
+  Entity,
+  type SerializedEntity,
+  type EntityEvent,
+  type EntityEventMap
+} from './entity/entity';
 import { EntityManager } from './entity/entity-manager';
 import { ActionHistory } from './action/action-history';
-import { GameMap, GameMapOptions } from './map/map';
-import { PlayerId, Player } from './player/player';
-import { PlayerManager, SerializedPlayer } from './player/player-manager';
-import { SerializedAction } from './action/action-deserializer';
+import { GameMap, type GameMapOptions } from './map/map';
+import { type PlayerId, Player } from './player/player';
+import { PlayerManager, type SerializedPlayer } from './player/player-manager';
+import { type SerializedAction } from './action/action-deserializer';
 import { ActionQueue } from './action/action-queue';
-import { FXContext, GameAction } from './action/action';
+import { type FXContext, GameAction } from './action/action';
 
 export type GameState = {
   map: Pick<GameMap, 'height' | 'width' | 'cells' | 'interactables'>;

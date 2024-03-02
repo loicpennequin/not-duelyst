@@ -1,5 +1,5 @@
-import { Values } from '@hc/shared';
-import { TileDefinition } from './tile';
+import type { Values } from '@hc/shared';
+import type { TileDefinition } from './tile';
 
 export const TERRAIN = {
   GROUND: 'GROUND',

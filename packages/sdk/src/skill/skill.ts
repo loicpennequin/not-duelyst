@@ -1,8 +1,8 @@
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Cell } from '../map/cell';
-import { Point3D } from '../types';
-import { Keyword } from '../utils/keywords';
+import type { Point3D } from '../types';
+import type { Keyword } from '../utils/keywords';
 
 export type SkillId = string;
 

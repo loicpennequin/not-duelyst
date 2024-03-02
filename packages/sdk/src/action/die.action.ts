@@ -1,4 +1,4 @@
-import { EntityId, isEntityId } from '../entity/entity';
+import { type EntityId } from '../entity/entity';
 import { isGeneral } from '../entity/entity-utils';
 import { GameAction } from './action';
 import { EndGamection } from './end-game.action';

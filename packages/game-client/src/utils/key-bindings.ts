@@ -1,4 +1,4 @@
-import type { KeyBinding } from '@/components/UiKeyInput.vue';
+import type { KeyBinding } from '~/components/ui/UiKeyInput.vue';
 
 export const defaultBindings: { id: string; label: string; control: KeyBinding }[] = [
   {

@@ -1,4 +1,4 @@
-import { PlayerId } from '../player/player';
+import type { PlayerId } from '../player/player';
 import { GameAction } from './action';
 
 export class EndGamection extends GameAction<{ winnerId: PlayerId }> {

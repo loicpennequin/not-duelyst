@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { StyleProp } from '../utils/types';
-
 export type ButtonStyleVariables =
   | '--ui-button-color'
   | '--ui-button-bg'

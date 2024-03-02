@@ -1,4 +1,4 @@
-import { Point3D } from '../types';
+import type { Point3D } from '../types';
 import { pointToCellId } from '../utils/helpers';
 import { Vec3 } from '../utils/vector';
 import { Tile } from './tile';

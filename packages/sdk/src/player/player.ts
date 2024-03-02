@@ -1,16 +1,17 @@
-import { UnitId, UNITS, UnitBlueprint } from '../units/unit-lookup';
-export type PlayerId = string;
-
-export type Loadout = {
-  units: Record<UnitId, { cooldown: number }>;
-};
+import { type UnitId, UNITS, type UnitBlueprint } from '../units/unit-lookup';
 import { clamp, isDefined } from '@hc/shared';
-import { Serializable } from '../utils/interfaces';
+import type { Serializable } from '../utils/interfaces';
 import { GameSession } from '../game-session';
 import { Entity } from '../entity/entity';
 import type { SerializedPlayer } from './player-manager';
 import { config } from '../config';
 import { DealDamageAction } from '../action/deal-damage.action';
+
+export type PlayerId = string;
+
+export type Loadout = {
+  units: Record<UnitId, { cooldown: number }>;
+};
 
 export class Player implements Serializable {
   public readonly id: PlayerId;

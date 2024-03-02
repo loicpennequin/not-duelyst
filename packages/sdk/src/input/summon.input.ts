@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { PlayerInput, defaultInputSchema } from './input';
 import { INPUT_NAME } from './input-reducer';
-import { UNITS, UnitId, isUnitId } from '../units/unit-lookup';
+import { UNITS, type UnitId, isUnitId } from '../units/unit-lookup';
 import { SummonFromLoadoutAction } from '../action/summon-from-loadout.action';
 
 const summonEventSchema = defaultInputSchema.extend({

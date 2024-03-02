@@ -1,4 +1,4 @@
-import { EntityId } from '../entity/entity';
+import type { EntityId } from '../entity/entity';
 import { GameAction } from './action';
 
 export class HealAction extends GameAction<{

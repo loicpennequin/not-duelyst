@@ -1,6 +1,6 @@
 import { BurnModifier } from './burn.modifier';
 import { Modifier } from './modifier';
-import { Constructor, objectKeys } from '@hc/shared';
+import { type Constructor, objectKeys } from '@hc/shared';
 import { StatModifierModifier } from './stat-modifier.modifier';
 import { ExhaustedModifier } from './exhausted.modifier';
 import { TauntedModifier } from './taunted.modifier';
@@ -14,9 +14,9 @@ import { PlunderOnKillModifier } from './plunder-on-kill.modifier';
 import { VulnerableModifier } from './vulnerable.modifier';
 import { AuraBurnModifier } from './aura-burn.modifier';
 
-type GenericEffectMap = Record<string, Constructor<Modifier>>;
+type GenericModifierMap = Record<string, Constructor<Modifier>>;
 
-type ValidatedEffectMap<T extends GenericEffectMap> = {
+type ValidatedModifierMap<T extends GenericModifierMap> = {
   [Name in keyof T]: T[Name] extends Constructor<Modifier>
     ? Name extends InstanceType<T[Name]>['id']
       ? T[Name]
@@ -24,10 +24,11 @@ type ValidatedEffectMap<T extends GenericEffectMap> = {
     : never;
 };
 
-const validateEffectMap = <T extends GenericEffectMap>(data: ValidatedEffectMap<T>) =>
-  data;
+const validateModifierMap = <T extends GenericModifierMap>(
+  data: ValidatedModifierMap<T>
+) => data;
 
-export const EFFECTS = validateEffectMap({
+export const MODIFIERS = validateModifierMap({
   burn: BurnModifier,
   statModifier: StatModifierModifier,
   exhausted: ExhaustedModifier,
@@ -43,8 +44,8 @@ export const EFFECTS = validateEffectMap({
   vulnerable: VulnerableModifier
 });
 
-export const EFFECT_NAMES = Object.fromEntries(
-  objectKeys(EFFECTS).map(k => [k.toUpperCase(), k])
+export const MODIFIER_NAMES = Object.fromEntries(
+  objectKeys(MODIFIERS).map(k => [k.toUpperCase(), k])
 ) as {
-  [key in Uppercase<keyof typeof EFFECTS>]: string;
+  [key in Uppercase<keyof typeof MODIFIERS>]: string;
 };

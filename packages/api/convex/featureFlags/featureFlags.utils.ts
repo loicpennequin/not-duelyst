@@ -1,5 +1,5 @@
 import type { DatabaseReader } from '../_generated/server';
-import { FeatureFlag } from './featureFlags.constants';
+import type { FeatureFlag } from './featureFlags.constants';
 
 export const getFeatureFlag = async (db: DatabaseReader, key: FeatureFlag) => {
   const flag = await db

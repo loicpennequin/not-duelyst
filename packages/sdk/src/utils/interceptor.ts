@@ -1,4 +1,4 @@
-import { AnyObject } from '@hc/shared';
+import type { AnyObject } from '@hc/shared';
 
 export type Interceptor<
   TValue extends string | number | boolean,

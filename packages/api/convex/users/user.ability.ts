@@ -2,7 +2,7 @@ import { PureAbility } from '@casl/ability';
 import type { User } from './user.entity';
 import { createAbility } from '../utils/ability';
 import type { Session } from 'lucia';
-import { Nullable } from '@hc/shared';
+import type { Nullable } from '@hc/shared';
 
 type UserActions = 'read' | 'edit' | 'create';
 

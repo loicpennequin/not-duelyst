@@ -1,5 +1,5 @@
-import { Nullable, isNumber } from '@hc/shared';
-import { Point3D } from '../types';
+import { type Nullable, isNumber } from '@hc/shared';
+import type { Point3D } from '../types';
 import { Vec3 } from '../utils/vector';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';

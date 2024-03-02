@@ -1,8 +1,8 @@
-import { EFFECTS } from '../modifier/modifier-lookup';
-import { EntityId } from '../entity/entity';
+import { MODIFIERS } from '../modifier/modifier-lookup';
+import type { EntityId } from '../entity/entity';
 import { GameAction } from './action';
 
-export class RemoveEffectAction<T extends keyof typeof EFFECTS> extends GameAction<{
+export class RemoveEffectAction<T extends keyof typeof MODIFIERS> extends GameAction<{
   effectId: T;
   sourceId: EntityId;
   attachedTo: EntityId;
@@ -30,7 +30,7 @@ export class RemoveEffectAction<T extends keyof typeof EFFECTS> extends GameActi
   }
 
   protected impl() {
-    const modifier = this.attachedTo.effects.find(
+    const modifier = this.attachedTo.modifiers.find(
       mod => mod.id === this.payload.effectId && mod.source.id === this.payload.sourceId
     );
     modifier?.detach();

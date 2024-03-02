@@ -1,11 +1,11 @@
-import { PartialBy } from '@hc/shared';
+import type { PartialBy } from '@hc/shared';
 import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { SkillDescriptionContext } from './skill';
+import type { Point3D } from '../types';
+import type { SkillDescriptionContext } from './skill';
 import { isWithinCells, isSelf } from './skill-utils';
-import { Attack, AttackOptions } from './attack.skill';
+import { Attack, type AttackOptions } from './attack.skill';
 import { Cell } from '../map/cell';
 import { DealDamageAction } from '../action/deal-damage.action';
 

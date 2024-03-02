@@ -1,14 +1,14 @@
-import { ImmolateModifier } from '../../../modifier/immolate.modifier';
 import { PlunderOnKillModifier } from '../../../modifier/plunder-on-kill.modifier';
 import { RushModifier } from '../../../modifier/rush.modifier';
 import { ToughModifier } from '../../../modifier/tough.modifier';
 import { RARITY } from '../../../enums';
 import { FACTIONS } from '../../../faction/faction-lookup';
 import { MeleeAttack } from '../../../skill/melee-attack.skill';
-import { SkillDescriptionContext } from '../../../skill/skill';
+import type { SkillDescriptionContext } from '../../../skill/skill';
 import { KEYWORDS } from '../../../utils/keywords';
 import { UNIT_KIND } from '../../constants';
-import { UnitBlueprint } from '../../unit-lookup';
+import type { UnitBlueprint } from '../../unit-lookup';
+import { AuraBurnModifier } from '../../../modifier/aura-burn.modifier';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -169,9 +169,11 @@ export const coreSet: UnitBlueprint[] = [
         description: 'Burn(1) aura',
         keywords: [KEYWORDS.BURN, KEYWORDS.AURA],
         execute(ctx, entity) {
-          new ImmolateModifier(ctx, entity, { duration: Infinity, power: 1 }).attach(
-            entity
-          );
+          new AuraBurnModifier(ctx, entity, {
+            duration: Infinity,
+            power: 1,
+            range: 1
+          }).attach(entity);
         }
       }
     ]

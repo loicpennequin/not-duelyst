@@ -1,14 +1,13 @@
-import { Faction } from '../faction/faction-lookup';
+import type { Faction } from '../faction/faction-lookup';
 import { keyBy } from 'lodash-es';
 import { Skill } from '../skill/skill';
-import { UnitKind } from './constants';
-import { Point3D } from '../types';
+import type { UnitKind } from './constants';
+import type { Point3D } from '../types';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
-import { Modifier } from '../modifier/modifier';
-import { Rarity } from '../enums';
+import type { Rarity } from '../enums';
 import { coreSet } from './sets/core';
-import { Keyword } from '../utils/keywords';
+import type { Keyword } from '../utils/keywords';
 
 export type UnitId = string;
 
@@ -36,6 +35,7 @@ export type UnitBlueprint = {
     keywords: Keyword[];
     description: string;
   }[];
+
   onSummoned?: {
     getDescription(unit: UnitBlueprint): string;
     minTargetCount: number;

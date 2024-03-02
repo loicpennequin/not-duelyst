@@ -1,7 +1,7 @@
 import mitt from 'mitt';
 import { GameSession } from '../game-session';
 import { GameAction } from './action';
-import { ActionDeserializer, SerializedAction } from './action-deserializer';
+import { ActionDeserializer, type SerializedAction } from './action-deserializer';
 
 export class ActionQueue {
   private queue: GameAction<any>[] = [];

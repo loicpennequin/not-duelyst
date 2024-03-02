@@ -1,15 +1,15 @@
 import { isDefined, isString } from '@hc/shared';
-import { Point3D } from '../types';
-import { Cell, CellId } from './cell';
-import { DIRECTIONS_TO_DIFF, Direction, Tile } from './tile';
-import { TileId } from './tile-lookup';
+import type { Point3D } from '../types';
+import { Cell, type CellId } from './cell';
+import { DIRECTIONS_TO_DIFF, type Direction, Tile } from './tile';
+import { type TileId } from './tile-lookup';
 import { cellIdToPoint } from '../utils/helpers';
-import { Serializable } from '../utils/interfaces';
+import { type Serializable } from '../utils/interfaces';
 import { Entity } from '../entity/entity';
 import { Pathfinder } from './pathfinding';
 import { Vec3 } from '../utils/vector';
 import { GameSession } from '../game-session';
-import { Interactable, SerializedInteractable } from '../interactable/interactable';
+import { Interactable, type SerializedInteractable } from '../interactable/interactable';
 import { INTERACTABLES } from '../interactable/interactable-lookup';
 
 export type GameMapOptions = {
