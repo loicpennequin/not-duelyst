@@ -1,11 +1,10 @@
-precision mediump float;
+#include utils.frag;
 
 // pixi provided uniforms
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
 
 uniform float time;
-uniform float alpha;
 uniform vec2 speed;
 uniform float shift;
 
@@ -41,7 +40,7 @@ void main() {
   const vec3 c5 = vec3(0.1);
   const vec3 c6 = vec3(0.9);
 
-  vec2 p = 15.0 * vTextureCoord;
+  vec2 p = vec2(15.0) * vTextureCoord;
 
   float q = fbm(p - time * 0.1);
   vec2 r = vec2(fbm(p + q + time * speed.x - p.x - p.y), fbm(p + q - time * speed.y));
@@ -56,8 +55,10 @@ void main() {
     // gl_FragColor = original;
     // gl_FragColor.r = time;
     vec4 flame = vec4(c * cos(shift * vTextureCoord.y), 1.0);
+    float a = sin(time * 1.5);
+    vec4 mixRatio = vec4(map(a, 0.0, 1.0, 0.7, 0.5), map(a, 0.0, 1.0, 0.9, 0.85), map(a, 0.0, 1.0, 1.0, 0.92), 1.0);
 
-    gl_FragColor = mix(flame, original, vec4(0.5, 0.85, 0.92, 1.0));
+    gl_FragColor = mix(flame, original, mixRatio);
     gl_FragColor.xyz *= 1.0 - grad;
   }
 }

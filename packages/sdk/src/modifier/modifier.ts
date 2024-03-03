@@ -22,6 +22,8 @@ export abstract class Modifier {
     this.detach = this.detach.bind(this);
   }
 
+  readonly spriteId?: string;
+
   abstract getDescription(): string;
 
   abstract getKeywords(): Keyword[];

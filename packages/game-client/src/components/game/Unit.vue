@@ -233,6 +233,38 @@ const namePositionY = computed(() => {
     >
       <container :y="-CELL_SIZE / 4" :sortable-children="true">
         <Shadow v-if="textures?.length" :textures="textures" :scale-x="scaleX">
+          <template
+            v-for="modifier in entity.modifiers"
+            :key="`${modifier.id}:${modifier.source.id}`"
+          >
+            <animated-sprite
+              v-if="modifier.spriteId"
+              :textures="
+                createSpritesheetFrameObject(
+                  'idle',
+                  assets.getSpritesheet(`${modifier.spriteId}-back`)
+                )
+              "
+              :anchor-x="0.5"
+              :scale-x="scaleX"
+              event-mode="none"
+              :z-index="1"
+            />
+            <animated-sprite
+              v-if="modifier.spriteId"
+              :textures="
+                createSpritesheetFrameObject(
+                  'idle',
+                  assets.getSpritesheet(`${modifier.spriteId}-front`)
+                )
+              "
+              :anchor-x="0.5"
+              :scale-x="scaleX"
+              event-mode="none"
+              :z-index="3"
+            />
+          </template>
+
           <animated-sprite
             ref="spriteRef"
             :textures="textures"

@@ -40,19 +40,23 @@ export const KEYWORDS = {
     name: 'Taunt',
     description: 'Nearby enemies cannot move and must target this unit.'
   },
-  STUN: {
-    name: 'Stun(x)',
-    description: 'This unit cannot move or use abilities for X turns.'
+  FROZEN: {
+    name: 'Frozen',
+    description: 'This unit cannot move or use abilities.'
+  },
+  ROOTED: {
+    name: 'Rooted',
+    description: 'This unit cannot move.'
   },
   THORNS: {
     name: 'Thorns(x)',
     description: 'Enemies unit dealing damage to this unit take X damage.'
   },
-  ON_SUMMONED: {
+  SUMMON: {
     name: 'Summon',
     description: 'Triggers when the unit enters the battlefield.'
   },
-  ON_DEATH: {
+  LAST_WILL: {
     name: 'Last will',
     description: 'Triggers when the unit is destroyed.'
   },
@@ -87,5 +91,9 @@ export const KEYWORDS = {
   SLAY: {
     name: 'Slay',
     description: 'Triggers when this unit destroys another one.'
+  },
+  DEATHWATCH: {
+    name: 'Deathwatch',
+    description: 'Triggers whenever a unit is destroyed.'
   }
 } satisfies Record<string, Keyword>;

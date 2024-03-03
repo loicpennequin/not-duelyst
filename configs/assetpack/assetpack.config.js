@@ -15,6 +15,7 @@ const loadParserByAssetType = {
   ui: SPRITESHEET_PARSER,
   interactables: SPRITESHEET_PARSER,
   fx: SPRITESHEET_PARSER,
+  modifiers: SPRITESHEET_PARSER,
 };
 
 function manifestEntryParser(tree, processor) {

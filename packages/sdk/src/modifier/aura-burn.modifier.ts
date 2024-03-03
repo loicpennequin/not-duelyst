@@ -10,6 +10,9 @@ export type AuraBurnMeta = AuraMeta & { power: number };
 
 export class AuraBurnModifier extends AuraModifier<AuraBurnMeta> {
   readonly id = 'auraBurn';
+
+  readonly spriteId? = 'fire-circle';
+
   constructor(
     protected ctx: GameSession,
     public source: Entity,
