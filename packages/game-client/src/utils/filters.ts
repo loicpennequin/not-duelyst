@@ -4,7 +4,7 @@ import { AdjustmentFilter } from '@pixi/filter-adjustment';
 import { ColorOverlayFilter } from '@pixi/filter-color-overlay';
 import { Filter, Ticker } from 'pixi.js';
 import fireFrag from '@/shaders/fire.frag.glsl';
-import iceFrag from '@/shaders/ice.frag.glsl';
+import iceFrag from '@/shaders/ice2.frag.glsl';
 
 export const makeBurnFilter = () => {
   const uniforms: AnyObject = {};
@@ -13,12 +13,12 @@ export const makeBurnFilter = () => {
   uniforms.speed = { x: 0.7, y: 0.4 };
 
   let time = 0;
-
-  const filter = new Filter(undefined, fireFrag, uniforms);
   Ticker.shared.add(() => {
     time = time + 0.03;
     uniforms.time = time;
   });
+
+  const filter = new Filter(undefined, fireFrag, uniforms);
 
   return filter;
 };
@@ -28,19 +28,19 @@ export const makeIceFilter = () => {
   uniforms.time = 0.0;
 
   let time = 0;
-
-  const filter = new Filter(undefined, iceFrag, uniforms);
   Ticker.shared.add(() => {
-    time = time + 0.02;
+    time = time + 0.005;
     uniforms.time = time;
   });
+
+  const filter = new Filter(undefined, iceFrag, uniforms);
 
   return filter;
 };
 
 export const MODIFIER_FILTERS = {
   exhausted: () => [new AdjustmentFilter({ saturation: 0.3 })],
-  frozen: () => [new ColorOverlayFilter(0x66aadd, 0.4), makeIceFilter()],
+  frozen: () => [new ColorOverlayFilter(0x5588dd, 0.5), makeIceFilter()],
   taunted: () => [new ColorOverlayFilter(0x770000, 0.25)],
   burn: () => [makeBurnFilter()]
 } as const satisfies PartialRecord<keyof typeof MODIFIERS, () => Filter[]>;

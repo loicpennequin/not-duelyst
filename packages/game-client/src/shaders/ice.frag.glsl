@@ -45,11 +45,8 @@ void main() {
   } else {
 
     vec4 fx = mix(rgba, vec4(tc, 1.0), (Alpha_Percent * 0.01));
-
-    float a = sin(time * 1.5);
-    vec4 mixRatio = vec4(map(a, 0.0, 1.0, 0.7, 0.5), map(a, 0.0, 1.0, 0.7, 0.5), map(a, 0.0, 1.0, 0.7, 0.5), 1.0);
+    vec4 mixRatio = vec4(0.7, 0.65, 0.4, 1.0);
     gl_FragColor = mix(fx, rgba, mixRatio);
-
   }
 
 }
