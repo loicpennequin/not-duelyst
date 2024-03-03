@@ -9,7 +9,8 @@ const {
   offset = { x: 0, y: 0, z: 0 },
   zIndexOffset = 0,
   map,
-  animated
+  animated,
+  debug = false
 } = defineProps<{
   x: number;
   y: number;
@@ -18,6 +19,7 @@ const {
   zIndexOffset?: number;
   map: { width: number; height: number; rotation: 0 | 90 | 180 | 270 };
   animated: boolean;
+  debug?: boolean;
 }>();
 
 const position = computed(() =>
@@ -87,8 +89,6 @@ watch([containerX, containerY], ([newX, newY]) => {
     ease: animated ? Power0.easeNone : Power2.easeOut
   });
 });
-
-const showDebug = ref(false);
 </script>
 
 <template>
@@ -106,14 +106,14 @@ const showDebug = ref(false);
     :z-index="zIndex"
   >
     <slot />
-    <!-- <text
-      v-if="showDebug"
+    <text
+      v-if="debug"
       :style="{ fill: 'white', fontSize: 35, fontFamily: 'monospace' }"
       :scale="0.25"
       :anchor="0.5"
       event-mode="none"
     >
       x:{{ x }} y:{{ y }} z{{ z }}{{ '\n' }}z-index:{{ zIndex.toFixed(1) }}
-    </text> -->
+    </text>
   </container>
 </template>

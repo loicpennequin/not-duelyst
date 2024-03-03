@@ -55,15 +55,8 @@ export class AuraBurnModifier extends AuraModifier<AuraBurnMeta> {
   }
 
   removeAura(entity: Entity): void {
-    this.ctx.actionQueue.push(
-      new RemoveEffectAction(
-        {
-          attachedTo: entity.id,
-          sourceId: this.source.id,
-          effectId: 'burn'
-        },
-        this.ctx
-      )
+    entity.modifiers = entity.modifiers.filter(
+      mod => mod.id === this.id && mod.source.id === this.source.id
     );
   }
 }
