@@ -3,8 +3,7 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
-export abstract class AoeOnDeathModifier<T extends AnyObject> extends Modifier {
-  readonly id = 'aoe-on-death';
+export abstract class LastWillModifier<T extends AnyObject> extends Modifier {
   duration = Infinity;
 
   constructor(

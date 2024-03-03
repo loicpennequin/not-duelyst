@@ -10,6 +10,8 @@ import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
 import { AuraBurnModifier } from '../../../modifier/aura-burn.modifier';
 import { MODIFIERS } from '../../../modifier/modifier-lookup';
+import { isEnemy } from '../../../entity/entity-utils';
+import { AddEffectAction } from '../../../action/add-effect.action';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -227,6 +229,31 @@ export const coreSet: UnitBlueprint[] = [
     maxHp: 6,
     attack: 2,
     speed: 3,
-    skills: [new MeleeAttack({ cooldown: 1, cost: 0, power: 0 })]
+    skills: [new MeleeAttack({ cooldown: 1, cost: 0, power: 0 })],
+    effects: [
+      {
+        description: 'Freeze an enemy for one turn.',
+        keywords: [KEYWORDS.FROZEN],
+        execute(ctx, entity, targets) {
+          new MODIFIERS.onSummonedFreeze(ctx, entity, {
+            targets: [targets[0]]
+          }).attach(entity);
+        }
+      }
+    ],
+    onSummoned: {
+      getDescription() {
+        return 'Freeze an enemy for one turn';
+      },
+      minTargetCount: 0,
+      maxTargetCount: 1,
+      isTargetable(ctx, point) {
+        return isEnemy(
+          ctx,
+          ctx.entityManager.getEntityAt(point)?.id,
+          ctx.playerManager.getActivePlayer().id
+        );
+      }
+    }
   }
 ];

@@ -195,20 +195,19 @@ export const useGameProvider = (
           ...skillTargets.value
         ]);
       },
-      isValidSummonTarget() {
+      isValidSummonTarget(point) {
         if (!toValue(isActivePlayer)) return false;
         const { targetMode, selectedSummon, summonSpawnPoint } = context.ui;
         if (targetMode.value !== 'summon-targets') return false;
         if (!selectedSummon.value) return false;
-        // if (!selectedSummon.value.onSummoned) return false;
+        if (!selectedSummon.value.onSummoned) return false;
         if (!summonSpawnPoint.value) return false;
 
-        // return selectedSummon.value.onSummoned.isTargetable(
-        //   session,
-        //   point,
-        //   summonSpawnPoint.value
-        // );
-        return true;
+        return selectedSummon.value.onSummoned.isTargetable(
+          session,
+          point,
+          summonSpawnPoint.value
+        );
       }
     },
     fx: {

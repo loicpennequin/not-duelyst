@@ -201,6 +201,8 @@ const namePositionY = computed(() => {
     ...hitArea.value.points.map((point, index) => (index % 2 === 0 ? Infinity : point))
   );
 });
+
+const modifiersWithSprites = computed(() => entity.modifiers.filter(m => m.spriteId));
 </script>
 
 <template>
@@ -233,37 +235,12 @@ const namePositionY = computed(() => {
     >
       <container :y="-CELL_SIZE / 4" :sortable-children="true">
         <Shadow v-if="textures?.length" :textures="textures" :scale-x="scaleX">
-          <template
-            v-for="modifier in entity.modifiers"
+          <UnitModifier
+            v-for="modifier in modifiersWithSprites"
             :key="`${modifier.id}:${modifier.source.id}`"
-          >
-            <animated-sprite
-              v-if="modifier.spriteId"
-              :textures="
-                createSpritesheetFrameObject(
-                  'idle',
-                  assets.getSpritesheet(`${modifier.spriteId}-back`)
-                )
-              "
-              :anchor-x="0.5"
-              :scale-x="scaleX"
-              event-mode="none"
-              :z-index="1"
-            />
-            <animated-sprite
-              v-if="modifier.spriteId"
-              :textures="
-                createSpritesheetFrameObject(
-                  'idle',
-                  assets.getSpritesheet(`${modifier.spriteId}-front`)
-                )
-              "
-              :anchor-x="0.5"
-              :scale-x="scaleX"
-              event-mode="none"
-              :z-index="3"
-            />
-          </template>
+            :modifier="modifier"
+            :entity="entity"
+          />
 
           <animated-sprite
             ref="spriteRef"

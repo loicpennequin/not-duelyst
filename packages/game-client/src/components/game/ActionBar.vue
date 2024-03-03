@@ -24,7 +24,7 @@ const targetsCount = computed(() => {
 const maxTargetsCount = computed(() => {
   if (targetMode.value === 'skill') return selectedSkill.value?.maxTargets;
   if (targetMode.value === 'summon-targets') {
-    // return selectedSummon.value?.onSummoned?.maxTargetCount;
+    return selectedSummon.value?.onSummoned?.maxTargetCount;
   }
   return 0;
 });
@@ -35,8 +35,7 @@ const isValidateTargetsButtonDisplayed = computed(() => {
   }
 
   if (targetMode.value === 'summon-targets') {
-    return false;
-    // return summonTargets.value.size >= selectedSummon.value!.onSummoned!.minTargetCount;
+    return summonTargets.value.size >= selectedSummon.value!.onSummoned!.minTargetCount;
   }
 
   return false;

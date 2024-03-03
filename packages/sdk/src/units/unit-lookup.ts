@@ -30,18 +30,17 @@ export type UnitBlueprint = {
 
   skills: Array<Skill>;
 
-  effects?: {
-    execute(ctx: GameSession, entity: Entity): void;
+  effects?: Array<{
     keywords: Keyword[];
     description: string;
-  }[];
+    execute(ctx: GameSession, entity: Entity, targets: Point3D[]): void;
+  }>;
 
   onSummoned?: {
     getDescription(unit: UnitBlueprint): string;
     minTargetCount: number;
     maxTargetCount: number;
     isTargetable(ctx: GameSession, point: Point3D, summonedPoint: Point3D): boolean;
-    execute(ctx: GameSession, targets: Point3D[], summonedentity: Entity): void;
   };
 };
 

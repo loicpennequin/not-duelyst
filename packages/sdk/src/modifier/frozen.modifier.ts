@@ -5,6 +5,7 @@ import { Modifier } from './modifier';
 export class StunnedModifier extends Modifier {
   readonly id = 'frozen';
   duration: number;
+  spriteId = 'ice-circle';
 
   constructor(
     protected ctx: GameSession,

@@ -107,7 +107,7 @@ export class EntityManager {
     });
   }
 
-  addEntity(rawEntity: Omit<SerializedEntity, 'id'>) {
+  addEntity(rawEntity: Omit<SerializedEntity, 'id'>, targets: Point3D[] = []) {
     const id = ++this.nextEntityId;
     const entity = new Entity(this.ctx, { ...rawEntity, id });
 
@@ -117,7 +117,7 @@ export class EntityManager {
 
     if (entity.unit.effects) {
       entity.unit.effects.forEach(effect => {
-        effect.execute(this.ctx, entity);
+        effect.execute(this.ctx, entity, targets);
       });
     }
 
