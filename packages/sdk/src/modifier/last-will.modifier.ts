@@ -4,8 +4,6 @@ import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
 
 export abstract class LastWillModifier<T extends AnyObject> extends Modifier {
-  duration = Infinity;
-
   constructor(
     protected ctx: GameSession,
     public source: Entity,

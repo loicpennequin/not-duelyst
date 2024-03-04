@@ -2,7 +2,7 @@
 import { ColorOverlayFilter } from '@pixi/filter-color-overlay';
 import type { FrameObject } from 'pixi.js';
 
-const { textures, scaleX } = defineProps<{ textures: FrameObject[]; scaleX: number }>();
+const { textures } = defineProps<{ textures: FrameObject[] }>();
 
 const filters = [new ColorOverlayFilter(0x000000)];
 </script>
@@ -13,7 +13,6 @@ const filters = [new ColorOverlayFilter(0x000000)];
     :textures="textures"
     :z-index="1"
     :filters="filters"
-    :scale-x="scaleX"
     :scale-y="0.45"
     :skew-x="-1"
     :anchor="0.5"
@@ -22,6 +21,4 @@ const filters = [new ColorOverlayFilter(0x000000)];
     event-mode="none"
     playing
   />
-
-  <slot />
 </template>

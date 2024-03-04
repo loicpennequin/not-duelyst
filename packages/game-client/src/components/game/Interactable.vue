@@ -63,7 +63,7 @@ const hitArea = computed(() => {
     :y="interactable.position.y"
     :z="interactable.position.z"
     :animated="fx.isMoving.value"
-    :z-index-offset="SPRITE_OFFSETS.INTERACTABLE"
+    :z-index-offset="SPRITE_ZINDEX_OFFSETS.INTERACTABLE"
     :offset="offset"
     :map="{ width: state.map.width, height: state.map.height, rotation: mapRotation }"
   >

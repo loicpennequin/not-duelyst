@@ -26,7 +26,7 @@ export class StatModifierModifier extends Modifier {
 
   getDescription(): string {
     const sign = this.meta.value > 0 ? '+' : '-';
-    return `This unis has ${sign}${Math.abs(this.meta.value)} ${this.meta.statKey}}.`;
+    return `This unit has ${sign}${Math.abs(this.meta.value)} ${this.meta.statKey}}.`;
   }
 
   getKeywords() {

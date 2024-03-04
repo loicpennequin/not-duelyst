@@ -14,6 +14,7 @@ import { PlunderOnKillModifier } from './plunder-on-kill.modifier';
 import { VulnerableModifier } from './vulnerable.modifier';
 import { AuraBurnModifier } from './aura-burn.modifier';
 import { OnSummonedFreezeModifier } from './on-summoned-freeze.modifier';
+import { LoneWolfStatModifierModifier } from './lone-wolf-stat-modifier.modifier';
 
 type GenericModifierMap = Record<string, Constructor<Modifier>>;
 
@@ -43,7 +44,8 @@ export const MODIFIERS = validateModifierMap({
   tough: ToughModifier,
   plunderOnKill: PlunderOnKillModifier,
   vulnerable: VulnerableModifier,
-  onSummonedFreeze: OnSummonedFreezeModifier
+  onSummonedFreeze: OnSummonedFreezeModifier,
+  loneWolfStatModifier: LoneWolfStatModifierModifier
 });
 
 export const MODIFIER_NAMES = Object.fromEntries(

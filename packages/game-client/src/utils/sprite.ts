@@ -19,7 +19,7 @@ export const createSpritesheetFrameObject = (
   });
 };
 
-export const SPRITE_OFFSETS = {
+export const SPRITE_ZINDEX_OFFSETS = {
   INTERACTABLE: 2,
   ENTITY: 2.1,
   HALF_TILE: -1

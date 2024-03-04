@@ -82,19 +82,19 @@ export class Player implements Serializable {
     if (!this.canSummon(unit.id)) return;
 
     this.gold = clamp(this.gold - unit.summonCost, 0, Infinity);
-    const hpCost = this.getSumonHpCost(unit);
-    if (hpCost > 0) {
-      this.ctx.actionQueue.push(
-        new DealDamageAction(
-          {
-            amount: hpCost,
-            sourceId: this.general.id,
-            targets: [this.general.id]
-          },
-          this.ctx
-        )
-      );
-    }
+    // const hpCost = this.getSumonHpCost(unit);
+    // if (hpCost > 0) {
+    //   this.ctx.actionQueue.push(
+    //     new DealDamageAction(
+    //       {
+    //         amount: hpCost,
+    //         sourceId: this.general.id,
+    //         targets: [this.general.id]
+    //       },
+    //       this.ctx
+    //     )
+    //   );
+    // }
 
     this.loadout.units[unit.id].cooldown = unit.summonCooldown;
   }

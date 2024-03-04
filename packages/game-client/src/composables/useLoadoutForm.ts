@@ -1,8 +1,9 @@
 import { api } from '@hc/api';
 import type { Id } from '@hc/api/convex/_generated/dataModel';
 import type { LoadoutDto } from '@hc/api/convex/loadout/loadout.mapper';
-import { UNITS, type UnitBlueprint } from '@hc/sdk';
+import { UNITS, type FactionName, type UnitBlueprint, config } from '@hc/sdk';
 import { UNIT_KIND } from '@hc/sdk/src/units/constants';
+import { isDefined, type Nullable } from '@hc/shared';
 
 export const useLoadoutForm = ({
   defaultName,
@@ -18,7 +19,7 @@ export const useLoadoutForm = ({
     name: string;
     generalId: string | null;
     unitIds: Set<string>;
-    // factions: [Nullable<FactionName>, Nullable<FactionName>, Nullable<FactionName>];
+    factions: FactionName[];
   }>();
 
   const general = computed(() =>
@@ -29,8 +30,8 @@ export const useLoadoutForm = ({
     values.value = {
       generalId: null,
       unitIds: new Set(),
-      name: toValue(defaultName)
-      // factions: [null, null, null]
+      name: toValue(defaultName),
+      factions: []
     };
   };
 
@@ -39,8 +40,8 @@ export const useLoadoutForm = ({
       loadoutId: loadout._id,
       generalId: loadout.generalId,
       unitIds: new Set(loadout.unitIds),
-      name: loadout.name
-      // factions: loadout.factions
+      name: loadout.name,
+      factions: loadout.factions
     };
   };
 
@@ -50,22 +51,28 @@ export const useLoadoutForm = ({
     const unit = UNITS[unitId];
 
     if (!values.value) return false;
-    if (values.value.generalId && unit.kind === UNIT_KIND.GENERAL && unit.id !== unitId) {
+    if (
+      values.value.generalId &&
+      unit.kind === UNIT_KIND.GENERAL &&
+      unit.id !== values.value.generalId
+    ) {
       return false;
     }
 
-    return true;
-    // const available = [...values.value.factions];
+    const available = Array.from(
+      { length: config.MAX_FACTIONS_PER_LOADOUT },
+      (_, index) => values.value?.factions[index] ?? null
+    );
 
-    // return unit.factions.every(faction => {
-    //   const index = available.findIndex(value => value === faction.id || value === null);
-    //   if (index === -1) {
-    //     return false;
-    //   }
+    return unit.factions.every(faction => {
+      const index = available.findIndex(value => value === faction.id || value === null);
+      if (index === -1) {
+        return false;
+      }
 
-    //   available.splice(index, 1);
-    //   return true;
-    // });
+      available.splice(index, 1);
+      return true;
+    });
   };
 
   const isInLoadout = (unitId: string) => {
@@ -76,36 +83,34 @@ export const useLoadoutForm = ({
     return values.value?.unitIds.has(unitId);
   };
 
-  // const updateFactions = () => {
-  //   if (!values.value) return;
-  //   const result: Nullable<FactionName>[] = [];
+  const updateFactions = () => {
+    if (!values.value) return;
+    const result: FactionName[] = [];
 
-  //   const all = [...values.value.unitIds.values(), values.value.generalId].filter(
-  //     isDefined
-  //   );
-  //   for (const unitId of all) {
-  //     const available = [...result];
-  //     const unit = UNITS[unitId];
+    const all = [...values.value.unitIds.values(), values.value.generalId].filter(
+      isDefined
+    );
+    for (const unitId of all) {
+      const available = [...result];
+      const unit = UNITS[unitId];
 
-  //     unit.factions.forEach(faction => {
-  //       const index = available.findIndex(
-  //         value => value === faction.id || value === null
-  //       );
-  //       if (index === -1) {
-  //         result.push(faction.id);
-  //       } else {
-  //         available.splice(index, 1);
-  //       }
-  //     });
+      unit.factions.forEach(faction => {
+        const index = available.findIndex(
+          value => value === faction.id || value === null
+        );
+        if (index === -1) {
+          result.push(faction.id);
+        } else {
+          available.splice(index, 1);
+        }
+      });
 
-  //     const isFull = result.length == 3;
-  //     if (isFull) break;
-  //   }
+      const isFull = result.length == 3;
+      if (isFull) break;
+    }
 
-  //   values.value.factions = result.concat(
-  //     Array.from({ length: 3 - result.length }, () => null)
-  //   ) as [FactionName, FactionName, FactionName];
-  // };
+    values.value.factions = result;
+  };
 
   const toggleUnit = (unit: UnitBlueprint) => {
     if (!values.value) return;
@@ -128,7 +133,7 @@ export const useLoadoutForm = ({
         break;
     }
 
-    // updateFactions();
+    updateFactions();
   };
 
   const { mutate: saveNewDeck, isLoading: isSavingNewDeck } = useConvexAuthedMutation(
@@ -153,15 +158,15 @@ export const useLoadoutForm = ({
         loadoutId: values.value.loadoutId,
         name: values.value!.name,
         generalId: values.value.generalId!,
-        units: [...values.value.unitIds]
-        // factions: values.value.factions as any // @FIXME
+        units: [...values.value.unitIds],
+        factions: values.value.factions.filter(isDefined)
       });
     } else {
       saveNewDeck({
         name: values.value!.name,
         generalId: values.value.generalId!,
-        units: [...values.value.unitIds]
-        // factions: values.value.factions as any // @FIXME
+        units: [...values.value.unitIds],
+        factions: values.value.factions.filter(isDefined)
       });
     }
   };

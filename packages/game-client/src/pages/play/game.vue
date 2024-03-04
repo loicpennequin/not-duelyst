@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { api } from '@hc/api';
 import { GameSession } from '@hc/sdk';
+import { type Socket } from 'socket.io-client';
+
 definePageMeta({
   name: 'Game'
 });
@@ -13,14 +15,15 @@ const { data: game, isLoading: isGameLoading } = useConvexAuthedQuery(
 );
 const { data: me, isLoading: isMeLoading } = useConvexAuthedQuery(api.users.me, {});
 
-const gameSession = shallowRef<{
-  session: GameSession;
-  dispatch: (
-    type: Parameters<GameSession['dispatchPlayerInput']>[0]['type'],
-    payload: any
-  ) => void;
-}>();
+const socket = ref<Socket>();
+const gameSession = shallowRef<GameSession>();
 
+const dispatch = (
+  type: Parameters<GameSession['dispatchPlayerInput']>[0]['type'],
+  payload: any
+) => {
+  socket.value?.emit('game:input', { type, payload });
+};
 const timeRemainingForTurn = ref(0);
 const isCreatingRoom = ref(true);
 
@@ -29,31 +32,27 @@ const { connect, error } = useGameSocket(
   () => game.value?._id,
   { spectator: false }
 );
+
 onMounted(async () => {
-  const socket = await connect();
+  socket.value = await connect();
   isCreatingRoom.value = false;
 
-  socket?.on('game:init', (serializedState: any) => {
+  socket.value?.on('game:init', (serializedState: any) => {
     if (gameSession.value) return;
     const session = GameSession.createClientSession(serializedState);
 
     session.onReady(() => {
-      gameSession.value = {
-        session,
-        dispatch(type, payload) {
-          socket.emit('game:input', { type, payload });
-        }
-      };
+      gameSession.value = session;
     });
 
-    socket.on('game:action', (arg: any) => {
-      gameSession.value?.session.dispatchAction(arg);
+    socket.value?.on('game:action', (arg: any) => {
+      session.dispatchAction(arg);
       if (arg.type === 'END_TURN') {
         timeRemainingForTurn.value = 0;
       }
     });
 
-    socket.on('time-remaining', time => {
+    socket.value?.on('time-remaining', time => {
       timeRemainingForTurn.value = time;
     });
   });
@@ -82,10 +81,6 @@ const canSeeGame = computed(() => {
 
       <div v-else-if="error || game?.status === 'CANCELLED'" class="full-page">
         An error has occured while creating the room.
-        <div>
-          TODO: Clean up game so users don't get stuck forever in a broken game 🤡
-        </div>
-
         <code>{{ error }}</code>
       </div>
 
@@ -100,13 +95,13 @@ const canSeeGame = computed(() => {
 
       <template v-else-if="gameSession && me">
         <GameView
-          :game-session="gameSession.session"
+          :game-session="gameSession"
           :player-id="me._id"
-          @move="gameSession.dispatch('MOVE', $event)"
-          @end-turn="gameSession.dispatch('END_TURN', {})"
-          @use-skill="gameSession.dispatch('USE_SKILL', $event)"
-          @summon="gameSession.dispatch('SUMMON', $event)"
-          @surrender="gameSession.dispatch('SURRENDER', {})"
+          @move="dispatch('MOVE', $event)"
+          @end-turn="dispatch('END_TURN', {})"
+          @use-skill="dispatch('USE_SKILL', $event)"
+          @summon="dispatch('SUMMON', $event)"
+          @surrender="dispatch('SURRENDER', {})"
         />
 
         <div v-if="timeRemainingForTurn" class="remaining" />

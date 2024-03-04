@@ -8,17 +8,16 @@ import type { SkillDescriptionContext } from '../../../skill/skill';
 import { KEYWORDS } from '../../../utils/keywords';
 import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
-import { AuraBurnModifier } from '../../../modifier/aura-burn.modifier';
 import { MODIFIERS } from '../../../modifier/modifier-lookup';
 import { isEnemy } from '../../../entity/entity-utils';
-import { AddEffectAction } from '../../../action/add-effect.action';
+import { RangedAttack } from '../../../skill/ranged-attack';
 
 export const coreSet: UnitBlueprint[] = [
   {
     id: 'dark-general',
     spriteId: 'chaos-hero2',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.DARK, FACTIONS.DARK, FACTIONS.DARK],
+    factions: [FACTIONS.DARK],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -31,7 +30,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'light-general',
     spriteId: 'haven-hero2',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.LIGHT, FACTIONS.LIGHT, FACTIONS.LIGHT],
+    factions: [FACTIONS.LIGHT],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -44,7 +43,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'fire-general',
     spriteId: 'fire-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.FIRE, FACTIONS.FIRE, FACTIONS.FIRE],
+    factions: [FACTIONS.FIRE],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -57,7 +56,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'air-general',
     spriteId: 'air-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.AIR, FACTIONS.AIR, FACTIONS.AIR],
+    factions: [FACTIONS.AIR],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -70,7 +69,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'water-general',
     spriteId: 'water-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.WATER, FACTIONS.WATER, FACTIONS.WATER],
+    factions: [FACTIONS.WATER],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -83,7 +82,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'earth-general',
     spriteId: 'earth-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.EARTH, FACTIONS.EARTH, FACTIONS.EARTH],
+    factions: [FACTIONS.EARTH],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -255,5 +254,107 @@ export const coreSet: UnitBlueprint[] = [
         );
       }
     }
+  },
+  {
+    id: 'air-archer',
+    spriteId: 'air-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.AIR],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ]
+  },
+  {
+    id: 'dark-archer',
+    spriteId: 'dark-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.DARK],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ],
+    effects: [
+      {
+        description: 'Lone wolf: +2 attack.',
+        keywords: [KEYWORDS.LONE_WOLF],
+        execute(ctx, entity) {
+          new MODIFIERS.loneWolfStatModifier(ctx, entity, {
+            statKey: 'attack',
+            value: 2
+          }).attach(entity);
+        }
+      }
+    ]
+  },
+  {
+    id: 'fire-archer',
+    spriteId: 'fire-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.FIRE],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ]
+  },
+  {
+    id: 'earth-archer',
+    spriteId: 'earth-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.EARTH],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ]
+  },
+  {
+    id: 'light-archer',
+    spriteId: 'light-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.LIGHT],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ]
+  },
+  {
+    id: 'water-archer',
+    spriteId: 'water-avatar',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.WATER],
+    rarity: RARITY.COMMON,
+    summonCost: 2,
+    summonCooldown: 3,
+    maxHp: 6,
+    attack: 1,
+    speed: 3,
+    skills: [
+      new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ]
   }
 ];

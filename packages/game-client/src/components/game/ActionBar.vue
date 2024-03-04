@@ -290,6 +290,7 @@ const onValidateTargets = () => {
 }
 .end-turn {
   margin-left: auto;
+  white-space: nowrap;
 
   @screen lt-lg {
     --ui-button-size: var(--font-size-0);

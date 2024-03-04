@@ -13,9 +13,9 @@ const players = computed(() => state.value.players);
           v-for="(_, i) in 3"
           :key="i"
           :style="{
-            '--bg': `url('/assets/ui/rune-${players[0].general.unit.factions[
-              i
-            ]?.id.toLowerCase()}.png')`
+            '--bg': `url('/assets/ui/rune-${
+              players[0].general.unit.factions[i]?.id.toLowerCase() ?? 'empty'
+            }.png')`
           }"
         />
       </div>
@@ -50,9 +50,9 @@ const players = computed(() => state.value.players);
           v-for="(_, i) in 3"
           :key="i"
           :style="{
-            '--bg': `url('/assets/ui/rune-${players[1].general.unit.factions[
-              i
-            ]?.id.toLowerCase()}.png')`
+            '--bg': `url('/assets/ui/rune-${
+              players[1].general.unit.factions[i]?.id.toLowerCase() ?? 'empty'
+            }.png')`
           }"
         />
       </div>
