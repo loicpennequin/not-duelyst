@@ -17,3 +17,4 @@ export { MODIFIERS } from './modifier/modifier-lookup';
 export type { Modifier } from './modifier/modifier';
 export { UNITS } from './units/unit-lookup';
 export { FACTIONS, type FactionName } from './faction/faction-lookup';
+export { config } from './config';

@@ -1,6 +1,6 @@
 import type { Doc, Id } from '../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../_generated/server';
-import { UNITS, type UnitId } from '@hc/sdk';
+import { UNITS, type FactionName, type UnitId, FACTIONS } from '@hc/sdk';
 
 export const ensureNoDuplicates = (units: string[]) => {
   if (new Set(units).size !== units.length) {
@@ -48,63 +48,63 @@ export const ensureLoadoutUnitsMatchWithGeneral = (
   return true;
 };
 
-// export const ensureCorrectFactions = (
-//   factions: string[]
-// ): [FactionName, FactionName, FactionName] => {
-//   if (factions.length !== 3) {
-//     throw new Error('Illegal loadout: Incorrect factions count.');
-//   }
+export const ensureCorrectFactions = (
+  factions: string[]
+): [FactionName, FactionName, FactionName] => {
+  if (factions.length !== 3) {
+    throw new Error('Illegal loadout: Incorrect factions count.');
+  }
 
-//   return factions.map(name => {
-//     const faction = FACTIONS[name as FactionName];
-//     if (!faction) {
-//       throw new Error(`Illegal loadout: unknown faction ${name}`);
-//     }
-//     return name;
-//   }) as [FactionName, FactionName, FactionName];
-// };
+  return factions.map(name => {
+    const faction = FACTIONS[name as FactionName];
+    if (!faction) {
+      throw new Error(`Illegal loadout: unknown faction ${name}`);
+    }
+    return name;
+  }) as [FactionName, FactionName, FactionName];
+};
 
-// export const ensureValidUnitsFactions = (factions: FactionName[], unitIds: string[]) => {
-//   for (const unitId of unitIds) {
-//     const available = [...factions];
-//     const unit = ensureUnitExist(unitId);
-//     unit.factions.forEach(faction => {
-//       const index = available.indexOf(faction.id);
-//       if (index === -1) {
-//         throw new Error('Illegal loadout: factions do not fulfill unit requirements.');
-//       }
-//       available.splice(index, 1);
-//     });
-//   }
-// };
+export const ensureValidUnitsFactions = (factions: FactionName[], unitIds: string[]) => {
+  for (const unitId of unitIds) {
+    const available = [...factions];
+    const unit = ensureUnitExist(unitId);
+    unit.factions.forEach(faction => {
+      const index = available.indexOf(faction.id);
+      if (index === -1) {
+        throw new Error('Illegal loadout: factions do not fulfill unit requirements.');
+      }
+      available.splice(index, 1);
+    });
+  }
+};
 
 export const validateLoadout = async (
   { db }: { db: MutationCtx['db'] },
   {
     ownerId,
     unitIds,
-    generalId
-    // factions
+    generalId,
+    factions
   }: {
     unitIds: string[];
     ownerId: Id<'users'>;
     generalId: string;
-    // factions: string[];
+    factions: string[];
   }
 ): Promise<{
   unitIds: UnitId[];
   ownerId: Id<'users'>;
   generalId: string;
-  // factions: [FactionName, FactionName, FactionName];
+  factions: FactionName[];
 }> => {
   await Promise.all(unitIds.map(unit => ensureOwnsUnit({ db }, ownerId, unit)));
 
   ensureNoDuplicates(unitIds);
   ensureLoadoutUnitsMatchWithGeneral(generalId, unitIds);
-  // const validFactions = ensureCorrectFactions(factions);
-  // ensureValidUnitsFactions(validFactions, unitIds);
+  const validFactions = ensureCorrectFactions(factions);
+  ensureValidUnitsFactions(validFactions, unitIds);
 
-  return { unitIds, ownerId, generalId };
+  return { unitIds, ownerId, generalId, factions: validFactions };
 };
 
 export const ensureLoadoutExists = async (

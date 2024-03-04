@@ -8,17 +8,15 @@ import type { SkillDescriptionContext } from '../../../skill/skill';
 import { KEYWORDS } from '../../../utils/keywords';
 import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
-import { AuraBurnModifier } from '../../../modifier/aura-burn.modifier';
 import { MODIFIERS } from '../../../modifier/modifier-lookup';
 import { isEnemy } from '../../../entity/entity-utils';
-import { AddEffectAction } from '../../../action/add-effect.action';
 
 export const coreSet: UnitBlueprint[] = [
   {
     id: 'dark-general',
     spriteId: 'chaos-hero2',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.DARK, FACTIONS.DARK, FACTIONS.DARK],
+    factions: [FACTIONS.DARK],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -31,7 +29,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'light-general',
     spriteId: 'haven-hero2',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.LIGHT, FACTIONS.LIGHT, FACTIONS.LIGHT],
+    factions: [FACTIONS.LIGHT],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -44,7 +42,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'fire-general',
     spriteId: 'fire-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.FIRE, FACTIONS.FIRE, FACTIONS.FIRE],
+    factions: [FACTIONS.FIRE],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -57,7 +55,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'air-general',
     spriteId: 'air-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.AIR, FACTIONS.AIR, FACTIONS.AIR],
+    factions: [FACTIONS.AIR],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -70,7 +68,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'water-general',
     spriteId: 'water-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.WATER, FACTIONS.WATER, FACTIONS.WATER],
+    factions: [FACTIONS.WATER],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,
@@ -83,7 +81,7 @@ export const coreSet: UnitBlueprint[] = [
     id: 'earth-general',
     spriteId: 'earth-hero',
     kind: UNIT_KIND.GENERAL,
-    factions: [FACTIONS.EARTH, FACTIONS.EARTH, FACTIONS.EARTH],
+    factions: [FACTIONS.EARTH],
     rarity: RARITY.LEGENDARY,
     summonCost: 0,
     summonCooldown: 0,

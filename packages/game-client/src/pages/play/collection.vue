@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UNITS, type UnitBlueprint } from '@hc/sdk';
+import { UNITS, config, type UnitBlueprint } from '@hc/sdk';
 import type { LoadoutDto } from '@hc/api/convex/loadout/loadout.mapper';
 import type { Nullable } from '@hc/shared';
 
@@ -10,8 +10,6 @@ definePageMeta({
     mode: 'out-in'
   }
 });
-
-const LOADOUT_MAX_SIZE = 6;
 
 const sidebarView = ref<'list' | 'form'>('list');
 const {
@@ -26,7 +24,7 @@ const {
   isSaving
 } = useLoadoutForm({
   defaultName: computed(() => `My New Loadout ${loadouts.value.length || ''}`),
-  maxSize: LOADOUT_MAX_SIZE,
+  maxSize: config.LOADOUT_MAX_SIZE,
   onSuccess() {
     sidebarView.value = 'list';
   }
@@ -40,17 +38,17 @@ const {
   isCollectionLoading
 } = useCollection();
 
-const sortedLoadoutUnits = computed(() =>
-  [...(values.value?.unitIds ?? [])]
+const sortedLoadoutUnits = computed(() => {
+  console.log(values.value?.unitIds);
+  return [...(values.value?.unitIds ?? [])]
     .map(id => UNITS[id])
     .concat(general.value ? [general.value] : [])
     .sort((a, b) => {
       if (a.kind === 'GENERAL') return -1;
       if (b.kind === 'GENERAL') return 1;
       return a.summonCost - b.summonCost;
-    })
-);
-
+    });
+});
 const toggleLoadoutCard = (unit: UnitBlueprint) => {
   if (sidebarView.value === 'list') return;
   toggleUnit(unit);
@@ -92,54 +90,14 @@ const editLoadout = (loadout: LoadoutDto) => {
 
     <section class="sidebar">
       <template v-if="sidebarView === 'form'">
-        <form @submit.prevent="save">
-          <header>
-            <input v-model="values!.name" class="py-3 flex-1" contenteditable />
-            {{ values?.unitIds.size }} / {{ LOADOUT_MAX_SIZE }}
-          </header>
-
-          <ul v-if="values" v-auto-animate class="flex-1">
-            <li v-for="unit in sortedLoadoutUnits" :key="unit.id">
-              <div v-if="unit.kind === 'SOLDIER'" class="cost">
-                {{ unit.summonCost }}
-              </div>
-
-              <img :src="`/assets/units/${unit.spriteId}-icon.png`" />
-              <div class="flex gap-2">
-                <img
-                  v-for="(_, index) in 3"
-                  :key="index"
-                  :src="`/assets/ui/rune-${
-                    unit.factions[index]?.id.toLocaleLowerCase() ?? 'empty'
-                  }.png`"
-                  class="faction-rune"
-                />
-              </div>
-              {{ unit.id }}
-
-              <UiIconButton
-                name="mdi:minus"
-                aria-label="remove from loadout"
-                class="error-button"
-                type="button"
-                @click="toggleLoadoutCard(unit)"
-              />
-            </li>
-          </ul>
-
-          <footer>
-            <UiButton
-              class="ghost-button"
-              left-icon="mdi:undo"
-              type="button"
-              :is-loading="isSaving"
-              @click="sidebarView = 'list'"
-            >
-              Back
-            </UiButton>
-            <UiFancyButton :is-loading="isSaving">Save</UiFancyButton>
-          </footer>
-        </form>
+        <LoadoutForm
+          v-if="values"
+          v-bind="values"
+          :is-saving="isSaving"
+          @back="sidebarView = 'list'"
+          @save="save"
+          @toggle-unit="toggleLoadoutCard($event)"
+        />
       </template>
 
       <template v-else>
@@ -270,73 +228,6 @@ const editLoadout = (loadout: LoadoutDto) => {
   transition: transform 0.7s;
   transition-delay: 0.3s;
   transition-timing-function: var(--ease-bounce-1);
-
-  footer {
-    display: flex;
-    gap: var(--size-3);
-    justify-content: flex-end;
-    padding-block: var(--size-3);
-  }
-}
-
-.cost {
-  display: grid;
-  place-content: center;
-
-  width: var(--size-6);
-  height: var(--size-6);
-  padding: var(--size-1);
-
-  color: white;
-
-  background-color: var(--blue-9);
-  border-radius: var(--radius-round);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-
-  height: 100%;
-  padding-top: var(--size-5);
-  padding-right: var(--size-3);
-  padding-left: var(--size-3);
-
-  > header {
-    display: flex;
-    gap: var(--size-3);
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  li {
-    display: flex;
-    gap: var(--size-2);
-    align-items: center;
-
-    padding-block: var(--size-2);
-
-    border-bottom: solid var(--border-size-1) var(--border-dimmed);
-    > img {
-      overflow: hidden;
-
-      aspect-ratio: 1;
-      width: 32px;
-
-      border: solid var(--border-size-1) var(--primary);
-      border-radius: var(--radius-round);
-    }
-
-    > button {
-      margin-left: auto;
-      padding: var(--size-1);
-
-      font-size: var(--font-size-0);
-
-      border-radius: var(--radius-round);
-      box-shadow: inset 0 0 3px 4px rgba(0, 0, 0, 0.35);
-    }
-  }
 }
 
 .delete-loadout {
@@ -362,11 +253,5 @@ form {
       transform: translateY(2px);
     }
   }
-}
-
-.faction-rune {
-  width: 18px;
-  height: 20px;
-  image-rendering: pixelated;
 }
 </style>
