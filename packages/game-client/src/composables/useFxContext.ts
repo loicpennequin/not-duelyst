@@ -2,6 +2,10 @@ import { Text, AnimatedSprite, Container, Sprite } from 'pixi.js';
 import { sfxPaths } from '../assets/sfx{m}';
 import { Howl } from 'howler';
 
+// @FIXME should probably register the entity root Container in game.fx instead of this bullshit, this is very brittle
+const getEntitySpriteRootContainer = (sprite: AnimatedSprite) =>
+  sprite.parent.parent.parent;
+
 export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameContext) => {
   const visibility = useDocumentVisibility();
   const isHidden = computed(() => visibility.value === 'hidden');
@@ -25,12 +29,10 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
         }
 
         const container = new Container();
-        container.position.set(
-          sprite.parent.parent.position.x,
-          sprite.parent.parent.position.y + 16
-        );
-        container.zIndex = sprite.parent.parent.zIndex + 1;
-        container.zOrder = sprite.parent.parent.zIndex + 1;
+        const root = getEntitySpriteRootContainer(sprite);
+        container.position.set(root.position.x, root.position.y + 16);
+        container.zIndex = root.zIndex + 1;
+        container.zOrder = root.zIndex + 1;
 
         const textSprite = new Text(text, {
           fontSize: 30,
@@ -338,7 +340,7 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
     addChildSpriteFor(
       spriteId,
       entityId,
-      { onEnter, onLeave, duration = 2000, offset = { x: 0, y: 0 }, scale = 1 } = {}
+      { onEnter, duration = 2000, offset = { x: 0, y: 0 }, scale = 1 } = {}
     ) {
       return new Promise<void>(resolve => {
         if (isHidden.value) return resolve();
@@ -358,12 +360,10 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
         const texture = assets.getTexture(spriteId);
 
         const container = new Container();
-        container.position.set(
-          entitySprite.parent.parent.position.x,
-          entitySprite.parent.parent.position.y
-        );
-        container.zIndex = entitySprite.parent.parent.zIndex + 1;
-        container.zOrder = entitySprite.parent.parent.zIndex + 1;
+        const root = getEntitySpriteRootContainer(entitySprite);
+        container.position.set(root.position.x, root.position.y);
+        container.zIndex = root.zIndex + 1;
+        container.zOrder = root.zIndex + 1;
         (fx.viewport?.children[0] as Container).addChild(container);
 
         const fxSprite = new Sprite(texture);
@@ -428,12 +428,10 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
       const texture = assets.getTexture(spriteId);
 
       const container = new Container();
-      container.position.set(
-        sprite.parent.parent.position.x,
-        sprite.parent.parent.position.y
-      );
-      container.zIndex = sprite.parent.parent.zIndex + 1;
-      container.zOrder = sprite.parent.parent.zIndex + 1;
+      const root = getEntitySpriteRootContainer(sprite);
+      container.position.set(root.position.x, root.position.y);
+      container.zIndex = root.zIndex + 1;
+      container.zOrder = root.zIndex + 1;
       (fx.viewport?.children[0] as Container).addChild(container);
 
       const fxSprite = new Sprite(texture);
@@ -483,12 +481,10 @@ export const useInstallFxContext = ({ gameSession, state, fx, assets }: GameCont
         }
 
         const container = new Container();
-        container.position.set(
-          sprite.parent.parent.position.x,
-          sprite.parent.parent.position.y
-        );
-        container.zIndex = sprite.parent.parent.zIndex + 1;
-        container.zOrder = sprite.parent.parent.zIndex + 1;
+        const root = getEntitySpriteRootContainer(sprite);
+        container.position.set(root.position.x, root.position.y);
+        container.zIndex = root.zIndex + 1;
+        container.zOrder = root.zIndex + 1;
         (fx.viewport?.children[0] as Container).addChild(container);
 
         const fxSprite = new AnimatedSprite(createSpritesheetFrameObject('idle', sheet));

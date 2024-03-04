@@ -53,10 +53,10 @@ const textStyle = new TextStyle({
   strokeThickness: 4
 });
 
-const hpCost = computed(() => {
-  if (!selectedSummon.value) return 0;
-  return state.value.activePlayer.getSumonHpCost(selectedSummon.value);
-});
+// const hpCost = computed(() => {
+//   if (!selectedSummon.value) return 0;
+//   return state.value.activePlayer.getSumonHpCost(selectedSummon.value);
+// });
 
 const ui = useGameUi();
 // ts in unhappy if we type the parameter, because vue expects fucntion refs to take a VNode as argument
@@ -110,7 +110,7 @@ const addToUiLayerRef = (_container: any) => {
         />
       </container>
 
-      <container v-if="hpCost" :x="CELL_SIZE * 0.5" :y="5">
+      <!-- <container v-if="hpCost" :x="CELL_SIZE * 0.5" :y="5">
         <text :scale="0.5" :style="textStyle as any" :anchor="0.5">- {{ hpCost }}</text>
         <animated-sprite
           :x="15"
@@ -122,7 +122,7 @@ const addToUiLayerRef = (_container: any) => {
           :anchor="0.5"
           :playing="false"
         />
-      </container>
+      </container> -->
     </container>
   </PTransition>
 </template>

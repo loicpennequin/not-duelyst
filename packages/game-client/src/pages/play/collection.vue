@@ -14,7 +14,6 @@ definePageMeta({
 const sidebarView = ref<'list' | 'form'>('list');
 const {
   values,
-  general,
   initEmpty,
   initFromLoadout,
   canAddUnit,
@@ -38,17 +37,6 @@ const {
   isCollectionLoading
 } = useCollection();
 
-const sortedLoadoutUnits = computed(() => {
-  console.log(values.value?.unitIds);
-  return [...(values.value?.unitIds ?? [])]
-    .map(id => UNITS[id])
-    .concat(general.value ? [general.value] : [])
-    .sort((a, b) => {
-      if (a.kind === 'GENERAL') return -1;
-      if (b.kind === 'GENERAL') return 1;
-      return a.summonCost - b.summonCost;
-    });
-});
 const toggleLoadoutCard = (unit: UnitBlueprint) => {
   if (sidebarView.value === 'list') return;
   toggleUnit(unit);
@@ -103,24 +91,11 @@ const editLoadout = (loadout: LoadoutDto) => {
       <template v-else>
         <ul v-if="loadouts" v-auto-animate>
           <li v-for="loadout in loadouts" :key="loadout._id" class="m-2 relative">
-            <LoadoutCard
+            <CollectionLoadoutCard
               :loadout="loadout"
-              tabindex="0"
-              @click="editLoadout(loadout)"
-              @keydown.enter="editLoadout(loadout)"
+              @edit="editLoadout(loadout)"
+              @delete="loadoutToDelete = loadout"
             />
-
-            <div class="delete-loadout">
-              <UiIconButton
-                name="material-symbols:delete-outline"
-                class="error-button"
-                :style="{
-                  '--ui-icon-button-size': 'var(--font-size-4)',
-                  '--ui-icon-button-radius': '0'
-                }"
-                @click="loadoutToDelete = loadout"
-              />
-            </div>
           </li>
         </ul>
 
@@ -203,18 +178,6 @@ const editLoadout = (loadout: LoadoutDto) => {
     scroll-snap-align: start;
   }
 }
-
-.loadout {
-  position: relative;
-
-  width: 100%;
-  padding: 0;
-
-  text-align: left;
-
-  transition: 0.3s;
-}
-
 .sidebar {
   will-change: transform;
 
@@ -228,30 +191,5 @@ const editLoadout = (loadout: LoadoutDto) => {
   transition: transform 0.7s;
   transition-delay: 0.3s;
   transition-timing-function: var(--ease-bounce-1);
-}
-
-.delete-loadout {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  display: grid;
-  align-items: flex-end;
-
-  height: 100%;
-  padding: 2px;
-
-  > button {
-    border-top: var(--fancy-border);
-    border-left: var(--fancy-border);
-    border-top-left-radius: var(--radius-3);
-    box-shadow: inset 0 0 3px 4px rgba(0, 0, 0, 0.35);
-
-    transition: transform 0.2s;
-
-    &:hover {
-      transform: translateY(2px);
-    }
-  }
 }
 </style>

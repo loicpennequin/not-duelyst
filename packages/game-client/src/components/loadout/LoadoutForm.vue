@@ -44,7 +44,7 @@ const sortedUnits = computed(() => {
       {{ unitIds.size }} / {{ config.LOADOUT_MAX_SIZE }}
     </header>
 
-    <div class="flex gap-2">
+    <div class="flex gap-2 my-4">
       <img
         v-for="(faction, index) in factions"
         :key="`${index}${faction}`"
@@ -70,7 +70,7 @@ const sortedUnits = computed(() => {
           class="rune"
         />
 
-        {{ unit.id }}
+        <span>{{ unit.id }}</span>
 
         <UiIconButton
           name="mdi:minus"
@@ -133,13 +133,20 @@ li {
 
   padding-block: var(--size-2);
 
+  font-size: var(--font-size-3);
+
   border-bottom: solid var(--border-size-1) var(--border-dimmed);
 
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   > img:not(.rune) {
     overflow: hidden;
 
     aspect-ratio: 1;
-    width: 32px;
+    width: 48px;
 
     border: solid var(--border-size-1) var(--primary);
     border-radius: var(--radius-round);

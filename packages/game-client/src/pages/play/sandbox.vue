@@ -173,6 +173,7 @@ onBeforeUnmount(() => {
           </UiButton>
         </div>
       </template>
+
       <template #fallback>
         <div>Loading sandbox environment...</div>
       </template>
