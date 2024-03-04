@@ -4,6 +4,8 @@ uniform sampler2D uSampler;
 
 uniform float time;
 
+
+
 float Alpha_Percent = 100.0;
 float Amount = 0.03;
 float Scale = 5.1;

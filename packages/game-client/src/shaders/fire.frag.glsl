@@ -1,5 +1,3 @@
-#include utils.frag;
-
 // pixi provided uniforms
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
@@ -7,6 +5,10 @@ uniform sampler2D uSampler;
 uniform float time;
 uniform vec2 speed;
 uniform float shift;
+
+float map(float value, float min1, float max1, float min2, float max2) {
+  return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+}
 
 float rand(vec2 n) {
   //This is just a compounded expression to simulate a random number based on a seed given as n
