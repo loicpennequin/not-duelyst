@@ -1,5 +1,4 @@
 import { AddEffectAction } from '../action/add-effect.action';
-import { RemoveEffectAction } from '../action/remove-effect-action';
 import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import type { GameSession } from '../game-session';

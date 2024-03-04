@@ -283,6 +283,18 @@ export const coreSet: UnitBlueprint[] = [
     speed: 3,
     skills: [
       new RangedAttack({ cooldown: 1, cost: 0, power: 0, minRange: 2, maxRange: 3 })
+    ],
+    effects: [
+      {
+        description: 'Lone wolf: +2 attack.',
+        keywords: [KEYWORDS.LONE_WOLF],
+        execute(ctx, entity) {
+          new MODIFIERS.loneWolfStatModifier(ctx, entity, {
+            statKey: 'attack',
+            value: 2
+          }).attach(entity);
+        }
+      }
     ]
   },
   {
