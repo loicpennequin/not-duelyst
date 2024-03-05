@@ -1,14 +1,12 @@
 import { RARITY } from '../../../enums';
 import { FACTIONS } from '../../../faction/faction-lookup';
 import { MeleeAttack } from '../../../skill/melee-attack.skill';
-import { KEYWORDS } from '../../../utils/keywords';
 import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
-import { isEnemy } from '../../../entity/entity-utils';
 import { RangedAttack } from '../../../skill/ranged-attack';
-import { isWithinCells } from '../../../skill/skill-utils';
-import { DealDamageAction } from '../../../action/deal-damage.action';
-import { AddEffectAction } from '../../../action/add-effect.action';
+import { onSummonDealDamage } from '../../../effects/on-summoned-deal-damage';
+import { targetOneNearbyEnemy } from '../../../utils/on-summon-utils';
+import { onSummonedTauntNearby } from '../../../effects/on-summoned-taunt-nearby';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -101,40 +99,8 @@ export const coreSet: UnitBlueprint[] = [
     attack: 2,
     speed: 3,
     skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
-    onSummoned: {
-      minTargetCount: 0,
-      maxTargetCount: 1,
-      isTargetable(ctx, point, summonedPoint) {
-        const entity = ctx.entityManager.getEntityAt(point);
-        if (!entity) return false;
-
-        return (
-          isEnemy(ctx, entity.id, ctx.playerManager.getActivePlayer().id) &&
-          isWithinCells(ctx, summonedPoint, point, 1)
-        );
-      }
-    },
-    effects: [
-      {
-        description: 'Summon: deal one damage to a nearby enemy.',
-        keywords: [KEYWORDS.SUMMON],
-        execute(ctx, entity, targets) {
-          const enemy = ctx.entityManager.getEntityAt(targets[0])!;
-
-          ctx.actionQueue.push(
-            new DealDamageAction(
-              {
-                amount: 1,
-                shouldRetaliate: false,
-                sourceId: entity.id,
-                targets: [enemy.id]
-              },
-              ctx
-            )
-          );
-        }
-      }
-    ]
+    onSummoned: targetOneNearbyEnemy(),
+    effects: [onSummonDealDamage(1)]
   },
   {
     id: 'neutral-archer',
@@ -147,14 +113,7 @@ export const coreSet: UnitBlueprint[] = [
     attack: 1,
     maxHp: 6,
     speed: 3,
-    skills: [
-      new RangedAttack({
-        cooldown: 1,
-        power: 0,
-        minRange: 2,
-        maxRange: 3
-      })
-    ]
+    skills: [new RangedAttack({ cooldown: 1, power: 0, minRange: 2, maxRange: 3 })]
   },
   {
     id: 'neutral-tank',
@@ -168,31 +127,6 @@ export const coreSet: UnitBlueprint[] = [
     maxHp: 8,
     speed: 3,
     skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
-    effects: [
-      {
-        description: 'Summon: taunt nearby enemies.',
-        keywords: [KEYWORDS.SUMMON, KEYWORDS.TAUNT],
-        execute(ctx, entity) {
-          const enemies = ctx.entityManager.getNearbyEnemies(
-            entity.position,
-            entity.playerId
-          );
-
-          enemies.forEach(enemy => {
-            ctx.actionQueue.push(
-              new AddEffectAction(
-                {
-                  attachedTo: enemy.id,
-                  sourceId: entity.id,
-                  effectId: 'taunted',
-                  effectArg: { duration: 1, radius: 1 }
-                },
-                ctx
-              )
-            );
-          });
-        }
-      }
-    ]
+    effects: [onSummonedTauntNearby()]
   }
 ];

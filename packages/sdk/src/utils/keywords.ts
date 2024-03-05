@@ -69,12 +69,12 @@ export const KEYWORDS = {
     name: 'Vigilant',
     description: 'This unit does not exhaust when retaliating.'
   },
-  DAUNTING: {
-    name: 'Daunting',
+  OVERWHELM: {
+    name: 'Overwhelm',
     description: 'Prevents targeted units from retaliating.'
   },
-  SHELL: {
-    name: 'Shell',
+  BARRIER: {
+    name: 'Barrier',
     description: 'Prevents the next source of damage dealt to this unit.'
   },
   LONE_WOLF: {

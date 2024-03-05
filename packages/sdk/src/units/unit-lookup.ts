@@ -8,6 +8,7 @@ import { GameSession } from '../game-session';
 import type { Rarity } from '../enums';
 import { coreSet } from './sets/core';
 import type { Keyword } from '../utils/keywords';
+import type { Player } from '../player/player';
 
 export type UnitId = string;
 
@@ -39,7 +40,12 @@ export type UnitBlueprint = {
   onSummoned?: {
     minTargetCount: number;
     maxTargetCount: number;
-    isTargetable(ctx: GameSession, point: Point3D, summonedPoint: Point3D): boolean;
+    isTargetable(
+      ctx: GameSession,
+      point: Point3D,
+      summonedPoint: Point3D,
+      owner: Player
+    ): boolean;
   };
 };
 

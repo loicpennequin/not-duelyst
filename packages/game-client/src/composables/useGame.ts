@@ -206,7 +206,8 @@ export const useGameProvider = (
         return selectedSummon.value.onSummoned.isTargetable(
           session,
           point,
-          summonSpawnPoint.value
+          summonSpawnPoint.value,
+          session.playerManager.getActivePlayer()
         );
       }
     },
