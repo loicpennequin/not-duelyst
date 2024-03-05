@@ -5,6 +5,7 @@ import { Modifier } from './modifier';
 export class ExhaustedModifier extends Modifier {
   readonly id = 'exhausted';
   duration: number;
+  shouldTickOnBothPlayersTurn = true;
 
   constructor(
     protected ctx: GameSession,
@@ -32,11 +33,13 @@ export class ExhaustedModifier extends Modifier {
   cleanup() {
     this.attachedTo?.removeInterceptor('canMove', this.interceptor);
     this.attachedTo?.removeInterceptor('canUseSkill', this.interceptor);
+    this.attachedTo?.removeInterceptor('canRetaliate', this.interceptor);
   }
 
   onApplied() {
     this.attachedTo?.addInterceptor('canMove', this.interceptor);
     this.attachedTo?.addInterceptor('canUseSkill', this.interceptor);
+    this.attachedTo?.addInterceptor('canRetaliate', this.interceptor);
   }
 
   onExpired() {

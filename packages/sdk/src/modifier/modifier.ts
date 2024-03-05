@@ -10,6 +10,7 @@ export abstract class Modifier {
   abstract readonly id: ModifierId;
   abstract duration: number;
   attachedTo?: Entity;
+  shouldTickOnBothPlayersTurn = false;
 
   static keywords: Keyword[];
 
@@ -52,7 +53,10 @@ export abstract class Modifier {
   protected tick(player: Player) {
     if (!this.attachedTo) return;
 
-    if (!player.equals(this.attachedTo.player)) return;
+    if (!this.shouldTickOnBothPlayersTurn && !player.equals(this.attachedTo.player)) {
+      return;
+    }
+
     this.duration--;
     if (this.duration === 0) {
       this.detach();
