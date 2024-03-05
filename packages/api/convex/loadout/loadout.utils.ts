@@ -1,6 +1,6 @@
 import type { Doc, Id } from '../_generated/dataModel';
 import type { MutationCtx, QueryCtx } from '../_generated/server';
-import { UNITS, type FactionName, type UnitId, FACTIONS } from '@hc/sdk';
+import { UNITS, type FactionName, type UnitId, FACTIONS, config } from '@hc/sdk';
 
 export const ensureNoDuplicates = (units: string[]) => {
   if (new Set(units).size !== units.length) {
@@ -51,7 +51,7 @@ export const ensureLoadoutUnitsMatchWithGeneral = (
 export const ensureCorrectFactions = (
   factions: string[]
 ): [FactionName, FactionName, FactionName] => {
-  if (factions.length !== 3) {
+  if (factions.length > config.MAX_FACTIONS_PER_LOADOUT) {
     throw new Error('Illegal loadout: Incorrect factions count.');
   }
 

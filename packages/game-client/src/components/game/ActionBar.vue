@@ -256,7 +256,7 @@ const onValidateTargets = () => {
     }
 
     &.unavailable {
-      filter: sepia(100%) hue-rotate(-70deg) saturate(200%) brightness(75%);
+      filter: grayscale(70%) brightness(60%) contrast(110%);
     }
   }
 }

@@ -17,7 +17,6 @@ const isSummoned = ref(entity.kind === 'GENERAL');
 
 const scaleX = computed(() => {
   let value = entity.playerId === state.value.players[0].id ? 1 : -1;
-  console.log(value);
   if (mapRotation.value === 90 || mapRotation.value === 180) {
     value *= -1;
   }

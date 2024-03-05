@@ -7,6 +7,11 @@ import { RangedAttack } from '../../../skill/ranged-attack';
 import { onSummonDealDamage } from '../../../effects/on-summoned-deal-damage';
 import { targetOneNearbyEnemy } from '../../../utils/on-summon-utils';
 import { onSummonedTauntNearby } from '../../../effects/on-summoned-taunt-nearby';
+import { onSummonedHealNearby } from '../../../effects/on-summoned-heal-nearby';
+import { Heal } from '../../../skill/heal.skill';
+import { KEYWORDS } from '../../../utils/keywords';
+import { addModifierToSelf } from '../../../effects/add-modifier-to-self';
+import { Burn } from '../../../skill/burn.skill';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -46,7 +51,17 @@ export const coreSet: UnitBlueprint[] = [
     maxHp: 25,
     attack: 2,
     speed: 3,
-    skills: [new MeleeAttack({ cooldown: 1, power: 0 })]
+    skills: [
+      new MeleeAttack({ cooldown: 1, power: 0 }),
+      new Burn({
+        cooldown: 3,
+        duration: Infinity,
+        power: 2,
+        name: 'Ignite',
+        range: 2,
+        attackRatio: 0
+      })
+    ]
   },
   {
     id: 'air-general',
@@ -98,9 +113,7 @@ export const coreSet: UnitBlueprint[] = [
     maxHp: 6,
     attack: 2,
     speed: 3,
-    skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
-    onSummoned: targetOneNearbyEnemy(),
-    effects: [onSummonDealDamage(1)]
+    skills: [new MeleeAttack({ cooldown: 1, power: 0 })]
   },
   {
     id: 'neutral-archer',
@@ -128,5 +141,76 @@ export const coreSet: UnitBlueprint[] = [
     speed: 3,
     skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
     effects: [onSummonedTauntNearby()]
+  },
+  {
+    id: 'neutral-healer',
+    spriteId: 'neutral-healer',
+    factions: [],
+    kind: UNIT_KIND.SOLDIER,
+    rarity: RARITY.COMMON,
+    summonCost: 3,
+    summonCooldown: 4,
+    attack: 1,
+    maxHp: 6,
+    speed: 3,
+    skills: [
+      new MeleeAttack({ cooldown: 1, power: 0 }),
+      new Heal({ cooldown: 2, power: 2, range: 3 })
+    ],
+    effects: [onSummonedHealNearby(1)]
+  },
+  {
+    id: 'neutral-thief',
+    spriteId: 'neutral-thief',
+    factions: [],
+    kind: UNIT_KIND.SOLDIER,
+    rarity: RARITY.COMMON,
+    summonCost: 3,
+    summonCooldown: 4,
+    attack: 2,
+    maxHp: 4,
+    speed: 3,
+    skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
+    effects: [
+      addModifierToSelf({
+        id: 'rush',
+        meta: {},
+        description: 'Rush',
+        keywords: [KEYWORDS?.RUSH]
+      }),
+      addModifierToSelf({
+        id: 'plunderOnKill',
+        meta: { amount: 1, duration: Infinity },
+        description: 'Slay: Plunder(1)',
+        keywords: [KEYWORDS.PLUNDER, KEYWORDS.SLAY]
+      })
+    ]
+  },
+  {
+    id: 'fire-fighter',
+    spriteId: 'fire-fighter',
+    factions: [FACTIONS.FIRE],
+    kind: UNIT_KIND.SOLDIER,
+    rarity: RARITY.RARE,
+    summonCost: 4,
+    summonCooldown: 4,
+    attack: 3,
+    maxHp: 7,
+    speed: 3,
+    skills: [new MeleeAttack({ power: 0, cooldown: 1 })],
+    effects: [
+      addModifierToSelf({
+        id: 'vigilant',
+        meta: { duration: Infinity },
+        description: 'Vigilant.',
+        keywords: [KEYWORDS.VIGILANT]
+      }),
+      addModifierToSelf({
+        id: 'loneWolfStatModifier',
+        meta: { statKey: 'attack', value: 1 },
+        description: 'Lone wolf: +1 attack.',
+        keywords: [KEYWORDS.LONE_WOLF]
+      })
+    ]
   }
 ];

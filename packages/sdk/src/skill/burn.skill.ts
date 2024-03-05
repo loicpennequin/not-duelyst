@@ -4,35 +4,35 @@ import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { type Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
-import { isSelf, isWithinCells } from './skill-utils';
-import { isAlly } from '../entity/entity-utils';
-import { ThornsModifier } from '../modifier/thorns.modifier';
+import { isWithinCells } from './skill-utils';
+import { isEnemy } from '../entity/entity-utils';
+import type { BurnModifier } from '../modifier/burn.modifier';
+import { KEYWORDS } from '../utils/keywords';
 
-export type ThornsOptions = PartialBy<
+export type BurnOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  ThornsModifier['meta'] & { range: number; targetType: 'self' | 'ally' };
+  BurnModifier['meta'] & { range: number };
 
-export class Thorns extends Skill {
-  public readonly meta: ThornsModifier['meta'];
+export class Burn extends Skill {
   public readonly range: number;
-  public readonly targetType: 'self' | 'ally';
+  public readonly meta: BurnModifier['meta'];
+  public readonly keywords = [KEYWORDS.BURN];
 
-  constructor(options: ThornsOptions) {
+  constructor(options: BurnOptions) {
     super({
       id: options.id ?? 'thorns',
       animationFX: options.animationFX ?? 'cast',
       soundFX: options.soundFX ?? 'cast-placeholder',
-      spriteId: options.spriteId ?? 'thorns',
+      spriteId: options.spriteId ?? 'fire2',
       shouldExhaustCaster: options?.shouldExhaustCaster ?? true,
       ...options
     });
     this.range = options.range;
-    this.targetType = options.targetType;
     this.meta = {
-      power: options.power,
       duration: options.duration,
+      power: options.power,
       attackRatio: options.attackRatio
     };
   }
@@ -47,28 +47,24 @@ export class Thorns extends Skill {
 
   getDescription(caster: SkillDescriptionContext) {
     const duration = isFinite(this.meta.duration)
-      ? `for ${this.meta.duration} turns`
+      ? ` for ${this.meta.duration} turns`
       : '';
-    return `Target gets thorns ${this.getDamageAmount(caster.attack)} ${duration}.`;
+    return `Inflict Burn(${this.getDamageAmount(caster.attack)}) to an enemy${duration}.`;
   }
 
   isWithinRange(ctx: GameSession, point: Point3D, caster: Entity) {
     return isWithinCells(ctx, caster.position, point, this.range);
   }
 
-  isTargetable(ctx: GameSession, point: Point3D, caster: Entity) {
-    if (!this.isWithinRange(ctx, point, caster)) return false;
-
-    switch (this.targetType) {
-      case 'self':
-        return isSelf(caster, ctx.entityManager.getEntityAt(point));
-      case 'ally':
-        return isAlly(ctx, ctx.entityManager.getEntityAt(point)?.id, caster.playerId);
-    }
-  }
-
   isInAreaOfEffect(ctx: GameSession, point: Point3D, caster: Entity, targets: Point3D[]) {
     return isWithinCells(ctx, targets[0], point, 0);
+  }
+
+  isTargetable(ctx: GameSession, point: Point3D, caster: Entity) {
+    return (
+      this.isWithinRange(ctx, point, caster) &&
+      isEnemy(ctx, ctx.entityManager.getEntityAt(point)?.id, caster.playerId)
+    );
   }
 
   execute(ctx: GameSession, caster: Entity, [target]: Point3D[]) {
@@ -78,7 +74,7 @@ export class Thorns extends Skill {
         {
           sourceId: caster.id,
           attachedTo: entity.id,
-          effectId: 'thorns',
+          effectId: 'burn',
           effectArg: this.meta
         },
         ctx

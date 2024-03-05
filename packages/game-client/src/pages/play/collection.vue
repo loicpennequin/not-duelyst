@@ -64,7 +64,7 @@ const editLoadout = (loadout: LoadoutDto) => {
     <CollectionDeleteModal v-model:loadout="loadoutToDelete" />
     <CollectionHeader v-model:filter="factionFilter" />
 
-    <section class="card-list fancy-scrollbar">
+    <section class="card-list fancy-scrollbar pb-5">
       <CollectionCard
         v-for="item in displayedUnits"
         :key="item._id"

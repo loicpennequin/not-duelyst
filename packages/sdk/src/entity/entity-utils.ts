@@ -49,3 +49,9 @@ export const isSoldier = isKind(UNIT_KIND.SOLDIER);
 export const isEmpty = (ctx: GameSession, point: Point3D) => {
   return !ctx.entityManager.getEntityAt(point);
 };
+
+export const pointsToEntityIds = (ctx: GameSession, points: Point3D[]) =>
+  points
+    .map(ctx.entityManager.getEntityAt)
+    .filter(isDefined)
+    .map(e => e.id);

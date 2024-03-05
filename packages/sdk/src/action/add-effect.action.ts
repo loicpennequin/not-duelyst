@@ -4,8 +4,8 @@ import { GameAction } from './action';
 
 export class AddEffectAction<T extends keyof typeof MODIFIERS> extends GameAction<{
   effectId: T;
-  sourceId: EntityId;
   attachedTo: EntityId;
+  sourceId: EntityId;
   effectArg: InstanceType<(typeof MODIFIERS)[T]>['meta'];
 }> {
   readonly name = 'ADD_EFFECT';

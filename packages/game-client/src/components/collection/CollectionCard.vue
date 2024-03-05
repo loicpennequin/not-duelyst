@@ -96,7 +96,7 @@ const onMousemove = (e: MouseEvent) => {
   }
 
   &.used {
-    filter: drop-shadow(0px 2px 0.75em hsl(var(--color-primary-hsl) / 0.5));
+    filter: drop-shadow(0px 5px 0.5rem var(--primary));
   }
 
   &.disabled {

@@ -3,8 +3,8 @@ import { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
 import { Modifier } from './modifier';
 
-export class VulnerableModifier extends Modifier {
-  readonly id = 'vulnerable';
+export class VigilantModifier extends Modifier {
+  readonly id = 'vigilant';
   duration: number;
 
   constructor(
@@ -19,23 +19,23 @@ export class VulnerableModifier extends Modifier {
   }
 
   getDescription(): string {
-    return `Vulnerable.`;
+    return `Vigilant.`;
   }
 
   getKeywords() {
-    return [KEYWORDS.VULNERABLE];
+    return [KEYWORDS.VIGILANT];
   }
 
-  interceptor(amount: number) {
-    return amount + 1;
+  interceptor() {
+    return false;
   }
 
   cleanup() {
-    this.attachedTo?.removeInterceptor('takeDamage', this.interceptor);
+    this.attachedTo?.removeInterceptor('shouldExhaustAfterRetaliation', this.interceptor);
   }
 
   onApplied() {
-    this.attachedTo?.addInterceptor('takeDamage', this.interceptor);
+    this.attachedTo?.addInterceptor('shouldExhaustAfterRetaliation', this.interceptor);
   }
 
   onExpired() {
