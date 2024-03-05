@@ -19,7 +19,7 @@ export class ExhaustedModifier extends Modifier {
   }
 
   getDescription(): string {
-    return `This unit has been summoned this turn and cannot move of use abilities.`;
+    return `This unit cannot move, use abilities or retaliate.`;
   }
 
   getKeywords() {

@@ -6,7 +6,8 @@ export type Keyword = {
 export const KEYWORDS = {
   EXHAUSTED: {
     name: 'Exhausted',
-    description: 'This unit has already acted this turn and cannot act again'
+    description:
+      'This unit has already acted this turn and cannot act or retaliate again.'
   },
   RUSH: {
     name: 'Rush',
