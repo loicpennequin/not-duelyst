@@ -42,6 +42,7 @@ export class AoeOnDeathModifier extends Modifier {
     this.ctx.actionQueue.push(
       new DealDamageAction(
         {
+          shouldRetaliate: false,
           amount: this.damage,
           sourceId: this.attachedTo!.id,
           targets: enemies.map(e => e.id)

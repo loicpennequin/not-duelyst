@@ -3,16 +3,8 @@ import { FACTIONS } from '@hc/sdk';
 import type { FactionId } from '@hc/sdk/src/faction/faction-lookup';
 
 const factions: FactionId[] = Object.values(FACTIONS).map(f => f.id);
-const filter = defineModel<string[]>('filter', { required: true });
 
-const toggle = (faction: string) => {
-  const index = filter.value.indexOf(faction);
-  if (index === -1) {
-    filter.value.push(faction);
-  } else {
-    filter.value.splice(index, 1);
-  }
-};
+const filter = defineModel<string[]>('filter', { required: true });
 </script>
 
 <template>

@@ -1,11 +1,14 @@
-import { type EntityId, isEntityId } from '../entity/entity';
+import { type EntityId, isEntityId, Entity } from '../entity/entity';
 import type { InteractableId } from '../interactable/interactable';
+import { isWithinCells } from '../skill/skill-utils';
 import { GameAction } from './action';
+import { AddEffectAction } from './add-effect.action';
 
 export class DealDamageAction extends GameAction<{
   amount: number;
   sourceId: EntityId | InteractableId;
   targets: EntityId[];
+  shouldRetaliate: boolean;
 }> {
   readonly name = 'DEAL_DAMAGE';
 
@@ -70,6 +73,39 @@ export class DealDamageAction extends GameAction<{
     );
   }
 
+  handleRetaliation(target: Entity) {
+    if (!this.attacker) return;
+    if (!target.canRetaliate) return;
+
+    if (isWithinCells(this.ctx, target.position, this.attacker.position, 1)) {
+      this.ctx.actionQueue.push(
+        new DealDamageAction(
+          {
+            shouldRetaliate: false,
+            amount: target.attack,
+            sourceId: target.id,
+            targets: [this.attacker.id]
+          },
+          this.ctx
+        )
+      );
+
+      if (target.shouldExhaustAfterRetaliation) {
+        this.ctx.actionQueue.push(
+          new AddEffectAction(
+            {
+              attachedTo: target.id,
+              sourceId: target.id,
+              effectId: 'exhausted',
+              effectArg: {}
+            },
+            this.ctx
+          )
+        );
+      }
+    }
+  }
+
   protected impl() {
     this.payload.targets.forEach(targetId => {
       const target = this.ctx.entityManager.getEntityById(targetId)!;
@@ -78,6 +114,10 @@ export class DealDamageAction extends GameAction<{
         this.attacker.dealDamage(this.payload.amount, target);
       } else {
         target.takeDamage(this.payload.amount, null);
+      }
+
+      if (this.payload.shouldRetaliate) {
+        this.handleRetaliation(target);
       }
     });
   }

@@ -37,6 +37,7 @@ export abstract class Attack extends Skill {
     ctx.actionQueue.push(
       new DealDamageAction(
         {
+          shouldRetaliate: affectedCells.length <= 11,
           amount: this.getDamageAmount(caster.attack),
           sourceId: caster.id,
           targets: affectedCells.map(target => ctx.entityManager.getEntityAt(target)!.id)

@@ -79,6 +79,8 @@ export class Entity implements Serializable {
       { entity: Entity; skill: Skill; targets: Point3D[] }
     >(),
     canMove: new Interceptable<boolean, Entity>(),
+    canRetaliate: new Interceptable<boolean, Entity>(),
+    shouldExhaustAfterRetaliation: new Interceptable<boolean, Entity>(),
     takeDamage: new Interceptable<number, { entity: Entity; amount: number }>()
   };
 
@@ -175,6 +177,14 @@ export class Entity implements Serializable {
 
   get attack(): number {
     return this.interceptors.attack.getValue(this.unit.attack, this);
+  }
+
+  get canRetaliate(): boolean {
+    return this.interceptors.canRetaliate.getValue(true, this);
+  }
+
+  get shouldExhaustAfterRetaliation(): boolean {
+    return this.interceptors.shouldExhaustAfterRetaliation.getValue(true, this);
   }
 
   get skills() {

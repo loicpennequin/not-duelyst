@@ -24,6 +24,7 @@ export class Firewall extends Interactable {
       this.ctx.actionQueue.push(
         new DealDamageAction(
           {
+            shouldRetaliate: false,
             amount: 2,
             sourceId: this.id,
             targets: [entity.id]
@@ -40,6 +41,7 @@ export class Firewall extends Interactable {
       this.ctx.actionQueue.push(
         new DealDamageAction(
           {
+            shouldRetaliate: false,
             amount: 2,
             sourceId: this.id,
             targets: [entity.id]

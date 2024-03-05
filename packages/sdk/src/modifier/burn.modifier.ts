@@ -42,6 +42,7 @@ export class BurnModifier extends Modifier {
     this.ctx.actionQueue.push(
       new DealDamageAction(
         {
+          shouldRetaliate: false,
           amount: this.meta.power,
           sourceId: this.source.id,
           targets: [this.attachedTo.id]

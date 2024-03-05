@@ -76,6 +76,7 @@ const onMousemove = (e: MouseEvent) => {
   padding: var(--size-1);
   perspective: 40rem;
   animation: test 0.3s;
+
   > * {
     height: 100%;
   }
@@ -95,7 +96,7 @@ const onMousemove = (e: MouseEvent) => {
   }
 
   &.used {
-    outline: solid var(--border-size-2) var(--primary);
+    filter: drop-shadow(0px 2px 0.75em hsl(var(--color-primary-hsl) / 0.5));
   }
 
   &.disabled {

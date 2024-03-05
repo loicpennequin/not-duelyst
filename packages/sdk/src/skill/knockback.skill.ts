@@ -1,10 +1,10 @@
-import { PartialBy, isNumber } from '@hc/shared';
+import { type PartialBy, isNumber } from '@hc/shared';
 import { DealDamageAction } from '../action/deal-damage.action';
 import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { Skill, SkillDescriptionContext, SkillOptions } from './skill';
+import type { Point3D } from '../types';
+import { Skill, type SkillDescriptionContext, type SkillOptions } from './skill';
 import { isWithinCells, isSelf, isAxisAligned, isMinCells } from './skill-utils';
 import { DisplaceAction } from '../action/displace.action';
 
@@ -104,6 +104,7 @@ export class Knockback extends Skill {
     ctx.actionQueue.push(
       new DealDamageAction(
         {
+          shouldRetaliate: false,
           amount: this.getDamageAmount(caster.attack),
           sourceId: caster.id,
           targets: entities.map(e => e.id)
@@ -136,6 +137,7 @@ export class Knockback extends Skill {
         ctx.actionQueue.push(
           new DealDamageAction(
             {
+              shouldRetaliate: false,
               amount: this.collisionDamage,
               sourceId: caster.id,
               targets: [entity.id, obstacle.id]

@@ -44,6 +44,7 @@ export class ThornsModifier extends Modifier {
     this.ctx.actionQueue.push(
       new DealDamageAction(
         {
+          shouldRetaliate: false,
           amount: this.damage,
           sourceId: this.attachedTo!.id,
           targets: [source.id]
