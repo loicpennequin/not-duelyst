@@ -7,7 +7,6 @@ import { KEYWORDS, type Keyword } from '../utils/keywords';
 export type SkillId = string;
 
 export type SkillOptions = {
-  cost: number;
   name: string;
   animationFX?: string;
   soundFX?: string;

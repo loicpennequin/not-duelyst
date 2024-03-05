@@ -37,7 +37,6 @@ export type UnitBlueprint = {
   }>;
 
   onSummoned?: {
-    getDescription(unit: UnitBlueprint): string;
     minTargetCount: number;
     maxTargetCount: number;
     isTargetable(ctx: GameSession, point: Point3D, summonedPoint: Point3D): boolean;

@@ -28,7 +28,7 @@ export const useCollection = () => {
     const aFaction = a.unit.factions[0];
     const bFaction = b.unit.factions[0];
 
-    const factionDiff = factions.indexOf(bFaction.id) - factions.indexOf(aFaction.id);
+    const factionDiff = factions.indexOf(bFaction?.id) - factions.indexOf(aFaction?.id);
     if (factionDiff !== 0) return factionDiff * -1;
 
     return a.unit.summonCost - b.unit.summonCost;
@@ -39,9 +39,9 @@ export const useCollection = () => {
     if (!factionFilter.value.length) return allUnits.value.sort(sortUnitFunction);
 
     return allUnits.value
-      .filter(({ unit }) =>
-        unit.factions.some(({ id }) => factionFilter.value.includes(id))
-      )
+      .filter(({ unit }) => {
+        return unit.factions.some(({ id }) => factionFilter.value.includes(id));
+      })
       .sort(sortUnitFunction);
   });
 

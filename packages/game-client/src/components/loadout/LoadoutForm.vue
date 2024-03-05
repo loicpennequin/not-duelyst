@@ -46,9 +46,9 @@ const sortedUnits = computed(() => {
 
     <div class="flex gap-2 my-4">
       <img
-        v-for="(faction, index) in factions"
-        :key="`${index}${faction}`"
-        :src="`/assets/ui/rune-${faction.toLocaleLowerCase() ?? 'empty'}.png`"
+        v-for="(_, index) in 3"
+        :key="`${index}:${factions[index]}`"
+        :src="`/assets/ui/rune-${factions[index]?.toLocaleLowerCase() ?? 'empty'}.png`"
         class="rune"
       />
     </div>
@@ -141,6 +141,10 @@ li {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  > img {
+    flex-shrink: 0;
   }
   > img:not(.rune) {
     overflow: hidden;
