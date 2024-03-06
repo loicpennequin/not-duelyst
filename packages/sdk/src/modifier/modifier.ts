@@ -42,7 +42,7 @@ export abstract class Modifier {
 
     this.onDetached();
     const idx = this.attachedTo.modifiers.indexOf(this);
-    this.attachedTo.modifiers.splice(idx);
+    this.attachedTo.modifiers.splice(idx, 1);
 
     this.ctx.emitter.off('game:turn-end', this.tick);
     this.attachedTo.off('die', this.detach);

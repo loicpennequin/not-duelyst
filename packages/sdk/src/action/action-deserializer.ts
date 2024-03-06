@@ -9,7 +9,6 @@ import { GameSession } from '../game-session';
 import { DieAction } from './die.action';
 import { EndGamection } from './end-game.action';
 import { HealAction } from './heal.action';
-import { ModifyGoldAction } from './modify-gold.action';
 import { RemoveInteractableAction } from './removeInteractable.action';
 import { DisplaceAction } from './displace.action';
 import { SummonInteractableAction } from './summon-interactable.action';
@@ -37,7 +36,6 @@ export const actionMap = validateActionMap({
   DIE: DieAction,
   END_GAME: EndGamection,
   HEAL: HealAction,
-  MODIFY_GOLD: ModifyGoldAction,
   REMOVE_INTERACTABLE: RemoveInteractableAction,
   DISPLACE: DisplaceAction,
   SUMMON_INTERACTABLE: SummonInteractableAction,

@@ -1,4 +1,3 @@
-import { ModifyGoldAction } from '../action/modify-gold.action';
 import { GameSession } from '../game-session';
 import { Interactable, type SerializedInteractable } from './interactable';
 
@@ -23,9 +22,8 @@ export class GoldCoin extends Interactable {
       this.ctx.emitter.off('entity:use-skill', this.pickup);
       this.ctx.emitter.off('entity:created', this.pickup);
 
-      this.ctx.actionQueue.push(
-        new ModifyGoldAction({ playerId: entity.playerId, amount: 1 }, this.ctx)
-      );
+      entity.player.gold++;
+
       this.destroy();
     }
   }

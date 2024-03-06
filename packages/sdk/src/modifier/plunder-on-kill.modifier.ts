@@ -1,4 +1,3 @@
-import { ModifyGoldAction } from '../action/modify-gold.action';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { Modifier } from './modifier';
@@ -34,15 +33,7 @@ export class PlunderOnKillModifier extends Modifier {
     if (!this.attachedTo) return;
     if (!entity.lastDamagesource.equals(this.attachedTo)) return;
 
-    this.ctx.actionQueue.push(
-      new ModifyGoldAction(
-        {
-          playerId: this.attachedTo.playerId,
-          amount: this.meta.amount
-        },
-        this.ctx
-      )
-    );
+    this.attachedTo.player.gold += this.meta.amount;
   }
 
   cleanup() {

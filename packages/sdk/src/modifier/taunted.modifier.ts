@@ -84,7 +84,6 @@ export class TauntedModifier extends Modifier {
   }
 
   onExpired() {
-    console.log('taunt expired');
     this.cleanup();
   }
 
