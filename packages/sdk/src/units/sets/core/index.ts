@@ -4,14 +4,16 @@ import { MeleeAttack } from '../../../skill/melee-attack.skill';
 import { UNIT_KIND } from '../../constants';
 import type { UnitBlueprint } from '../../unit-lookup';
 import { RangedAttack } from '../../../skill/ranged-attack';
-import { onSummonDealDamage } from '../../../effects/on-summoned-deal-damage';
-import { targetOneNearbyEnemy } from '../../../utils/on-summon-utils';
+import { targetOneEnemy } from '../../../utils/on-summon-utils';
 import { onSummonedTauntNearby } from '../../../effects/on-summoned-taunt-nearby';
 import { onSummonedHealNearby } from '../../../effects/on-summoned-heal-nearby';
 import { Heal } from '../../../skill/heal.skill';
 import { KEYWORDS } from '../../../utils/keywords';
 import { addModifierToSelf } from '../../../effects/add-modifier-to-self';
 import { Burn } from '../../../skill/burn.skill';
+import { addModifierToTargets } from '../../../effects/add-modifier-to-targets';
+import { StatModifier } from '../../../skill/stat-modifier';
+import { onSummonedFreezeNearby } from '../../../effects/on-summoned-freeze-nearby';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -58,8 +60,9 @@ export const coreSet: UnitBlueprint[] = [
         duration: Infinity,
         power: 2,
         name: 'Ignite',
-        range: 2,
-        attackRatio: 0
+        range: 3,
+        attackRatio: 0,
+        allowGeneralAsTarget: false
       })
     ]
   },
@@ -87,7 +90,19 @@ export const coreSet: UnitBlueprint[] = [
     maxHp: 25,
     attack: 2,
     speed: 3,
-    skills: [new MeleeAttack({ cooldown: 1, power: 0 })]
+    skills: [
+      new MeleeAttack({ cooldown: 1, power: 0 }),
+      new StatModifier({
+        cooldown: 3,
+        duration: 3,
+        name: 'Slow',
+        range: 3,
+        statKey: 'speed',
+        value: -1,
+        targetType: 'enemy',
+        spriteId: 'meditate'
+      })
+    ]
   },
   {
     id: 'earth-general',
@@ -121,7 +136,7 @@ export const coreSet: UnitBlueprint[] = [
     factions: [],
     kind: UNIT_KIND.SOLDIER,
     rarity: RARITY.COMMON,
-    summonCost: 3,
+    summonCost: 2,
     summonCooldown: 3,
     attack: 1,
     maxHp: 6,
@@ -155,9 +170,9 @@ export const coreSet: UnitBlueprint[] = [
     speed: 3,
     skills: [
       new MeleeAttack({ cooldown: 1, power: 0 }),
-      new Heal({ cooldown: 2, power: 2, range: 3 })
+      new Heal({ cooldown: 2, power: 3, range: 3 })
     ],
-    effects: [onSummonedHealNearby(1)]
+    effects: [onSummonedHealNearby(2)]
   },
   {
     id: 'neutral-thief',
@@ -212,5 +227,50 @@ export const coreSet: UnitBlueprint[] = [
         keywords: [KEYWORDS.LONE_WOLF]
       })
     ]
+  },
+  {
+    id: 'ice-mage',
+    spriteId: 'ice-mage',
+    factions: [FACTIONS.WATER],
+    kind: UNIT_KIND.SOLDIER,
+    rarity: RARITY.RARE,
+    summonCost: 7,
+    summonCooldown: 4,
+    attack: 2,
+    maxHp: 6,
+    speed: 3,
+    skills: [new RangedAttack({ power: 0, cooldown: 1, minRange: 2, maxRange: 3 })],
+    onSummoned: targetOneEnemy(4),
+    effects: [
+      addModifierToTargets({
+        id: 'frozen',
+        meta: { duration: 1 },
+        description: 'Summon: Freeze an enemy',
+        keywords: [KEYWORDS.SUMMON, KEYWORDS.FROZEN]
+      })
+    ]
+  },
+  {
+    id: 'ice-queen',
+    spriteId: 'ice-queen',
+    kind: UNIT_KIND.SOLDIER,
+    factions: [FACTIONS.WATER, FACTIONS.WATER],
+    rarity: RARITY.EPIC,
+    summonCost: 5,
+    summonCooldown: 5,
+    attack: 2,
+    maxHp: 7,
+    speed: 3,
+    skills: [
+      new MeleeAttack({ power: 0, cooldown: 1 }),
+      new RangedAttack({
+        cooldown: 2,
+        minRange: 2,
+        maxRange: 3,
+        power: 1,
+        spriteId: 'ice-spike'
+      })
+    ],
+    effects: [onSummonedFreezeNearby()]
   }
 ];

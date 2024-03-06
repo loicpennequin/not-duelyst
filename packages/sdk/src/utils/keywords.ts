@@ -43,7 +43,7 @@ export const KEYWORDS = {
   },
   FROZEN: {
     name: 'Frozen',
-    description: 'This unit cannot move or use abilities.'
+    description: 'This unit cannot move, use abilities, or retaliate.'
   },
   ROOTED: {
     name: 'Rooted',

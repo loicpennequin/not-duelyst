@@ -80,7 +80,10 @@ const editLoadout = (loadout: LoadoutDto) => {
       <template v-if="sidebarView === 'form'">
         <LoadoutForm
           v-if="values"
-          v-bind="values"
+          v-model:name="values.name"
+          :unit-ids="values.unitIds"
+          :general-id="values.generalId"
+          :factions="values.factions"
           :is-saving="isSaving"
           @back="sidebarView = 'list'"
           @save="save"

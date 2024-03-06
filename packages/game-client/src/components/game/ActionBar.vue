@@ -151,7 +151,11 @@ const onValidateTargets = () => {
               @mousedown="selectedSummon = unit.unit"
             />
           </template>
-          <UnitBlueprintCard :unit="unit.unit" />
+          <Transition appear>
+            <div class="mb-6">
+              <UnitBlueprintCard :unit="unit.unit" />
+            </div>
+          </Transition>
         </UiTooltip>
       </div>
     </div>
@@ -169,6 +173,14 @@ const onValidateTargets = () => {
 </template>
 
 <style scoped lang="postcss">
+:is(.v-enter-active, v-leave-active) {
+  transition: all 0.2s ease-out;
+}
+
+:is(.v-enter-from, .V-leave-to) {
+  transform: translateY(var(--size-7));
+  opacity: 0;
+}
 .action-bar {
   display: flex;
   gap: var(--size-4);

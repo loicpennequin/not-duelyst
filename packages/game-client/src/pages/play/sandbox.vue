@@ -133,7 +133,11 @@ onBeforeUnmount(() => {
             <fieldset class="fancy-surface player-loadout">
               <legend>Player 2 loadout</legend>
               <div>
-                <label v-for="loadout in loadouts" :key="loadout._id">
+                <label
+                  v-for="loadout in loadouts"
+                  :key="loadout._id"
+                  class="cursor-pointer"
+                >
                   <LoadoutCard :loadout="loadout" />
                   <input
                     v-model="form.player2Loadout"

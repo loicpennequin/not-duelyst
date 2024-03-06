@@ -5,7 +5,7 @@ import { GameSession } from '../game-session';
 import { type Point3D } from '../types';
 import { AddEffectAction } from '../action/add-effect.action';
 import { isWithinCells } from './skill-utils';
-import { isEnemy } from '../entity/entity-utils';
+import { isEnemy, isGeneral } from '../entity/entity-utils';
 import type { BurnModifier } from '../modifier/burn.modifier';
 import { KEYWORDS } from '../utils/keywords';
 
@@ -13,11 +13,12 @@ export type BurnOptions = PartialBy<
   SkillOptions,
   'id' | 'spriteId' | 'shouldExhaustCaster'
 > &
-  BurnModifier['meta'] & { range: number };
+  BurnModifier['meta'] & { range: number; allowGeneralAsTarget: boolean };
 
 export class Burn extends Skill {
   public readonly range: number;
   public readonly meta: BurnModifier['meta'];
+  public readonly allowGeneralAsTarget: boolean;
   public readonly keywords = [KEYWORDS.BURN];
 
   constructor(options: BurnOptions) {
@@ -30,6 +31,7 @@ export class Burn extends Skill {
       ...options
     });
     this.range = options.range;
+    this.allowGeneralAsTarget = options.allowGeneralAsTarget;
     this.meta = {
       duration: options.duration,
       power: options.power,
@@ -61,6 +63,10 @@ export class Burn extends Skill {
   }
 
   isTargetable(ctx: GameSession, point: Point3D, caster: Entity) {
+    const entity = ctx.entityManager.getEntityAt(point);
+    if (!entity) return false;
+    if (this.allowGeneralAsTarget && !isGeneral(entity)) return false;
+
     return (
       this.isWithinRange(ctx, point, caster) &&
       isEnemy(ctx, ctx.entityManager.getEntityAt(point)?.id, caster.playerId)

@@ -17,7 +17,6 @@ export class ActionQueue {
     this.isRunning = true;
     do {
       const action = this.queue.shift();
-
       await action?.execute();
     } while (this.queue.length);
     this.isRunning = false;
@@ -40,6 +39,10 @@ export class ActionQueue {
   }
 
   async setup(rawHistory: SerializedAction[]) {
-    rawHistory.forEach(action => this.commit(action));
+    rawHistory.forEach(action => {
+      this.queue.push(this.deserializer.deserialize(action));
+    });
+
+    this.process();
   }
 }

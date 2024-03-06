@@ -74,7 +74,19 @@ export class EntityManager {
       this.getEntityAt({ x: x - 1, y: y + 1, z: z + 1 }), // bottom left
       this.getEntityAt({ x: x    , y: y + 1, z: z + 1 }), // bottom
       this.getEntityAt({ x: x + 1, y: y + 1, z: z + 1 }), // bottom right,
-    ].filter(isDefined);
+    ].filter(isDefined).filter(entity => {
+      const referenceTile = this.ctx.map.getCellAt({x,y,z})!;
+      const tile = this.ctx.map.getCellAt(entity.position)!;
+      if (!referenceTile.isHalfTile &&  referenceTile.z > tile.z)  {
+        return false;
+      }
+      
+      if (tile?.isHalfTile && referenceTile.z < tile.z) {
+        return false;
+      }
+
+      return true;
+    })
   }
 
   getNearbyAllies(point: Point3D, playerId: PlayerId) {

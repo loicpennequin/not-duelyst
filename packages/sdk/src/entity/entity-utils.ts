@@ -50,8 +50,8 @@ export const isEmpty = (ctx: GameSession, point: Point3D) => {
   return !ctx.entityManager.getEntityAt(point);
 };
 
-export const pointsToEntityIds = (ctx: GameSession, points: Point3D[]) =>
-  points
-    .map(ctx.entityManager.getEntityAt)
-    .filter(isDefined)
-    .map(e => e.id);
+export const pointsToEntities = (ctx: GameSession, points: Point3D[]): Entity[] =>
+  points.map(point => ctx.entityManager.getEntityAt(point)).filter(isDefined);
+
+export const pointsToEntityIds = (ctx: GameSession, points: Point3D[]): EntityId[] =>
+  pointsToEntities(ctx, points).map(e => e.id);

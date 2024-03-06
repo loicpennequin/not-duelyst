@@ -2,9 +2,9 @@ import { AddEffectAction } from '../action/add-effect.action';
 import { KEYWORDS } from '../utils/keywords';
 import type { Effect } from './effect';
 
-export const onSummonedTauntNearby = (duration = 1): Effect => ({
-  description: 'Summon: taunt nearby enemies.',
-  keywords: [KEYWORDS.SUMMON, KEYWORDS.TAUNT],
+export const onSummonedFreezeNearby = (duration = 1): Effect => ({
+  description: 'Summon: freeze nearby enemies.',
+  keywords: [KEYWORDS.SUMMON, KEYWORDS.FROZEN],
   execute(ctx, entity) {
     const enemies = ctx.entityManager.getNearbyEnemies(entity.position, entity.playerId);
 
@@ -14,8 +14,8 @@ export const onSummonedTauntNearby = (duration = 1): Effect => ({
           {
             attachedTo: enemy.id,
             sourceId: entity.id,
-            effectId: 'taunted',
-            effectArg: { duration, radius: 1 }
+            effectId: 'frozen',
+            effectArg: { duration }
           },
           ctx
         )
