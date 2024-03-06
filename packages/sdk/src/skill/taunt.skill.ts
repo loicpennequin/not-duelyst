@@ -3,7 +3,6 @@ import { Skill, type SkillOptions } from './skill';
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import type { Point3D } from '../types';
-import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { TauntedModifier } from '../modifier/taunted.modifier';
 import { isEnemy } from '../entity/entity-utils';
@@ -62,17 +61,9 @@ export class Taunt extends Skill {
   ) {
     affectedCells.forEach(target => {
       const entity = ctx.entityManager.getEntityAt(target);
-      ctx.actionQueue.push(
-        new AddEffectAction(
-          {
-            sourceId: caster.id,
-            attachedTo: entity!.id,
-            effectId: 'taunted',
-            effectArg: this.meta
-          },
-          ctx
-        )
-      );
+      if (entity) {
+        new TauntedModifier(ctx, caster, this.meta).attach(entity!);
+      }
     });
   }
 }

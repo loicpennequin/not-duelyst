@@ -1,4 +1,4 @@
-import { AddEffectAction } from '../action/add-effect.action';
+import { StunnedModifier } from '../modifier/frozen.modifier';
 import { KEYWORDS } from '../utils/keywords';
 import type { Effect } from './effect';
 
@@ -9,17 +9,7 @@ export const onSummonedFreezeNearby = (duration = 1): Effect => ({
     const enemies = ctx.entityManager.getNearbyEnemies(entity.position, entity.playerId);
 
     enemies.forEach(enemy => {
-      ctx.actionQueue.push(
-        new AddEffectAction(
-          {
-            attachedTo: enemy.id,
-            sourceId: entity.id,
-            effectId: 'frozen',
-            effectArg: { duration }
-          },
-          ctx
-        )
-      );
+      new StunnedModifier(ctx, entity, { duration }).attach(enemy);
     });
   }
 });

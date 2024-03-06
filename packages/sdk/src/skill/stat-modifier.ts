@@ -4,7 +4,6 @@ import { Entity } from '../entity/entity';
 import { StatModifierModifier } from '../modifier/stat-modifier.modifier';
 import { GameSession } from '../game-session';
 import type { Point3D } from '../types';
-import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isAlly, isEnemy } from '../entity/entity-utils';
 
@@ -71,16 +70,10 @@ export class StatModifier extends Skill {
 
   execute(ctx: GameSession, caster: Entity, [target]: Point3D[]) {
     const entity = ctx.entityManager.getEntityAt(target)!;
-    ctx.actionQueue.push(
-      new AddEffectAction(
-        {
-          sourceId: caster.id,
-          attachedTo: entity.id,
-          effectId: 'statModifier',
-          effectArg: { duration: this.duration, statKey: this.statKey, value: this.value }
-        },
-        ctx
-      )
-    );
+    new StatModifierModifier(ctx, caster, {
+      duration: this.duration,
+      statKey: this.statKey,
+      value: this.value
+    }).attach(entity);
   }
 }

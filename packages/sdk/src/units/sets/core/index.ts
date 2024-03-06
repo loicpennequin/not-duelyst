@@ -166,7 +166,7 @@ export const coreSet: UnitBlueprint[] = [
     summonCost: 3,
     summonCooldown: 4,
     attack: 1,
-    maxHp: 6,
+    maxHp: 5,
     speed: 3,
     skills: [
       new MeleeAttack({ cooldown: 1, power: 0 }),
@@ -195,8 +195,8 @@ export const coreSet: UnitBlueprint[] = [
       }),
       addModifierToSelf({
         id: 'plunderOnKill',
-        meta: { amount: 1, duration: Infinity },
-        description: 'Slay: Plunder(1)',
+        meta: { amount: 2, duration: Infinity },
+        description: 'Slay: Plunder(2)',
         keywords: [KEYWORDS.PLUNDER, KEYWORDS.SLAY]
       })
     ]
@@ -234,7 +234,7 @@ export const coreSet: UnitBlueprint[] = [
     factions: [FACTIONS.WATER],
     kind: UNIT_KIND.SOLDIER,
     rarity: RARITY.RARE,
-    summonCost: 7,
+    summonCost: 4,
     summonCooldown: 4,
     attack: 2,
     maxHp: 6,

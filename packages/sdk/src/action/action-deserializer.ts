@@ -8,14 +8,12 @@ import { UseSkillAction } from './use-sklll.action';
 import { GameSession } from '../game-session';
 import { DieAction } from './die.action';
 import { EndGamection } from './end-game.action';
-import { AddEffectAction } from './add-effect.action';
 import { HealAction } from './heal.action';
 import { ModifyGoldAction } from './modify-gold.action';
 import { RemoveInteractableAction } from './removeInteractable.action';
 import { DisplaceAction } from './displace.action';
 import { SummonInteractableAction } from './summon-interactable.action';
 import { TeleportAction } from './teleport.action';
-import { RemoveEffectAction } from './remove-effect-action';
 
 type GenericActionMap = Record<string, Constructor<GameAction<JSONObject>>>;
 
@@ -38,14 +36,12 @@ export const actionMap = validateActionMap({
   DEAL_DAMAGE: DealDamageAction,
   DIE: DieAction,
   END_GAME: EndGamection,
-  ADD_EFFECT: AddEffectAction,
   HEAL: HealAction,
   MODIFY_GOLD: ModifyGoldAction,
   REMOVE_INTERACTABLE: RemoveInteractableAction,
   DISPLACE: DisplaceAction,
   SUMMON_INTERACTABLE: SummonInteractableAction,
-  TELEPORT: TeleportAction,
-  REMOVE_EFFECT: RemoveEffectAction
+  TELEPORT: TeleportAction
 });
 
 export type ActionName = keyof typeof actionMap;

@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": "ice-circle-idle-0",
+    "filename": "ice-circle-idle-back-0",
     "frame": { "x": 0, "y": 0, "w": 160, "h": 160 },
     "rotated": false,
     "trimmed": false,
@@ -9,7 +9,7 @@
     "duration": 1
    },
    {
-    "filename": "ice-circle-idle-1",
+    "filename": "ice-circle-idle-back-1",
     "frame": { "x": 160, "y": 0, "w": 160, "h": 160 },
     "rotated": false,
     "trimmed": false,

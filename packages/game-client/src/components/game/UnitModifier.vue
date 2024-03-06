@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Modifier, Entity } from '@hc/sdk';
+import { PTransition } from 'vue3-pixi';
 import { type AnimatedSprite } from 'pixi.js';
 
 const { entity, modifier } = defineProps<{
@@ -30,20 +31,39 @@ const backTextures = createSpritesheetFrameObject(
 </script>
 
 <template>
-  <animated-sprite
-    :ref="autoDestroyRef"
-    :textures="backTextures"
-    :anchor-x="0.5"
-    :scale-x="scaleX"
-    event-mode="none"
-    :z-index="1"
-  />
-  <animated-sprite
-    :ref="autoDestroyRef"
-    :textures="frontTextures"
-    :anchor-x="0.5"
-    :scale-x="scaleX"
-    event-mode="none"
-    :z-index="3"
-  />
+  <PTransition
+    appear
+    :duration="{ enter: 300, leave: 0 }"
+    :before-enter="{ alpha: 0 }"
+    :enter="{ alpha: 1 }"
+  >
+    <animated-sprite
+      :ref="autoDestroyRef"
+      :textures="backTextures"
+      :anchor-x="0.5"
+      :scale-x="scaleX"
+      event-mode="none"
+      loop
+      playing
+      :z-index="1"
+    />
+  </PTransition>
+
+  <PTransition
+    appear
+    :duration="{ enter: 300, leave: 0 }"
+    :before-enter="{ alpha: 0 }"
+    :enter="{ alpha: 1 }"
+  >
+    <animated-sprite
+      :ref="autoDestroyRef"
+      :textures="frontTextures"
+      :anchor-x="0.5"
+      :scale-x="scaleX"
+      event-mode="none"
+      loop
+      playing
+      :z-index="3"
+    />
+  </PTransition>
 </template>

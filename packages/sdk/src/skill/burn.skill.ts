@@ -3,10 +3,9 @@ import { Skill, type SkillDescriptionContext, type SkillOptions } from './skill'
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { type Point3D } from '../types';
-import { AddEffectAction } from '../action/add-effect.action';
 import { isWithinCells } from './skill-utils';
 import { isEnemy, isGeneral } from '../entity/entity-utils';
-import type { BurnModifier } from '../modifier/burn.modifier';
+import { BurnModifier } from '../modifier/burn.modifier';
 import { KEYWORDS } from '../utils/keywords';
 
 export type BurnOptions = PartialBy<
@@ -75,16 +74,6 @@ export class Burn extends Skill {
 
   execute(ctx: GameSession, caster: Entity, [target]: Point3D[]) {
     const entity = ctx.entityManager.getEntityAt(target)!;
-    ctx.actionQueue.push(
-      new AddEffectAction(
-        {
-          sourceId: caster.id,
-          attachedTo: entity.id,
-          effectId: 'burn',
-          effectArg: this.meta
-        },
-        ctx
-      )
-    );
+    new BurnModifier(ctx, caster, this.meta).attach(entity);
   }
 }

@@ -8,6 +8,7 @@ import { Modifier } from './modifier';
 export class TauntedModifier extends Modifier {
   readonly id = 'taunted';
   duration: number;
+  readonly spriteId = 'taunted';
 
   constructor(
     protected ctx: GameSession,
@@ -83,6 +84,7 @@ export class TauntedModifier extends Modifier {
   }
 
   onExpired() {
+    console.log('taunt expired');
     this.cleanup();
   }
 

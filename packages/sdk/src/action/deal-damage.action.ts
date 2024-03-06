@@ -1,8 +1,8 @@
 import { type EntityId, isEntityId, Entity } from '../entity/entity';
 import type { InteractableId } from '../interactable/interactable';
+import { ExhaustedModifier } from '../modifier/exhausted.modifier';
 import { isWithinCells } from '../skill/skill-utils';
 import { GameAction } from './action';
-import { AddEffectAction } from './add-effect.action';
 
 export class DealDamageAction extends GameAction<{
   amount: number;
@@ -91,17 +91,7 @@ export class DealDamageAction extends GameAction<{
       );
 
       if (target.shouldExhaustAfterRetaliation) {
-        this.ctx.actionQueue.push(
-          new AddEffectAction(
-            {
-              attachedTo: target.id,
-              sourceId: target.id,
-              effectId: 'exhausted',
-              effectArg: {}
-            },
-            this.ctx
-          )
-        );
+        new ExhaustedModifier(this.ctx, target, {}).attach(target);
       }
     }
   }

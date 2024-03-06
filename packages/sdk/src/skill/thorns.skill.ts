@@ -3,7 +3,6 @@ import { Skill, type SkillDescriptionContext, type SkillOptions } from './skill'
 import { Entity } from '../entity/entity';
 import { GameSession } from '../game-session';
 import { type Point3D } from '../types';
-import { AddEffectAction } from '../action/add-effect.action';
 import { isSelf, isWithinCells } from './skill-utils';
 import { isAlly } from '../entity/entity-utils';
 import { ThornsModifier } from '../modifier/thorns.modifier';
@@ -73,16 +72,7 @@ export class Thorns extends Skill {
 
   execute(ctx: GameSession, caster: Entity, [target]: Point3D[]) {
     const entity = ctx.entityManager.getEntityAt(target)!;
-    ctx.actionQueue.push(
-      new AddEffectAction(
-        {
-          sourceId: caster.id,
-          attachedTo: entity.id,
-          effectId: 'thorns',
-          effectArg: this.meta
-        },
-        ctx
-      )
-    );
+
+    new ThornsModifier(ctx, caster, this.meta).attach(entity);
   }
 }

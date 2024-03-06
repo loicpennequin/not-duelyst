@@ -1,4 +1,3 @@
-import { AddEffectAction } from '../action/add-effect.action';
 import { MODIFIERS } from '../modifier/modifier-lookup';
 import type { Keyword } from '../utils/keywords';
 import type { Effect } from './effect';

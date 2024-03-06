@@ -75,9 +75,9 @@ const createGameState = (): Promise<SerializedGameState> => {
   });
 };
 
-onBeforeUnmount(() => {
-  localStorage.removeItem('sandbox-state');
-});
+// onBeforeUnmount(() => {
+//   localStorage.removeItem('sandbox-state');
+// });
 </script>
 
 <template>

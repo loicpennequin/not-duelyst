@@ -49,4 +49,15 @@ const onEnd = ({ winner }: { winner: Player }) => {
     @surrender="dispatch('SURRENDER', {})"
     @end="onEnd"
   />
+  <div class="fixed bottom-5 left-5">
+    <button
+      @click="
+        () => {
+          console.log({ serverSession, clientSession });
+        }
+      "
+    >
+      Debug
+    </button>
+  </div>
 </template>

@@ -72,7 +72,7 @@ const SPRITE_OFFSET = -CELL_SIZE / 4;
       :enter="{ alpha: 1, y: SPRITE_OFFSET }"
     >
       <container :y="SPRITE_OFFSET" :sortable-children="true">
-        <container :scale-x="scaleX">
+        <container :scale-x="scaleX" :sortable-children="true">
           <Shadow v-if="textures?.length" :textures="textures" />
           <UnitModifier
             v-for="modifier in modifiersWithSprites"

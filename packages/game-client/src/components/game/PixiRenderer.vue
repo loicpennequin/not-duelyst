@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useApplication } from 'vue3-pixi';
+import { onTick, useApplication } from 'vue3-pixi';
 import { type Viewport } from 'pixi-viewport';
 import { CELL_SIZE } from '../../utils/constants';
+import { Ticker } from 'pixi.js';
 
 const { state, ui, fx } = useGame();
 const { ui: uiLayer, gameObjects: gameObjectsLayer } = ui.layers;
@@ -72,6 +73,19 @@ watchEffect(() => {
     gameObjectsLayer.value.sortableChildren = true;
   }
 });
+
+const fps = ref<number[]>([0]);
+const HISTORY_LIMIT = 30;
+onTick(() => {
+  fps.value.push(Ticker.shared.FPS);
+  if (fps.value.length > HISTORY_LIMIT) {
+    fps.value.shift();
+  }
+});
+
+const averageFPS = computed(() => {
+  return fps.value.reduce((total, x) => total + x) / fps.value.length;
+});
 </script>
 
 <template>
@@ -104,4 +118,7 @@ watchEffect(() => {
 
     <Layer ref="uiLayer" />
   </viewport>
+  <text :x="30" :y="15" :style="{ fill: 'white', fontSize: 12, fontFamily: 'monospace' }">
+    {{ averageFPS.toFixed() }} FPS
+  </text>
 </template>

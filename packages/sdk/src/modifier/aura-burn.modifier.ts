@@ -1,9 +1,9 @@
-import { AddEffectAction } from '../action/add-effect.action';
 import { Entity } from '../entity/entity';
 import { isEnemy } from '../entity/entity-utils';
 import type { GameSession } from '../game-session';
 import { KEYWORDS } from '../utils/keywords';
 import { type AuraMeta, AuraModifier } from './aura.modifier';
+import { BurnModifier } from './burn.modifier';
 
 export type AuraBurnMeta = AuraMeta & { power: number };
 
@@ -37,20 +37,10 @@ export class AuraBurnModifier extends AuraModifier<AuraBurnMeta> {
   }
 
   applyAura(entity: Entity) {
-    this.ctx.actionQueue.push(
-      new AddEffectAction(
-        {
-          effectId: 'burn',
-          attachedTo: entity.id,
-          sourceId: this.attachedTo!.id,
-          effectArg: {
-            duration: Infinity,
-            power: this.meta.power
-          }
-        },
-        this.ctx
-      )
-    );
+    new BurnModifier(this.ctx, this.attachedTo!, {
+      duration: Infinity,
+      power: this.meta.power
+    }).attach(entity);
   }
 
   removeAura(entity: Entity): void {

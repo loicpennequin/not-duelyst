@@ -1,6 +1,6 @@
 { "frames": [
    {
-    "filename": "fire-circle-idle-0",
+    "filename": "fire-circle-{tatg}-back-0",
     "frame": { "x": 0, "y": 0, "w": 160, "h": 160 },
     "rotated": false,
     "trimmed": false,
@@ -9,7 +9,7 @@
     "duration": 1
    },
    {
-    "filename": "fire-circle-idle-1",
+    "filename": "fire-circle-{tatg}-back-1",
     "frame": { "x": 160, "y": 0, "w": 160, "h": 160 },
     "rotated": false,
     "trimmed": false,

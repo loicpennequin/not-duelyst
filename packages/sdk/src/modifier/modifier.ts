@@ -32,10 +32,8 @@ export abstract class Modifier {
   attach(entity: Entity) {
     this.attachedTo = entity;
     this.attachedTo.modifiers.push(this);
-
     this.ctx.emitter.on('game:turn-end', this.tick);
     this.attachedTo.on('die', this.detach);
-
     this.onApplied();
   }
 
