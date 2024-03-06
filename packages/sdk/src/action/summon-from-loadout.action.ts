@@ -1,8 +1,9 @@
-import { MODIFIERS, MODIFIER_NAMES } from '../modifier/modifier-lookup';
 import type { SerializedEntity } from '../entity/entity';
 import type { Point3D } from '../types';
 import { UNITS } from '../units/unit-lookup';
 import { GameAction } from './action';
+import { ExhaustedModifier } from '../modifier/exhausted.modifier';
+import { RushModifier } from '../modifier/rush.modifier';
 
 export class SummonFromLoadoutAction extends GameAction<
   Omit<SerializedEntity, 'id'> & { targets: Point3D[] }
@@ -30,10 +31,10 @@ export class SummonFromLoadoutAction extends GameAction<
 
     const entity = this.ctx.entityManager.addEntity(this.payload, this.payload.targets);
 
-    const hasRush = entity.modifiers.some(e => e.id === MODIFIER_NAMES.RUSH);
+    const hasRush = entity.modifiers.some(e => e instanceof RushModifier);
 
     if (!hasRush) {
-      new MODIFIERS.exhausted(this.ctx, entity, {}).attach(entity);
+      new ExhaustedModifier(this.ctx, entity, {}).attach(entity);
     }
   }
 }

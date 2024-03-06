@@ -1,5 +1,4 @@
-import { MODIFIERS } from '@hc/sdk';
-import type { AnyObject, PartialRecord } from '@hc/shared';
+import type { AnyObject } from '@hc/shared';
 import { AdjustmentFilter } from '@pixi/filter-adjustment';
 import { ColorOverlayFilter } from '@pixi/filter-color-overlay';
 import { Filter, Ticker } from 'pixi.js';
@@ -38,9 +37,9 @@ export const makeIceFilter = () => {
   return filter;
 };
 
-export const MODIFIER_FILTERS = {
+export const MODIFIER_FILTERS: Record<string, () => Filter[]> = {
   exhausted: () => [new AdjustmentFilter({ saturation: 0.2 })],
   frozen: () => [new ColorOverlayFilter(0x5588dd, 0.5), makeIceFilter()],
   taunted: () => [new ColorOverlayFilter(0x770000, 0.25)],
   burn: () => [makeBurnFilter()]
-} as const satisfies PartialRecord<keyof typeof MODIFIERS, () => Filter[]>;
+};

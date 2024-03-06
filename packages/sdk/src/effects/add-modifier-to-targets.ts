@@ -1,26 +1,26 @@
+import type { Constructor } from '@hc/shared';
 import { pointsToEntities } from '../entity/entity-utils';
-import { MODIFIERS } from '../modifier/modifier-lookup';
 import type { Keyword } from '../utils/keywords';
 import type { Effect } from './effect';
+import type { Modifier } from '../modifier/modifier';
 
-export const addModifierToTargets = <T extends keyof typeof MODIFIERS>({
-  id,
-  meta,
-  description,
-  keywords
-}: {
-  id: T;
-  meta: InstanceType<(typeof MODIFIERS)[T]>['meta'];
-  description: string;
-  keywords: Keyword[];
-}): Effect => ({
+export const addModifierToTargets = <T extends Modifier>(
+  ctor: Constructor<T>,
+  {
+    meta,
+    description,
+    keywords
+  }: {
+    meta: T['meta'];
+    description: string;
+    keywords: Keyword[];
+  }
+): Effect => ({
   description,
   keywords,
   execute(ctx, entity, targets) {
-    const effectClass = MODIFIERS[id];
-
     pointsToEntities(ctx, targets).forEach(target => {
-      new effectClass(ctx, entity, meta as any).attach(target);
+      new ctor(ctx, entity, meta as any).attach(target);
     });
   }
 });

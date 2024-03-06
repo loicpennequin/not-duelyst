@@ -1,8 +1,8 @@
-import { MODIFIERS } from '../modifier/modifier-lookup';
 import type { EntityId } from '../entity/entity';
 import type { SkillId } from '../skill/skill';
 import type { Point3D } from '../types';
 import { GameAction } from './action';
+import { ExhaustedModifier } from '../modifier/exhausted.modifier';
 
 export class UseSkillAction extends GameAction<{
   casterId: EntityId;
@@ -75,7 +75,7 @@ export class UseSkillAction extends GameAction<{
     this.skill.execute(this.ctx, this.caster, this.payload.targets, this.affectedCells);
 
     if (this.skill.shouldExhaustCaster) {
-      new MODIFIERS.exhausted(this.ctx, entity, {}).attach(entity);
+      new ExhaustedModifier(this.ctx, entity, {}).attach(entity);
     }
   }
 }

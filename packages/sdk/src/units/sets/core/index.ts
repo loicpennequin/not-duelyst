@@ -14,6 +14,11 @@ import { Burn } from '../../../skill/burn.skill';
 import { addModifierToTargets } from '../../../effects/add-modifier-to-targets';
 import { StatModifier } from '../../../skill/stat-modifier';
 import { onSummonedFreezeNearby } from '../../../effects/on-summoned-freeze-nearby';
+import { RushModifier } from '../../../modifier/rush.modifier';
+import { PlunderOnKillModifier } from '../../../modifier/plunder-on-kill.modifier';
+import { VigilantModifier } from '../../../modifier/vigilant.modifier';
+import { LoneWolfStatModifierModifier } from '../../../modifier/lone-wolf-stat-modifier.modifier';
+import { StunnedModifier } from '../../../modifier/frozen.modifier';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -187,14 +192,12 @@ export const coreSet: UnitBlueprint[] = [
     speed: 3,
     skills: [new MeleeAttack({ cooldown: 1, power: 0 })],
     effects: [
-      addModifierToSelf({
-        id: 'rush',
+      addModifierToSelf(RushModifier, {
         meta: {},
         description: 'Rush',
         keywords: [KEYWORDS?.RUSH]
       }),
-      addModifierToSelf({
-        id: 'plunderOnKill',
+      addModifierToSelf(PlunderOnKillModifier, {
         meta: { amount: 2, duration: Infinity },
         description: 'Slay: Plunder(2)',
         keywords: [KEYWORDS.PLUNDER, KEYWORDS.SLAY]
@@ -214,14 +217,12 @@ export const coreSet: UnitBlueprint[] = [
     speed: 3,
     skills: [new MeleeAttack({ power: 0, cooldown: 1 })],
     effects: [
-      addModifierToSelf({
-        id: 'vigilant',
+      addModifierToSelf(VigilantModifier, {
         meta: { duration: Infinity },
         description: 'Vigilant.',
         keywords: [KEYWORDS.VIGILANT]
       }),
-      addModifierToSelf({
-        id: 'loneWolfStatModifier',
+      addModifierToSelf(LoneWolfStatModifierModifier, {
         meta: { statKey: 'attack', value: 1 },
         description: 'Lone wolf: +1 attack.',
         keywords: [KEYWORDS.LONE_WOLF]
@@ -242,8 +243,7 @@ export const coreSet: UnitBlueprint[] = [
     skills: [new RangedAttack({ power: 0, cooldown: 1, minRange: 2, maxRange: 3 })],
     onSummoned: targetOneEnemy(4),
     effects: [
-      addModifierToTargets({
-        id: 'frozen',
+      addModifierToTargets(StunnedModifier, {
         meta: { duration: 1 },
         description: 'Summon: Freeze an enemy',
         keywords: [KEYWORDS.SUMMON, KEYWORDS.FROZEN]
