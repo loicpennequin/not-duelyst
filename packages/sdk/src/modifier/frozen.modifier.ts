@@ -40,6 +40,7 @@ export class StunnedModifier extends Modifier {
     this.attachedTo?.addInterceptor('canMove', this.interceptor);
     this.attachedTo?.addInterceptor('canUseSkill', this.interceptor);
     this.attachedTo?.addInterceptor('canRetaliate', this.interceptor);
+    this.attachedTo?.on('receive-damage', this.detach.bind(this));
   }
 
   onExpired() {

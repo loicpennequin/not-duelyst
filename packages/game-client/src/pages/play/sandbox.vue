@@ -2,7 +2,7 @@
 import { api } from '@hc/api';
 import type { LoadoutDto } from '@hc/api/convex/loadout/loadout.mapper';
 import type { GameMapDto } from '@hc/api/convex/gameMap/gameMap.mapper';
-import { type SerializedGameState } from '@hc/sdk';
+import { config, type SerializedGameState } from '@hc/sdk';
 import type { Nullable } from '@hc/shared';
 import { parse } from 'zipson';
 
@@ -45,7 +45,7 @@ const createGameState = (): Promise<SerializedGameState> => {
     turn: 0,
     players: [
       {
-        gold: 2,
+        gold: config.PLAYER1_STARTING_GOLD,
         id: 'Player1',
         name: 'Player1',
         loadout: {
@@ -56,7 +56,7 @@ const createGameState = (): Promise<SerializedGameState> => {
         generalId: form.player1Loadout!.generalId
       },
       {
-        gold: 2,
+        gold: config.PLAYER2_STARTING_GOLD,
         id: 'Player2',
         name: 'Player2',
         loadout: {

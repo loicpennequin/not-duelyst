@@ -5,7 +5,8 @@ import {
   GameSession,
   type SerializedAction,
   type SerializedGameState,
-  type ActionName
+  type ActionName,
+  config
 } from '@hc/sdk';
 import type { PartialRecord } from '@hc/shared';
 import { parse } from 'zipson';
@@ -19,7 +20,6 @@ definePageMeta({
 const ACTION_TIMEOUTS: PartialRecord<ActionName, number> = {
   REMOVE_INTERACTABLE: 0,
   END_TURN: 0,
-  ADD_EFFECT: 0,
   SUMMON_INTERACTABLE: 0
 };
 const route = useRoute();
@@ -69,7 +69,7 @@ until(parsedReplay)
       turn: 0,
       players: [
         {
-          gold: 2,
+          gold: config.PLAYER1_STARTING_GOLD,
           id: players[0]._id,
           name: players[0].name,
           loadout: {
@@ -80,7 +80,7 @@ until(parsedReplay)
           generalId: players[0].loadout!.generalId
         },
         {
-          gold: 2,
+          gold: config.PLAYER2_STARTING_GOLD,
           id: players[1]._id,
           name: players[1].name,
           loadout: {

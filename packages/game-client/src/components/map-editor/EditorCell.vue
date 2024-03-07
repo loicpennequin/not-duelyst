@@ -42,18 +42,22 @@ const emptyTextures = computed(() => {
   ).animations[0];
 });
 
-const interactableTexture = computed(() => {
-  const interactable = map.interactables.find(i => cell.position.equals(i.position));
-  if (!interactable) return null;
+const interactables = computed(() => {
+  return map.interactables
+    .filter(i => cell.position.equals(i.position))
+    .map(interactable => {
+      // @ts-expect-error 💀
+      const ctor = INTERACTABLES[interactable.id];
 
-  // @ts-expect-error 💀
-  const ctor = INTERACTABLES[interactable.id];
+      const instance = new ctor({}, { position: cell.position });
+      const id = instance.spriteId;
 
-  const instance = new ctor({}, { position: cell.position });
-  const id = instance.spriteId;
-
-  const sheet = assets.getSpritesheet(id);
-  return createSpritesheetFrameObject('idle', sheet);
+      const sheet = assets.getSpritesheet(id);
+      return {
+        id: instance.id,
+        textures: createSpritesheetFrameObject('idle', sheet)
+      };
+    });
 });
 
 const hitAreaYOffset = cell.isHalfTile ? CELL_SIZE / 4 : 0;
@@ -103,10 +107,11 @@ const isHovered = ref(false);
       />
 
       <animated-sprite
-        v-if="interactableTexture"
-        :textures="interactableTexture"
+        v-for="interactable in interactables"
+        :key="interactable.id"
+        :textures="interactable.textures"
         :anchor="0.5"
-        :y="CELL_SIZE / 4"
+        :y="cell.isHalfTile ? CELL_SIZE / 2 : CELL_SIZE / 4"
         :playing="true"
       />
     </container>

@@ -1,4 +1,4 @@
-import { GameSession, type Player, type SerializedGameState } from '@hc/sdk';
+import { GameSession, config, type Player, type SerializedGameState } from '@hc/sdk';
 import type { GameServer, GameSocket } from './types';
 import type { Defined } from '@hc/shared';
 import { type FunctionReturnType } from 'convex/server';
@@ -87,7 +87,7 @@ export class Game {
       turn: 0,
       players: [
         {
-          gold: 2,
+          gold: config.PLAYER1_STARTING_GOLD,
           id: players[0]._id,
           name: players[0].name,
           loadout: {
@@ -98,7 +98,7 @@ export class Game {
           generalId: players[0].loadout!.generalId
         },
         {
-          gold: 2,
+          gold: config.PLAYER2_STARTING_GOLD,
           id: players[1]._id,
           name: players[1].name,
           loadout: {

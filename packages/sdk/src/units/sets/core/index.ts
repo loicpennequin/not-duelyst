@@ -63,7 +63,7 @@ export const coreSet: UnitBlueprint[] = [
       new Burn({
         cooldown: 3,
         duration: Infinity,
-        power: 2,
+        power: 1,
         name: 'Ignite',
         range: 3,
         attackRatio: 0,

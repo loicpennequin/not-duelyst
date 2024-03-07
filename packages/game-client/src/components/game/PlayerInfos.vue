@@ -5,8 +5,8 @@ const players = computed(() => state.value.players);
 </script>
 
 <template>
-  <div class="player player-1">
-    <div class="img-wrapper" :class="state.activePlayer.equals(players[0]) && 'active'">
+  <div class="player player-1" :class="state.activePlayer.equals(players[0]) && 'active'">
+    <div class="img-wrapper">
       <img :src="`/assets/units/${players[0].general.unit.spriteId}-icon.png`" />
       <div class="runes">
         <div
@@ -42,8 +42,8 @@ const players = computed(() => state.value.players);
     </div>
   </div>
 
-  <div class="player player-2">
-    <div class="img-wrapper" :class="state.activePlayer.equals(players[1]) && 'active'">
+  <div class="player player-2" :class="state.activePlayer.equals(players[1]) && 'active'">
+    <div class="img-wrapper">
       <img :src="`/assets/units/${players[1].general.unit.spriteId}-icon.png`" />
       <div class="runes">
         <div
@@ -177,6 +177,11 @@ const players = computed(() => state.value.players);
 .player-name {
   font-size: var(--font-size-4);
   font-weight: var(--font-weight-6);
+
+  .player.active & {
+    color: var(--primary);
+    text-decoration: underline;
+  }
 
   @screen lt-lg {
     font-size: var(--font-size-2);

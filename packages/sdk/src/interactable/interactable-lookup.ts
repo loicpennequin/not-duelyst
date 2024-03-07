@@ -2,6 +2,7 @@ import type { Constructor } from '@hc/shared';
 import { Interactable, type InteractableId } from './interactable';
 import { GoldCoin } from './gold-coin';
 import { Firewall } from './firewall';
+import { Quicksands } from './quicksand';
 
 type GenericInteractableMap = Record<InteractableId, Constructor<Interactable>>;
 
@@ -19,5 +20,6 @@ const validateInteractableMap = <T extends GenericInteractableMap>(
 
 export const INTERACTABLES = validateInteractableMap({
   GOLD_COIN: GoldCoin,
-  FIREWALL: Firewall
+  FIREWALL: Firewall,
+  QUICKSANDS: Quicksands
 });

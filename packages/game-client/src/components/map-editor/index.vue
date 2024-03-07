@@ -168,6 +168,7 @@ const onCellPointerenter = (cell: Cell) => {
 };
 
 const onCellPointerup = (cell: Cell) => {
+  console.log('?');
   isDragging.value = false;
   if (isPlacingPlayer1.value) {
     map.value.startPositions[0] = cell.position.serialize();
@@ -178,8 +179,8 @@ const onCellPointerup = (cell: Cell) => {
     isPlacingPlayer2.value = false;
   }
   if (currentTab.value === 'interactables' && selectedInteractableId.value) {
-    const existingIndex = map.value.interactables.findIndex(i =>
-      cell.position.equals(i.position)
+    const existingIndex = map.value.interactables.findIndex(
+      i => cell.position.equals(i.position) && i.id === selectedInteractableId.value
     );
     if (existingIndex >= 0) {
       if (isCtrlKeyPressed.value) {
@@ -192,6 +193,7 @@ const onCellPointerup = (cell: Cell) => {
         position: cell.position.serialize(),
         id: selectedInteractableId.value
       });
+      console.log(map.value.interactables);
     }
   }
 };
