@@ -81,7 +81,7 @@ watch([containerX, containerY], ([newX, newY]) => {
   gsap.to(tweened.value, {
     duration: animated ? 0 : 0.5,
     x: newX,
-    ease: animated ? Power0.easeNone : Power2.easeOut
+    ease: animated ? Power0.easeOut : Power2.easeOut
   });
   gsap.to(tweened.value, {
     duration: animated ? 0 : 0.5,

@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { PTransition } from 'vue3-pixi';
-import type { Cursor, Container } from 'pixi.js';
-import type { Cell } from '@hc/sdk';
+import type { Container } from 'pixi.js';
 import { AdjustmentFilter } from '@pixi/filter-adjustment';
 import { TextStyle } from 'pixi.js';
 
-const { cell } = defineProps<{
-  cursor?: Cursor;
-  cell: Cell;
-}>();
-
 const { state, mapRotation, assets, utils } = useGame();
-const { selectedSummon, hoveredCell, summonSpawnPoint, targetMode } = useGameUi();
+const { selectedSummon, hoveredCell, targetMode, summonSpawnPoint } = useGameUi();
 
-const isSummonTarget = computed(() => utils.canSummonAt(cell.position));
+const isSummonTarget = computed(
+  () => hoveredCell.value && utils.canSummonAt(hoveredCell.value.position)
+);
 
 const sheet = computed(() => {
   if (!selectedSummon.value) return null;
@@ -38,10 +34,7 @@ const filters = [
 
 const isDisplayed = computed(() => {
   return (
-    (isSummonTarget.value && hoveredCell.value?.id === cell.id) ||
-    (targetMode.value === 'summon-targets' &&
-      summonSpawnPoint.value &&
-      cell.position.equals(summonSpawnPoint.value))
+    (isSummonTarget.value && hoveredCell.value) || targetMode.value === 'summon-targets'
   );
 });
 
@@ -53,11 +46,6 @@ const textStyle = new TextStyle({
   strokeThickness: 4
 });
 
-// const hpCost = computed(() => {
-//   if (!selectedSummon.value) return 0;
-//   return state.value.activePlayer.getSumonHpCost(selectedSummon.value);
-// });
-
 const ui = useGameUi();
 // ts in unhappy if we type the parameter, because vue expects fucntion refs to take a VNode as argument
 // However, in vue3-pixi, the behavior is different
@@ -66,6 +54,14 @@ const addToUiLayerRef = (_container: any) => {
   if (!container) return;
   container.parentLayer = ui.layers.ui.value;
 };
+
+const position = computed(() => {
+  if (targetMode.value === 'summon-targets') {
+    return summonSpawnPoint.value!;
+  }
+
+  return hoveredCell.value!.position;
+});
 </script>
 
 <template>
@@ -76,53 +72,42 @@ const addToUiLayerRef = (_container: any) => {
     :enter="{ alpha: 1 }"
     :leave="{ alpha: 0 }"
   >
-    <container
+    <IsoPositioner
       v-if="isDisplayed"
-      :ref="addToUiLayerRef"
-      :y="cell.isHalfTile ? CELL_SIZE / 4 : 0"
+      :animated="false"
+      v-bind="position"
+      :map="{ width: state.map.width, height: state.map.height, rotation: mapRotation }"
     >
-      <animated-sprite
-        v-if="textures"
-        :event-mode="'none'"
-        :textures="textures"
-        :scale-x="scaleX"
-        :anchor="0.5"
-        :playing="false"
-        :filters="filters"
-      />
-
-      <container :x="CELL_SIZE * 0.5" :y="-10">
-        <text :scale="0.5" :style="textStyle as any" :anchor="0.5">
-          - {{ selectedSummon?.summonCost }}
-        </text>
+      <container :ref="addToUiLayerRef" :y="hoveredCell!.isHalfTile ? CELL_SIZE / 4 : 0">
         <animated-sprite
-          :x="15"
+          v-if="textures"
           :event-mode="'none'"
-          :textures="
-            createSpritesheetFrameObject(
-              'idle',
-              assets.getSpritesheet('summon-cost-gold')
-            )
-          "
+          :textures="textures"
           :scale-x="scaleX"
           :anchor="0.5"
           :playing="false"
+          :filters="filters"
         />
+
+        <container :x="CELL_SIZE * 0.5" :y="-10">
+          <text :scale="0.5" :style="textStyle as any" :anchor="0.5">
+            - {{ selectedSummon?.summonCost }}
+          </text>
+          <animated-sprite
+            :x="15"
+            :event-mode="'none'"
+            :textures="
+              createSpritesheetFrameObject(
+                'idle',
+                assets.getSpritesheet('summon-cost-gold')
+              )
+            "
+            :scale-x="scaleX"
+            :anchor="0.5"
+            :playing="false"
+          />
+        </container>
       </container>
-
-      <!-- <container v-if="hpCost" :x="CELL_SIZE * 0.5" :y="5">
-        <text :scale="0.5" :style="textStyle as any" :anchor="0.5">- {{ hpCost }}</text>
-        <animated-sprite
-          :x="15"
-          :event-mode="'none'"
-          :textures="
-            createSpritesheetFrameObject('idle', assets.getSpritesheet('summon-cost-hp'))
-          "
-          :scale-x="scaleX"
-          :anchor="0.5"
-          :playing="false"
-        />
-      </container> -->
-    </container>
+    </IsoPositioner>
   </PTransition>
 </template>

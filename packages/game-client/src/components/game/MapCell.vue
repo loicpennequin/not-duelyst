@@ -162,15 +162,5 @@ const filters = computed(() => {
 
       <MapCellHighlight :cell="cell" :cursor="cursor" />
     </container>
-    <HoveredCell :cell="cell" :cursor="cursor" />
-  </IsoPositioner>
-  <IsoPositioner
-    :animated="false"
-    :x="cell.position.x"
-    :y="cell.position.y"
-    :z="cell.position.z + 0.1"
-    :map="{ width: state.map.width, height: state.map.height, rotation: mapRotation }"
-  >
-    <SummonPreview :cell="cell" />
   </IsoPositioner>
 </template>

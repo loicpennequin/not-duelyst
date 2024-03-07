@@ -81,7 +81,7 @@ export class EntityManager {
         return false;
       }
       
-      if (tile?.isHalfTile && referenceTile.z < tile.z) {
+      if (!tile?.isHalfTile && referenceTile.z < tile.z) {
         return false;
       }
 

@@ -21,6 +21,7 @@ export const createSpritesheetFrameObject = (
 
 export const SPRITE_ZINDEX_OFFSETS = {
   INTERACTABLE: 2,
+  HOVERED_CELL: 1.5,
   ENTITY: 2.1,
   HALF_TILE: -1
 } as const;

@@ -1,26 +1,35 @@
 <script setup lang="ts">
-import type { Cell } from '@hc/sdk';
-
-const { cell } = defineProps<{ cell: Cell }>();
 const { hoveredCell } = useGameUi();
-
-const { assets } = useGame();
+const { assets, state, mapRotation } = useGame();
 const textures = computed(() =>
-  createSpritesheetFrameObject(
-    'idle',
-    assets.getSpritesheet(cell.tile.isRamp ? 'hovered_cell_ramp' : 'hovered_cell')
-  )
+  createSpritesheetFrameObject('idle', assets.getSpritesheet('hovered_cell'))
 );
+
+const zIndexOffset = computed(() => {
+  if (hoveredCell.value?.isHalfTile) {
+    return SPRITE_ZINDEX_OFFSETS.HOVERED_CELL + SPRITE_ZINDEX_OFFSETS.HALF_TILE;
+  }
+  return SPRITE_ZINDEX_OFFSETS.HOVERED_CELL;
+});
 </script>
 
 <template>
-  <animated-sprite
-    v-if="hoveredCell?.id === cell.id"
-    :x="0"
-    :y="cell.isHalfTile ? CELL_SIZE * 0.75 : CELL_SIZE / 2"
-    :event-mode="'none'"
-    :anchor="0.5"
-    playing
-    :textures="textures"
-  />
+  <IsoPositioner
+    v-if="hoveredCell"
+    :x="hoveredCell.x"
+    :y="hoveredCell.y"
+    :z="hoveredCell.z"
+    :z-index-offset="zIndexOffset"
+    :map="{ width: state.map.width, height: state.map.height, rotation: mapRotation }"
+    animated
+  >
+    <animated-sprite
+      :x="0"
+      :y="hoveredCell.isHalfTile ? CELL_SIZE * 0.75 : CELL_SIZE / 2"
+      :event-mode="'none'"
+      :anchor="0.5"
+      playing
+      :textures="textures"
+    />
+  </IsoPositioner>
 </template>

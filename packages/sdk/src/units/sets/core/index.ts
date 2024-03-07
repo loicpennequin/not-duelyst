@@ -271,6 +271,6 @@ export const coreSet: UnitBlueprint[] = [
         spriteId: 'ice-spike'
       })
     ],
-    effects: [onSummonedFreezeNearby()]
+    effects: [onSummonedFreezeNearby(2)]
   }
 ];

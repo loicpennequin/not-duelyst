@@ -39,7 +39,7 @@ export const makeIceFilter = () => {
 
 export const MODIFIER_FILTERS: Record<string, () => Filter[]> = {
   exhausted: () => [new AdjustmentFilter({ saturation: 0.2 })],
-  frozen: () => [new ColorOverlayFilter(0x5588dd, 0.5), makeIceFilter()],
+  frozen: () => [new ColorOverlayFilter(0x5588dd, 0.5) /* makeIceFilter() */],
   taunted: () => [new ColorOverlayFilter(0x770000, 0.25)],
   burn: () => [makeBurnFilter()]
 };

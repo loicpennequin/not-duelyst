@@ -113,6 +113,9 @@ const averageFPS = computed(() => {
           :interactable="interactable"
         />
         <Unit v-for="entity in state.entities" :key="entity.id" :entity="entity" />
+
+        <HoveredCell />
+        <SummonPreview />
       </Layer>
     </container>
 
