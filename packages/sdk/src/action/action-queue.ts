@@ -7,7 +7,7 @@ export class ActionQueue {
   private queue: GameAction<any>[] = [];
   private deserializer: ActionDeserializer;
   private isRunning = false;
-  readonly emitter = mitt<{ processed: null }>();
+  readonly emitter = mitt<{ processed: GameAction<any>[] }>();
 
   constructor(private ctx: GameSession) {
     this.deserializer = new ActionDeserializer(this.ctx);
@@ -15,12 +15,16 @@ export class ActionQueue {
 
   private async process() {
     this.isRunning = true;
+    const processed: GameAction<any>[] = [];
     do {
       const action = this.queue.shift();
-      await action?.execute();
+      if (action) {
+        await action.execute();
+        processed.push(action);
+      }
     } while (this.queue.length);
     this.isRunning = false;
-    this.emitter.emit('processed', null);
+    this.emitter.emit('processed', processed);
   }
 
   private commit(action: GameAction<any> | SerializedAction) {

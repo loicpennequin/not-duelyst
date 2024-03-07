@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PTransition } from 'vue3-pixi';
-import type { Cursor } from 'pixi.js';
+import type { Cursor, Sprite } from 'pixi.js';
 import type { Cell } from '@hc/sdk';
 import { isDefined } from '@hc/shared';
 

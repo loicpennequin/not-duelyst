@@ -10,13 +10,16 @@ export class ActionHistory implements Serializable {
 
   setup(rawHistory: SerializedAction[]) {
     return new Promise<void>(resolve => {
-      const done = () => {
+      const done = (actions: GameAction<any>[]) => {
+        if (this.ctx.isAuthoritative) {
+          this.history.push(...actions);
+        }
         resolve();
         this.ctx.actionQueue.emitter.off('processed', done);
       };
       this.ctx.actionQueue.emitter.on('processed', done);
 
-      if (!rawHistory.length) return done();
+      if (!rawHistory.length) return done([]);
 
       this.ctx.actionQueue.setup(rawHistory);
     });

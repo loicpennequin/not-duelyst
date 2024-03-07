@@ -49,7 +49,6 @@ export const useGameControls = () => {
           ui.selectedEntity.value = entities[newIndex];
         }
       }
-      console.log(selectedEntity);
       const spriteRef = fx.spriteMap.get(selectedEntity!.id);
       if (!spriteRef) return;
       const sprite = toValue(spriteRef);
