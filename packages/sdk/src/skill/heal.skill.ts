@@ -1,10 +1,10 @@
-import { PartialBy } from '@hc/shared';
+import { type PartialBy } from '@hc/shared';
 import { HealAction } from '../action/heal.action';
 import { Entity } from '../entity/entity';
 import { isAlly } from '../entity/entity-utils';
 import { GameSession } from '../game-session';
-import { Point3D } from '../types';
-import { Skill, SkillOptions } from './skill';
+import { type Point3D } from '../types';
+import { Skill, type SkillOptions } from './skill';
 import { isWithinCells } from './skill-utils';
 
 export type HealOptions = PartialBy<
