@@ -199,7 +199,7 @@ export const coreSet: UnitBlueprint[] = [
         keywords: [KEYWORDS?.RUSH]
       }),
       addModifierToSelf(PlunderOnKillModifier, {
-        meta: { amount: 2, duration: Infinity },
+        meta: { amount: 1, duration: Infinity },
         description: 'Slay: Plunder(2)',
         keywords: [KEYWORDS.PLUNDER, KEYWORDS.SLAY]
       })
