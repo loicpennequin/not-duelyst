@@ -19,6 +19,7 @@ import { PlunderOnKillModifier } from '../../../modifier/plunder-on-kill.modifie
 import { VigilantModifier } from '../../../modifier/vigilant.modifier';
 import { LoneWolfStatModifierModifier } from '../../../modifier/lone-wolf-stat-modifier.modifier';
 import { StunnedModifier } from '../../../modifier/frozen.modifier';
+import { FrostBolt } from '../../../skill/frost-bolt.skill';
 
 export const coreSet: UnitBlueprint[] = [
   {
@@ -240,7 +241,16 @@ export const coreSet: UnitBlueprint[] = [
     attack: 2,
     maxHp: 6,
     speed: 3,
-    skills: [new RangedAttack({ power: 0, cooldown: 1, minRange: 2, maxRange: 3 })],
+    skills: [
+      new RangedAttack({ power: 0, cooldown: 1, minRange: 2, maxRange: 3 }),
+      new FrostBolt({
+        cooldown: 3,
+        duration: 1,
+        name: 'Frost Bolt',
+        power: 1,
+        range: 3
+      })
+    ],
     onSummoned: targetOneEnemy(4),
     effects: [
       addModifierToTargets(StunnedModifier, {

@@ -6,6 +6,7 @@ import { Modifier } from './modifier';
 export abstract class LoneWolfModifier<T extends AnyObject> extends Modifier {
   duration = Infinity;
   isAlone = false;
+  readonly spriteId = 'lone-wolf';
 
   constructor(
     protected ctx: GameSession,

@@ -63,7 +63,7 @@
     "duration": 100
    },
    {
-    "filename": "fire-fighter--7",
+    "filename": "fire-fighter-cast-7",
     "frame": { "x": 1120, "y": 0, "w": 160, "h": 160 },
     "rotated": false,
     "trimmed": false,
@@ -83,14 +83,14 @@
    { "name": "idle", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
    { "name": "walk", "from": 2, "to": 2, "direction": "forward", "color": "#000000ff" },
    { "name": "attack", "from": 4, "to": 4, "direction": "forward", "color": "#000000ff" },
-   { "name": "cast", "from": 6, "to": 6, "direction": "forward", "color": "#000000ff" }
+   { "name": "cast", "from": 6, "to": 7, "direction": "forward", "color": "#000000ff" }
   ],
   "layers": [
    { "name": "body", "opacity": 255, "blendMode": "normal" },
    { "name": "fx", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
-   { "name": "icon", "color": "#0000ffff", "keys": [{ "frame": 7, "bounds": {"x": 66, "y": 55, "w": 32, "h": 32 } }] },
+   { "name": "icon", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 66, "y": 58, "w": 32, "h": 32 } }, { "frame": 7, "bounds": {"x": 66, "y": 55, "w": 32, "h": 32 } }] },
    { "name": "hitArea", "color": "#0000ffff", "keys": [{ "frame": 7, "bounds": {"x": 70, "y": 55, "w": 25, "h": 46 } }] }
   ]
  }

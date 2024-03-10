@@ -303,15 +303,15 @@ export class Entity implements Serializable {
   die() {
     this.hp = 0;
     this.emitter.emit('die', { entity: this });
-    this.ctx.actionQueue.push(
-      new SummonInteractableAction(
-        {
-          id: 'GOLD_COIN',
-          position: this.position
-        },
-        this.ctx
-      )
-    );
+    // this.ctx.actionQueue.push(
+    //   new SummonInteractableAction(
+    //     {
+    //       id: 'GOLD_COIN',
+    //       position: this.position
+    //     },
+    //     this.ctx
+    //   )
+    // );
   }
 
   startTurn() {

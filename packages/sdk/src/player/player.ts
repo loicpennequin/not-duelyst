@@ -5,7 +5,6 @@ import { GameSession } from '../game-session';
 import { Entity } from '../entity/entity';
 import type { SerializedPlayer } from './player-manager';
 import { config } from '../config';
-import { DealDamageAction } from '../action/deal-damage.action';
 import { cloneDeep } from 'lodash-es';
 
 export type PlayerId = string;
@@ -19,7 +18,8 @@ export class Player implements Serializable {
   public readonly name: string;
   public readonly loadout: Loadout;
   public readonly generalId: UnitId;
-  public gold: number;
+  private _gold: number;
+  private goldPerTurn: number;
 
   constructor(
     private ctx: GameSession,
@@ -29,7 +29,8 @@ export class Player implements Serializable {
     this.name = options.name;
     this.loadout = cloneDeep(options.loadout);
     this.generalId = options.generalId;
-    this.gold = options.gold;
+    this._gold = options.gold;
+    this.goldPerTurn = this._gold;
   }
 
   serialize() {
@@ -40,6 +41,14 @@ export class Player implements Serializable {
       generalId: this.generalId,
       gold: this.gold
     };
+  }
+
+  get gold() {
+    return this._gold;
+  }
+
+  set gold(val: number) {
+    this.gold = clamp(val, 0, config.MAX_GOLD);
   }
 
   equals(player: Player) {
@@ -126,6 +135,7 @@ export class Player implements Serializable {
     Object.entries(this.loadout.units).forEach(([, unit]) => {
       unit.cooldown = clamp(unit.cooldown - 1, 0, Infinity);
     });
-    this.gold += config.GOLD_PER_TURN;
+    this.goldPerTurn = Math.min(this.goldPerTurn + 1, config.MAX_GOLD);
+    this.gold += this.goldPerTurn;
   }
 }
